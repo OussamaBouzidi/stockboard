@@ -2,3 +2,21 @@ body {
   padding-top: 90px;
   font-family: 'Raleway';
 }
+.facebook, .twitter, .google {
+  color: white;
+}
+.facebook:hover, .twitter:hover, .google:hover {
+  color: white;
+}
+.facebook:active, .twitter:active, .google:active {
+  color: white;
+}
+.facebook {
+  background-color: #445E9A;
+}
+.twitter {
+  background-color: #26A2DC;
+}
+.google {
+  background-color: #E14D2F;
+}

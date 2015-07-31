@@ -28407,6 +28407,18 @@ var minlengthDirective = function() {
           templateUrl: 'templates/dashboard.html',
           controller: 'DashboardCtrl'
         })
+        .state('dashboard.portfolio', {
+          url: '/portfolio',
+          templateUrl: 'templates/dashboard-portfolio.html'
+        })
+        .state('dashboard.stocks', {
+          url: '/stocks',
+          templateUrl: 'templates/dashboard-stocks.html'
+        })
+        .state('dashboard.analytics', {
+          url: '/analytics',
+          templateUrl: 'templates/dashboard-analytics.html'
+        })
         .state('login', {
           url: '/login',
           templateUrl: 'templates/login.html',
