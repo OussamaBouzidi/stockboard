@@ -6,7 +6,6 @@
     'stockboard.controllers.nav',
     'stockboard.controllers.login',
     'stockboard.controllers.register',
-    'stockboard.controllers.dashboard',
-    'stockboard.controllers.dashboardTabs'
+    'stockboard.controllers.dashboard'
   ]);
 })();

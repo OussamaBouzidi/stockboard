@@ -17,15 +17,15 @@
           controller: 'DashboardCtrl'
         })
         .state('dashboard.portfolio', {
-          url: '/portfolio',
+          url: 'portfolio',
           templateUrl: 'templates/dashboard-portfolio.html'
         })
         .state('dashboard.stocks', {
-          url: '/stocks',
+          url: 'stocks',
           templateUrl: 'templates/dashboard-stocks.html'
         })
         .state('dashboard.analytics', {
-          url: '/analytics',
+          url: 'analytics',
           templateUrl: 'templates/dashboard-analytics.html'
         })
         .state('login', {

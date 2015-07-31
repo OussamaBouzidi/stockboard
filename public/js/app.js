@@ -28408,15 +28408,15 @@ var minlengthDirective = function() {
           controller: 'DashboardCtrl'
         })
         .state('dashboard.portfolio', {
-          url: '/portfolio',
+          url: 'portfolio',
           templateUrl: 'templates/dashboard-portfolio.html'
         })
         .state('dashboard.stocks', {
-          url: '/stocks',
+          url: 'stocks',
           templateUrl: 'templates/dashboard-stocks.html'
         })
         .state('dashboard.analytics', {
-          url: '/analytics',
+          url: 'analytics',
           templateUrl: 'templates/dashboard-analytics.html'
         })
         .state('login', {
@@ -28448,8 +28448,7 @@ var minlengthDirective = function() {
     'stockboard.controllers.nav',
     'stockboard.controllers.login',
     'stockboard.controllers.register',
-    'stockboard.controllers.dashboard',
-    'stockboard.controllers.dashboardTabs'
+    'stockboard.controllers.dashboard'
   ]);
 })();
 
@@ -28464,17 +28463,6 @@ var minlengthDirective = function() {
     {name: 'AAPL', price: '45.95', change: '+0.32'},
     {name: 'AAPL', price: '8.40', change: '+0.12'},
     {name: 'AAPL', price: '24.62', change: '+0.35'}
-    ];
-  });
-})();
-
-(function() {
-  angular.module('stockboard.controllers.dashboardTabs', [])
-  .controller('DashboardTabsCtrl', function($scope) {
-    console.log('This is the dashboard tabs');
-    $scope.tabs = [
-      { title:'Dynamic Title 1', content:'Dynamic content 1' },
-      { title:'Dynamic Title 2', content:'Dynamic content 2', disabled: true }
     ];
   });
 })();
@@ -28509,7 +28497,7 @@ var minlengthDirective = function() {
 (function() {
   'use strict';
 
-  angular.module('stockboard.directives', [
+  angular.module('stockboard.models', [
     
   ]);
 })();
@@ -28517,7 +28505,7 @@ var minlengthDirective = function() {
 (function() {
   'use strict';
 
-  angular.module('stockboard.models', [
+  angular.module('stockboard.directives', [
     
   ]);
 })();
