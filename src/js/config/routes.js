@@ -9,25 +9,17 @@
         .state('home', {
           url: '/',
           templateUrl: 'templates/home.html',
+          controller: 'HomeCtrl'
         })
         .state('dashboard', {
           url: '/dashboard/:hash',
           templateUrl: 'templates/dashboard.html',
           controller: 'DashboardCtrl'
         })
-        .state('support', {
-          url: '/support',
-          templateUrl: 'templates/support.html',
-        })
-        .state('buy', {
-          url: '/buy',
-          templateUrl: 'templates/buy.html',
-          controller: 'BuyCtrl'
-        });
-      $stateProvider
         .state('register', {
           url: '/register',
           templateUrl: 'templates/registration.html',
+          controller: 'RegisterCtrl'
         });
 
       $locationProvider.html5Mode({

@@ -28400,25 +28400,17 @@ var minlengthDirective = function() {
         .state('home', {
           url: '/',
           templateUrl: 'templates/home.html',
+          controller: 'HomeCtrl'
         })
         .state('dashboard', {
           url: '/dashboard/:hash',
           templateUrl: 'templates/dashboard.html',
           controller: 'DashboardCtrl'
         })
-        .state('support', {
-          url: '/support',
-          templateUrl: 'templates/support.html',
-        })
-        .state('buy', {
-          url: '/buy',
-          templateUrl: 'templates/buy.html',
-          controller: 'BuyCtrl'
-        });
-      $stateProvider
         .state('register', {
           url: '/register',
           templateUrl: 'templates/registration.html',
+          controller: 'RegisterCtrl'
         });
 
       $locationProvider.html5Mode({
@@ -28434,15 +28426,8 @@ var minlengthDirective = function() {
 (function() {
   'use strict';
 
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
-
   angular.module('stockboard.controllers', [
+    'stockboard.controllers.home',
     'stockboard.controllers.register',
     'stockboard.controllers.dashboard'
   ]);
@@ -28451,20 +28436,35 @@ var minlengthDirective = function() {
 (function() {
   angular.module('stockboard.controllers.dashboard', [])
   .controller('DashboardCtrl', function() {
-    
+    console.log('This is the dashboard');
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.home', [])
+  .controller('HomeCtrl', function() {
+    console.log('This is the home page');
   });
 })();
 
 (function() {
   angular.module('stockboard.controllers.register', [])
   .controller('RegisterCtrl', function() {
-
+    console.log('This is the register page');
   });
 })();
 (function() {
   'use strict';
 
   angular.module('stockboard.models', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
     
   ]);
 })();
