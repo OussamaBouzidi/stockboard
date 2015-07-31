@@ -28372,7 +28372,7 @@ var minlengthDirective = function() {
 (function() {
   'use strict';
 
-  angular.module('hashtrax', [
+  angular.module('stockboard', [
     'ui.router',
     'stockboard.config',
     'stockboard.controllers',
@@ -28407,6 +28407,11 @@ var minlengthDirective = function() {
           templateUrl: 'templates/dashboard.html',
           controller: 'DashboardCtrl'
         })
+        .state('login', {
+          url: '/login',
+          templateUrl: 'templates/login.html',
+          controller: 'LoginCtrl'
+        })
         .state('register', {
           url: '/register',
           templateUrl: 'templates/registration.html',
@@ -28428,15 +28433,37 @@ var minlengthDirective = function() {
 
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
+    'stockboard.controllers.nav',
+    'stockboard.controllers.login',
     'stockboard.controllers.register',
-    'stockboard.controllers.dashboard'
+    'stockboard.controllers.dashboard',
+    'stockboard.controllers.dashboardTabs'
   ]);
 })();
 
 (function() {
   angular.module('stockboard.controllers.dashboard', [])
-  .controller('DashboardCtrl', function() {
+  .controller('DashboardCtrl', function($scope) {
     console.log('This is the dashboard');
+    $scope.stocks = [
+    {name: 'AAPL', price: '53.49', change: '+0.30'},
+    {name: 'AAPL', price: '13.43', change: '+0.39'},
+    {name: 'AAPL', price: '33.23', change: '+0.34'},
+    {name: 'AAPL', price: '45.95', change: '+0.32'},
+    {name: 'AAPL', price: '8.40', change: '+0.12'},
+    {name: 'AAPL', price: '24.62', change: '+0.35'}
+    ];
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.dashboardTabs', [])
+  .controller('DashboardTabsCtrl', function($scope) {
+    console.log('This is the dashboard tabs');
+    $scope.tabs = [
+      { title:'Dynamic Title 1', content:'Dynamic content 1' },
+      { title:'Dynamic Title 2', content:'Dynamic content 2', disabled: true }
+    ];
   });
 })();
 
@@ -28444,6 +28471,20 @@ var minlengthDirective = function() {
   angular.module('stockboard.controllers.home', [])
   .controller('HomeCtrl', function() {
     console.log('This is the home page');
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.login', [])
+  .controller('LoginCtrl', function() {
+    console.log('This is the login page');
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.nav', [])
+  .controller('NavCtrl', function() {
+    console.log('This nav should be on every page.');
   });
 })();
 
@@ -28456,7 +28497,7 @@ var minlengthDirective = function() {
 (function() {
   'use strict';
 
-  angular.module('stockboard.models', [
+  angular.module('stockboard.directives', [
     
   ]);
 })();
@@ -28464,7 +28505,7 @@ var minlengthDirective = function() {
 (function() {
   'use strict';
 
-  angular.module('stockboard.directives', [
+  angular.module('stockboard.models', [
     
   ]);
 })();

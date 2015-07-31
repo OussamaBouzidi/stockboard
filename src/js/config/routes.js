@@ -16,6 +16,11 @@
           templateUrl: 'templates/dashboard.html',
           controller: 'DashboardCtrl'
         })
+        .state('login', {
+          url: '/login',
+          templateUrl: 'templates/login.html',
+          controller: 'LoginCtrl'
+        })
         .state('register', {
           url: '/register',
           templateUrl: 'templates/registration.html',

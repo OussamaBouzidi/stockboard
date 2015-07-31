@@ -1,10 +1,10 @@
 {
-  "name": "hashtrax",
+  "name": "Stockboard",
   "version": "1.1.0",
   "authors": [
-    "codinghouse"
+    "Stanley"
   ],
-  "description": "track dem hashtrax",
+  "description": "Stockboard",
   "main": "gulpfile.js",
   "license": "MIT",
   "homepage": "",

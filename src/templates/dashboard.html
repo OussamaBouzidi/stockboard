@@ -1,1 +1,42 @@
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="person-card">
+        <img class="text-center" src="https://placehold.it/250x250" alt="">
+        <p>Name</p>
+        <p>Email</p>
+        <p>Total Invested: $9736.23</p>
+      </div>
+      <div class="stocks-list">
+        <h3>Stocks</h3>
+        <div ng-repeat="stock in stocks">
+          <p>{{stock.name}}</p>
+          <p style="display: inline; float: right;">{{stock.price}} {{stock.change}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9" ng-controller="DashboardTabsCtrl">
+      <nav>
+        <button class="btn">Portfolio</button>
+        <button class="btn">Stocks</button>
+        <button class="btn">Analytics</button>
+      </nav>
+      <br>
+      <div class="row">
+        <img src="https://placehold.it/700x300" alt="">
+      </div>
+
+      <br><br><br>
+      
+      <div class="row">
+        <div class="col-md-6" style="border-radius: 9999px; background-color: #CCCCCC; height: 300px; width: 300px;"></div>
+        <div class="col-md-6">
+          <h3>Statistics</h3>
+          <h5>Total: </h5>
+          <h5>Percent return: </h5>
+        </div>      
+      </div>         
+    </div>
+  </div>
+</div>

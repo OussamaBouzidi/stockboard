@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('hashtrax', [
+  angular.module('stockboard', [
     'ui.router',
     'stockboard.config',
     'stockboard.controllers',

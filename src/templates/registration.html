@@ -1,75 +1,23 @@
-
-<div class='row'>
-  <div class='col-sm-3'>
-    <nav class="navbar navbar-default leftnavbar" role="navigation">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand hashtraxbrand" ui-sref="home"><span class='traxheader traxbar'>HashTrax<span></a>
+<div class="container">
+  <div class="row">
+    <h3 class="text-center">Signup</h3>
+    <div class="col-md-6 col-md-offset-3 col-xs-8 col-xs-offset-2">
+      <form action="" class="form-group">
+        <input type="text" class="form-control" placeholder="Name"><br>
+        <input type="email" class="form-control" placeholder="Email"><br>
+        <input type="password" class="form-control" placeholder="Password"><br>
+        <button class="btn btn-lg btn-block">Login</button><br><br>
+        <div class="text-center">
+          <h5>Already have an account?</h5>
+          <p>Signin <a ui-sref="login">here.</a></p>
+          <p>Or signin with one of these</p>
+          <div class="btn-group" role='group'>
+            <button class="btn btn-lg btn-info"><i class="fa fa-facebook"></i></button>
+            <button class="btn btn-lg btn-primary"><i class="fa fa-twitter"></i></button>
+            <button class="btn btn-lg btn-danger"><i class="fa fa-google"></i></button>
+          </div>
         </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-          <ul class="nav navbar-nav">
-            <li><a ui-sref="profile"><span class='glyphicon glyphicon-user traxbar'>Profile</span></a></li>
-            <li><a ui-sref="dashboard"><span class='glyphicon glyphicon-dashboard traxbar'>Dashboard</span></a></li>
-            <li><a ui-sref="register" ng-hide='hideRegister()'><span class='glyphicon glyphicon-plus traxbar'>Register/Log-in</span></a></li>
-            <li><a ui-sref="support"><span class='glyphicon glyphicon-list-alt traxbar'>Support</span></a></li>
-          </ul>
-        </div>
-      </nav>
-    </div>
-    <div class="form col-sm-6 col-sm-offset-1">
-      <div class="tab-content">
-        <div id="signup">
-          <h1>Sign Up Now!!!</h1>
-          <form action="/" method="post">
-            <div class="top-row">
-              <div class="field-wrap">
-                <label>First Name<span>*</span></label>
-                <input type="text"/>
-              </div>
-              <div class="field-wrap">
-                <label>Last Name<span>*</span></label>
-                <input type="text"/>
-              </div>
-            </div>
-            <div class="field-wrap">
-              <label>Email Address<span>*</span></label>
-              <input type="email"/>
-            </div>
-            <div class="field-wrap">
-              <label>Create Password<span>*</span></label>
-              <input type="password"/>
-            </div>
-            <button class='btn btn-success'>Register</button>
-          </form>
-        </div>
-        <div id="login">
-          <h1>Welcome Back!</h1>
-          <form action="/" method="post">
-            <div class="field-wrap">
-              <label>Email Address<span>*</span></label>
-              <input type="email"/>
-            </div>
-            <div class="field-wrap">
-              <label>Password<span>*</span></label>
-              <input type="password"/>
-            </div>
-            <p><a href="#">Forgot Password?</a></p>
-            <button class='btn btn-success'>Log In</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  <div>
-    <div class='twitterbox hidden-xs'>
-      <a class="twitter-timeline" href="https://twitter.com/HashTraxApp" data-widget-id="621433549930020864">Tweets by @HashTraxApp</a>
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
-      if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";
-      fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      </form>
     </div>
   </div>
 </div>
