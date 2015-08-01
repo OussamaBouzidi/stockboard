@@ -1,0 +1,4 @@
+<h4>CHOOSE COMPANY TO WATCH</h4>
+<form action="" class="form-group">
+  <input type="text" class="form-control" placeholder="Symbol">
+</form>
