@@ -28446,6 +28446,46 @@ var minlengthDirective = function() {
 
 (function() {
   'use strict';
+  angular.module('stockboard.models', [
+    'stockboard.models.user',
+    'stockboard.models.stockHistory',
+    'stockboard.models.stockPrice'
+  ]);
+})();
+
+(function() {
+  angular.module('stockboard.models.stockHistory', [])
+  .factory('StockHistoryService', function($http) {
+    return {
+      
+    }
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.login', [])
+  .controller('LoginCtrl', function() {
+    console.log('This is the login page');
+  });
+})();
+
+(function() {
+  angular.module('stockboard.models.user', [])
+  .factory('UserService', function($http) {
+    
+  });
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
 
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
@@ -28559,7 +28599,6 @@ var minlengthDirective = function() {
   angular.module('stockboard.controllers.dashboardStocks', [])
   .controller('DashboardStocksCtrl', function() {
     $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
-      // Create the chart
       $('#container1').highcharts('StockChart', {
         rangeSelector : {
           selected : 1
@@ -28577,7 +28616,6 @@ var minlengthDirective = function() {
       });
     });
     $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
-      // Create the chart
       $('#container2').highcharts('StockChart', {
         rangeSelector : {
           selected : 1
@@ -28595,7 +28633,6 @@ var minlengthDirective = function() {
       });
     });
     $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
-      // Create the chart
       $('#container3').highcharts('StockChart', {
         rangeSelector : {
           selected : 1
@@ -28641,19 +28678,4 @@ var minlengthDirective = function() {
   .controller('RegisterCtrl', function() {
     console.log('This is the register page');
   });
-})();
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.models', [
-    
-  ]);
 })();
