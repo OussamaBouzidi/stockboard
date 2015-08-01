@@ -9,7 +9,7 @@
         <p>Invested: $9736.23</p>
       </div>
       <div class="stocks-list">
-        <h3 style="display: inline;">Stocks</h3>
+        <h4 style="display: inline;">Stocks</h4>
         <div class="add-button"><i class="fa fa-plus"></i></div>
         <div ng-repeat="stock in stocks">
           <p>{{stock.name}}</p>
@@ -18,13 +18,13 @@
       </div>
     </div>
     <div class="col-md-9">
-      <nav>
+      <div style="margin-left: 13px;">
         <button ui-sref=".portfolio" class="btn">Portfolio</button>
         <button ui-sref=".stocks" class="btn">Stocks</button>
         <button ui-sref=".analytics" class="btn">Analytics</button>
-      </nav>
+      </div>
       <br>
-      <div ui-view style="margin-left: 15px;"></div>        
+      <div ui-view ></div>        
     </div>
   </div>
 </div>

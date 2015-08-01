@@ -28409,15 +28409,18 @@ var minlengthDirective = function() {
         })
         .state('dashboard.portfolio', {
           url: 'portfolio',
-          templateUrl: 'templates/dashboard-portfolio.html'
+          templateUrl: 'templates/dashboard-portfolio.html',
+          controller: 'DashboardPortfolioCtrl'
         })
         .state('dashboard.stocks', {
           url: 'stocks',
-          templateUrl: 'templates/dashboard-stocks.html'
+          templateUrl: 'templates/dashboard-stocks.html',
+          controller: 'DashboardStocksCtrl'
         })
         .state('dashboard.analytics', {
           url: 'analytics',
-          templateUrl: 'templates/dashboard-analytics.html'
+          templateUrl: 'templates/dashboard-analytics.html',
+          controller: 'DashboardAnalyticsCtrl'
         })
         .state('login', {
           url: '/login',
@@ -28489,13 +28492,133 @@ var minlengthDirective = function() {
   angular.module('stockboard.controllers.dashboardPortfolio', [])
   .controller('DashboardPortfolioCtrl', function() {
     console.log('This is the dashboard-portfolio');
+    $('#expenditure-bar').highcharts({
+      chart: {
+        type: 'column'
+      },
+      title: {
+        text: 'Stock Returns'
+      },
+      xAxis: {
+        categories: ['APPL', 'GOOG', 'QQQ', 'IVSN', 'POOP', 'CHIK']
+      },
+      yAxis: {
+        title: {
+          text: 'Percentage'
+        }
+      },
+      series: [{
+        name: 'Stanley',
+        data: [1.9, 0.5, -4.0, 3.2, -2.4, 4.1]
+      }]
+    });
+    $('#expenditure-pie').highcharts({
+      chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+      },
+      title: {
+        text: 'Expenditure Breakdown'
+      },
+      tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          dataLabels: {
+            enabled: false
+          },
+          showInLegend: true
+        }
+      },
+      series: [{
+        name: "Brands",
+        colorByPoint: true,
+        data: [{
+          name: "MSFT",
+          y: 56.33
+        }, {
+          name: "GOOG",
+          y: 24.03
+        }, {
+          name: "QQQ",
+          y: 10.38
+        }, {
+          name: "IVSN",
+          y: 4.77
+        }, {
+          name: "POOP",
+          y: 0.91
+        }, {
+          name: "CHIK",
+          y: 0.2
+        }]
+      }]
+    });
   });
 })();
 
 (function() {
   angular.module('stockboard.controllers.dashboardStocks', [])
   .controller('DashboardStocksCtrl', function() {
-    console.log('This is the dashboard-stocks');
+    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
+      // Create the chart
+      $('#container1').highcharts('StockChart', {
+        rangeSelector : {
+          selected : 1
+        },
+        title : {
+          text : 'AAPL'
+        },
+        series : [{
+          name : 'AAPL',
+          data : data,
+          tooltip: {
+              valueDecimals: 2
+          }
+        }]
+      });
+    });
+    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
+      // Create the chart
+      $('#container2').highcharts('StockChart', {
+        rangeSelector : {
+          selected : 1
+        },
+        title : {
+          text : 'AAPL'
+        },
+        series : [{
+          name : 'AAPL',
+          data : data,
+          tooltip: {
+              valueDecimals: 2
+          }
+        }]
+      });
+    });
+    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
+      // Create the chart
+      $('#container3').highcharts('StockChart', {
+        rangeSelector : {
+          selected : 1
+        },
+        title : {
+          text : 'AAPL'
+        },
+        series : [{
+          name : 'AAPL',
+          data : data,
+          tooltip: {
+              valueDecimals: 2
+          }
+        }]
+      });
+    });
   });
 })();
 

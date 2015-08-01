@@ -18,15 +18,18 @@
         })
         .state('dashboard.portfolio', {
           url: 'portfolio',
-          templateUrl: 'templates/dashboard-portfolio.html'
+          templateUrl: 'templates/dashboard-portfolio.html',
+          controller: 'DashboardPortfolioCtrl'
         })
         .state('dashboard.stocks', {
           url: 'stocks',
-          templateUrl: 'templates/dashboard-stocks.html'
+          templateUrl: 'templates/dashboard-stocks.html',
+          controller: 'DashboardStocksCtrl'
         })
         .state('dashboard.analytics', {
           url: 'analytics',
-          templateUrl: 'templates/dashboard-analytics.html'
+          templateUrl: 'templates/dashboard-analytics.html',
+          controller: 'DashboardAnalyticsCtrl'
         })
         .state('login', {
           url: '/login',
