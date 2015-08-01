@@ -28443,12 +28443,23 @@ var minlengthDirective = function() {
 (function() {
   'use strict';
 
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
+
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
     'stockboard.controllers.login',
     'stockboard.controllers.register',
-    'stockboard.controllers.dashboard'
+    'stockboard.controllers.dashboard',
+    'stockboard.controllers.dashboardPortfolio',
+    'stockboard.controllers.dashboardStocks',
+    'stockboard.controllers.dashboardAnalytics'
   ]);
 })();
 
@@ -28464,6 +28475,27 @@ var minlengthDirective = function() {
     {name: 'AAPL', price: '8.40', change: '+0.12'},
     {name: 'AAPL', price: '24.62', change: '+0.35'}
     ];
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.dashboardAnalytics', [])
+  .controller('DashboardAnalyticsCtrl', function() {
+    console.log('This is the dashboard-analytics');
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.dashboardPortfolio', [])
+  .controller('DashboardPortfolioCtrl', function() {
+    console.log('This is the dashboard-portfolio');
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.dashboardStocks', [])
+  .controller('DashboardStocksCtrl', function() {
+    console.log('This is the dashboard-stocks');
   });
 })();
 
@@ -28498,14 +28530,6 @@ var minlengthDirective = function() {
   'use strict';
 
   angular.module('stockboard.models', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
     
   ]);
 })();

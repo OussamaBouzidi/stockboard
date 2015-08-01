@@ -6,6 +6,9 @@
     'stockboard.controllers.nav',
     'stockboard.controllers.login',
     'stockboard.controllers.register',
-    'stockboard.controllers.dashboard'
+    'stockboard.controllers.dashboard',
+    'stockboard.controllers.dashboardPortfolio',
+    'stockboard.controllers.dashboardStocks',
+    'stockboard.controllers.dashboardAnalytics'
   ]);
 })();
