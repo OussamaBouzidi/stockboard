@@ -28408,6 +28408,11 @@ var minlengthDirective = function() {
           templateUrl: 'templates/dashboard.html',
           controller: 'DashboardCtrl'
         })
+        .state('dashboard.purchases', {
+          url: 'purchases',
+          templateUrl: 'templates/dashboard-purchases.html',
+          controller: 'DashboardPurchasesCtrl'
+        })
         .state('dashboard.portfolio', {
           url: 'portfolio',
           templateUrl: 'templates/dashboard-portfolio.html',
@@ -28447,12 +28452,21 @@ var minlengthDirective = function() {
 (function() {
   'use strict';
 
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
+
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
     'stockboard.controllers.login',
     'stockboard.controllers.register',
     'stockboard.controllers.dashboard',
+    'stockboard.controllers.dashboardPurchases',
     'stockboard.controllers.dashboardPortfolio',
     'stockboard.controllers.dashboardStocks',
     'stockboard.controllers.dashboardAnalytics'
@@ -28556,6 +28570,13 @@ var minlengthDirective = function() {
 })();
 
 (function() {
+  angular.module('stockboard.controllers.dashboardPurchases', [])
+  .controller('DashboardPurchasesCtrl', function() {
+    console.log('This is the dashboard-purchases');
+  });
+})();
+
+(function() {
   angular.module('stockboard.controllers.dashboardStocks', [])
   .controller('DashboardStocksCtrl', function() {
     $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
@@ -28629,17 +28650,20 @@ var minlengthDirective = function() {
 (function() {
   angular.module('stockboard.controllers.nav', [])
   .controller('NavCtrl', function($scope) {
-    console.log('This nav should be on every page.');
     $scope.loggedIn = true;
     $scope.recordStockWatch = function() {
-      console.log('recorded watch');
       $scope.recordWatch = true;
       $scope.recordPurchase = false;
     }
     $scope.recordStockPurchase = function() {
-      console.log('recorded purchase');
       $scope.recordPurchase = true;
       $scope.recordWatch = false;
+    }
+    $scope.saveStockPurchase = function(purchase) {
+      console.log(purchase);
+    }
+    $scope.saveStockWatch = function(watch) {
+      console.log(watch);
     }
   });
 })();
@@ -28650,14 +28674,6 @@ var minlengthDirective = function() {
     console.log('This is the register page');
   });
 })();
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
 (function() {
   'use strict';
   angular.module('stockboard.models', [

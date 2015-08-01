@@ -52,12 +52,12 @@
                 <form action="" class="form-group">
                   <div class="input-group">
                     <span class="input-group-addon">Symbol</span>
-                    <input type="text" class="form-control" id="symbolWatch" placeholder="Symbol">                  
+                    <input type="text" class="form-control" id="symbolWatch" placeholder="Symbol" ng-model="watch.symbol">                  
                   </div>
                   <br><br>
                   <div style="float: right;">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>                  
+                    <button type="button" class="btn btn-primary" ng-click="saveStockWatch(watch)">Watch</button>                  
                   </div>
                 </form>
               </div>
@@ -66,20 +66,20 @@
                 <form action="" class="form-group">
                   <div class="input-group">
                     <span class="input-group-addon">Symbol</span>
-                    <input type="text" class="form-control" placeholder="Symbol">
+                    <input type="text" class="form-control" placeholder="Symbol" ng-model="purchase.symbol">
                   </div>
                   <div class="input-group">
-                    <span class="input-group-addon">Shares</span>
-                    <input type="number" class="form-control" placeholder="Number of shares">
+                    <span class="input-group-addon">Shares&nbsp;&nbsp;</span>
+                    <input type="number" class="form-control" placeholder="Number of shares" ng-model="purchase.shares">
                   </div>
                   <div class="input-group">
-                    <span class="input-group-addon">Price</span>
-                    <input type="number" class="form-control" placeholder="Price per share">
+                    <span class="input-group-addon">Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <input type="number" class="form-control" placeholder="Price per share" ng-model="purchase.price">
                   </div>
                   <br><br>
                   <div style="float: right;">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>                  
+                    <button type="button" class="btn btn-primary" ng-click="saveStockPurchase(purchase)">Save Purchase</button>
                   </div>
                 </form>
               </div>

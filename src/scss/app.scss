@@ -1,6 +1,7 @@
 body {
   padding-top: 60px;
   font-family: 'Raleway';
+  background-color: #3D4352;
 }
 .btn {
   background-color: #8DC63F;
@@ -39,6 +40,9 @@ body {
 .info-1, .info-3 {
   background-color: #F9F9F9;
 }
+.info-2, .info-4 {
+  background-color: white;
+}
 .facebook, .twitter, .google {
   color: white;
 }
@@ -63,7 +67,11 @@ body {
 }
 .dashboard {
   padding-top: 40px;
+  padding-bottom: 100px;
   background-color: #3D434F;
+}
+.person-card {
+  margin-top: 65px;
 }
 .person-card-text {
   font-size: 1.2em;

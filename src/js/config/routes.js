@@ -16,6 +16,11 @@
           templateUrl: 'templates/dashboard.html',
           controller: 'DashboardCtrl'
         })
+        .state('dashboard.purchases', {
+          url: 'purchases',
+          templateUrl: 'templates/dashboard-purchases.html',
+          controller: 'DashboardPurchasesCtrl'
+        })
         .state('dashboard.portfolio', {
           url: 'portfolio',
           templateUrl: 'templates/dashboard-portfolio.html',
