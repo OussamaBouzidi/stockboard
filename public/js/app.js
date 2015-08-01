@@ -28447,14 +28447,6 @@ var minlengthDirective = function() {
 (function() {
   'use strict';
 
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
-
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -28647,6 +28639,14 @@ var minlengthDirective = function() {
     console.log('This is the register page');
   });
 })();
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
 (function() {
   'use strict';
   angular.module('stockboard.models', [
