@@ -41,31 +41,52 @@
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <ul class="nav nav-pills">
-                <li><a href="">RECORD STOCK PURCHASE</a></li>
-                <li><a href="">WATCH STOCK PRICE</a></li>
+                <li><a ng-click="recordStockPurchase()">RECORD STOCK PURCHASE</a></li>
+                <li><a ng-click="recordStockWatch()">WATCH STOCK PRICE</a></li>
               </ul>
             </div>
 
             <div class="modal-body">
-              <div class="watch">
+              <div class="watch" ng-show="recordWatch">
                 <h4>CHOOSE COMPANY TO WATCH</h4>
                 <form action="" class="form-group">
-                  <input type="text" class="form-control" placeholder="Symbol">
+                  <div class="input-group">
+                    <span class="input-group-addon">Symbol</span>
+                    <input type="text" class="form-control" id="symbolWatch" placeholder="Symbol">                  
+                  </div>
+                  <br><br>
+                  <div style="float: right;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>                  
+                  </div>
                 </form>
               </div>
-              <div class="purchase">
+              <div class="purchase" ng-show="recordPurchase">
                 <h4>INPUT STOCK PURCHASE</h4>
                 <form action="" class="form-group">
-                  <input type="text" class="form-control" placeholder="Symbol">
-                  <input type="number" class="form-control" placeholder="Number of shares">
-                  <input type="number" class="form-control" placeholder="Price per share">
+                  <div class="input-group">
+                    <span class="input-group-addon">Symbol</span>
+                    <input type="text" class="form-control" placeholder="Symbol">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">Shares</span>
+                    <input type="number" class="form-control" placeholder="Number of shares">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">Price</span>
+                    <input type="number" class="form-control" placeholder="Price per share">
+                  </div>
+                  <br><br>
+                  <div style="float: right;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>                  
+                  </div>
                 </form>
               </div>
             </div>
           
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+
             </div>
 
           </div>
