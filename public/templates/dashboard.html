@@ -1,31 +1,32 @@
-
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-3">
-      <div class="person-card">
-        <img class="text-center" src="https://placehold.it/250x250" alt="">
-        <p>Name: Stanley Liu</p>
-        <p>Email: stanleyliu@berkeley.edu</p>
-        <p>Invested: $9736.23</p>
-      </div>
-      <div class="stocks-list">
-        <h4>Stocks</h4>
-        <div ng-repeat="stock in stocks">
-          <p>{{stock.name}}</p>
-          <!-- <p style="display: inline; float: right;">{{stock.price}} {{stock.change}}</p> -->
+<div class="container-fluid dashboard">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="person-card">
+          <img class="text-center" src="https://placehold.it/250x250" alt="">
+          <p class="dashboard-content person-card-text">Name: Stanley Liu</p>
+          <p class="dashboard-content person-card-text">Email: stanleyliu@berkeley.edu</p>
+          <p class="dashboard-content person-card-text">Invested: $9736.23</p>
+        </div>
+        <div class="stocks-list">
+          <h4 class="dashboard-content">Stocks</h4>
+          <div ng-repeat="stock in stocks">
+            <p class="dashboard-content">{{stock.name}}</p>
+            <!-- <p style="display: inline; float: right;">{{stock.price}} {{stock.change}}</p> -->
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-9">
-      <div style="margin-left: 13px;">
-        <ul class="nav nav-tabs">
-          <li><a ui-sref=".portfolio">Portfolio</a></li>
-          <li><a ui-sref=".stocks">Stocks</a></li>
-          <li><a ui-sref=".analytics">Analytics</a></li>
-        </ul>
+      <div class="col-md-9">
+        <div style="margin-left: 13px;">
+          <ul class="nav nav-tabs">
+            <li><a class="dashboard-content" ui-sref=".portfolio">PORTFOLIO</a></li>
+            <li><a class="dashboard-content" ui-sref=".stocks">STOCKS</a></li>
+            <li><a class="dashboard-content" ui-sref=".analytics">ANALYTICS</a></li>
+          </ul>
+        </div>
+        <br>
+        <div ui-view ></div>        
       </div>
-      <br>
-      <div ui-view ></div>        
     </div>
   </div>
 </div>

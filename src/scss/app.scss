@@ -1,6 +1,43 @@
 body {
-  padding-top: 90px;
+  padding-top: 60px;
   font-family: 'Raleway';
+}
+.btn {
+  background-color: #8DC63F;
+  color: white;
+}
+.navbar-default {
+  background-color: #484D5A;
+  color: white;
+}
+.navbar-content, .dashboard-content {
+  color: white !important;
+}
+.signin {
+  background-color: #F9F9F9;
+  padding-top: 70px;
+  padding-bottom: 150px;
+}
+.landing-text {
+  font-size: 1.25em;
+}
+.header {
+  background-color: #3D4352;
+  height: 500px;
+}
+#landing-title {
+  margin-top: 140px;
+}
+#landing-title, #landing-description {
+  color: white;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+}
+.info-1, .info-2, .info-3, .info-4 {
+  padding: 60px 60px 60px 60px;
+}
+.info-1, .info-3 {
+  background-color: #F9F9F9;
 }
 .facebook, .twitter, .google {
   color: white;
@@ -20,18 +57,26 @@ body {
 .google {
   background-color: #E14D2F;
 }
-.add-button {
-  display: inline-block;
-  font-size: 1.5em;
-  background-color: #CCCCCC;
-  height: 22px;
-  width: 22px;
-  text-align: center;
-  border-radius: 9999px;
-  float: right;
-  padding-top: 9.5px;
-}
 .stock-line-graph {
   height: 300px;
   margin-top: 20px;
 }
+.dashboard {
+  padding-top: 40px;
+  background-color: #3D434F;
+}
+.person-card-text {
+  font-size: 1.2em;
+  margin-bottom: -2px;
+}
+
+
+
+
+.chicken {
+  background-color: #3D4352;
+  color: #8DC63F;
+  color: #3D434F;
+}
+
+
