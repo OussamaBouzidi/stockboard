@@ -3,13 +3,13 @@
   .factory('UserService', function($http) {
     return {
       getUser: function (user) {
-        return $http.get();
+        return $http.get('/users/' + user);
       },
       addStockPurchase: function (user, purchase) {
-        return $http.post();
+        return $http.post('/users/' + user, purchase);
       },
       addStockWatch: function (user, watch) {
-        return $http.post();
+        return $http.post('/users/' + user, watch);
       }
     }
   });

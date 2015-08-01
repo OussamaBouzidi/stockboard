@@ -28385,108 +28385,6 @@ var minlengthDirective = function() {
 (function() {
   'use strict';
 
-  angular.module('stockboard.config', [
-    'stockboard.config.routes'
-  ]);
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.config.routes', [])
-    .config(function($urlRouterProvider, $locationProvider, $stateProvider) {
-      $urlRouterProvider.otherwise('/');
-
-      $stateProvider
-        .state('home', {
-          url: '/',
-          templateUrl: 'templates/home.html',
-          controller: 'HomeCtrl'
-        })
-        .state('dashboard', {
-          url: '/dashboard/:hash',
-          templateUrl: 'templates/dashboard.html',
-          controller: 'DashboardCtrl'
-        })
-        .state('dashboard.portfolio', {
-          url: 'portfolio',
-          templateUrl: 'templates/dashboard-portfolio.html',
-          controller: 'DashboardPortfolioCtrl'
-        })
-        .state('dashboard.stocks', {
-          url: 'stocks',
-          templateUrl: 'templates/dashboard-stocks.html',
-          controller: 'DashboardStocksCtrl'
-        })
-        .state('dashboard.analytics', {
-          url: 'analytics',
-          templateUrl: 'templates/dashboard-analytics.html',
-          controller: 'DashboardAnalyticsCtrl'
-        })
-        .state('login', {
-          url: '/login',
-          templateUrl: 'templates/login.html',
-          controller: 'LoginCtrl'
-        })
-        .state('register', {
-          url: '/register',
-          templateUrl: 'templates/registration.html',
-          controller: 'RegisterCtrl'
-        });
-
-      $locationProvider.html5Mode({
-        enabled: false,
-        requireBase: false
-      });
-
-      $locationProvider.hashPrefix('!');
-
-    });
-})();
-
-(function() {
-  'use strict';
-  angular.module('stockboard.models', [
-    'stockboard.models.user',
-    'stockboard.models.stockHistory',
-    'stockboard.models.stockPrice'
-  ]);
-})();
-
-(function() {
-  angular.module('stockboard.models.stockHistory', [])
-  .factory('StockHistoryService', function($http) {
-    return {
-      
-    }
-  });
-})();
-
-(function() {
-  angular.module('stockboard.controllers.login', [])
-  .controller('LoginCtrl', function() {
-    console.log('This is the login page');
-  });
-})();
-
-(function() {
-  angular.module('stockboard.models.user', [])
-  .factory('UserService', function($http) {
-    
-  });
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
-
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -28677,5 +28575,122 @@ var minlengthDirective = function() {
   angular.module('stockboard.controllers.register', [])
   .controller('RegisterCtrl', function() {
     console.log('This is the register page');
+  });
+})();
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('stockboard.config', [
+    'stockboard.config.routes'
+  ]);
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('stockboard.config.routes', [])
+    .config(function($urlRouterProvider, $locationProvider, $stateProvider) {
+      $urlRouterProvider.otherwise('/');
+
+      $stateProvider
+        .state('home', {
+          url: '/',
+          templateUrl: 'templates/home.html',
+          controller: 'HomeCtrl'
+        })
+        .state('dashboard', {
+          url: '/dashboard/:hash',
+          templateUrl: 'templates/dashboard.html',
+          controller: 'DashboardCtrl'
+        })
+        .state('dashboard.portfolio', {
+          url: 'portfolio',
+          templateUrl: 'templates/dashboard-portfolio.html',
+          controller: 'DashboardPortfolioCtrl'
+        })
+        .state('dashboard.stocks', {
+          url: 'stocks',
+          templateUrl: 'templates/dashboard-stocks.html',
+          controller: 'DashboardStocksCtrl'
+        })
+        .state('dashboard.analytics', {
+          url: 'analytics',
+          templateUrl: 'templates/dashboard-analytics.html',
+          controller: 'DashboardAnalyticsCtrl'
+        })
+        .state('login', {
+          url: '/login',
+          templateUrl: 'templates/login.html',
+          controller: 'LoginCtrl'
+        })
+        .state('register', {
+          url: '/register',
+          templateUrl: 'templates/registration.html',
+          controller: 'RegisterCtrl'
+        });
+
+      $locationProvider.html5Mode({
+        enabled: false,
+        requireBase: false
+      });
+
+      $locationProvider.hashPrefix('!');
+
+    });
+})();
+
+(function() {
+  'use strict';
+  angular.module('stockboard.models', [
+    'stockboard.models.user',
+    'stockboard.models.stockHistory',
+    'stockboard.models.stockPrice'
+  ]);
+})();
+
+(function() {
+  angular.module('stockboard.models.stockHistory', [])
+  .factory('StockHistoryService', function($http) {
+    return {
+      getStockHistory: function(stock) {
+        return $http.get();
+      }
+    }
+  });
+})();
+
+(function() {
+  angular.module('stockboard.models.stockPrice', [])
+  .factory('StockPriceService', function($http) {
+    return {
+      getStockQuote: function (stockSymbol) {
+        return $http.get('http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=' + stockSymbol + '&callback=JSON_CALLBACK');
+      }
+    }
+  });
+})();
+
+(function() {
+  angular.module('stockboard.models.user', [])
+  .factory('UserService', function($http) {
+    return {
+      getUser: function (user) {
+        return $http.get('/users/' + user);
+      },
+      addStockPurchase: function (user, purchase) {
+        return $http.post('/users/' + user, purchase);
+      },
+      addStockWatch: function (user, watch) {
+        return $http.post('/users/' + user, watch);
+      }
+    }
   });
 })();
