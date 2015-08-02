@@ -17,6 +17,7 @@
     }
     $scope.saveStockPurchase = function(purchase) {
       console.log(purchase);
+      
     }
     $scope.saveStockWatch = function(watch) {
       console.log(watch);

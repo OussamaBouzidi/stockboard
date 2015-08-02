@@ -10,7 +10,6 @@ var passport = require('passport');
 
 var auth = require('./routes/auth');
 var routes = require('./routes/index');
-var users = require('./routes/user');
 
 var app = express();
 
@@ -30,9 +29,7 @@ app.use(session({ secret: 'stockboard', saveUninitialized: true, resave: true })
 // persistent login sessions (recommended).
 require('./config/passport.js')(app);
 
-
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 app.use('/', routes);
 app.use('/auth', auth);
@@ -45,7 +42,6 @@ app.use(function(req, res, next) {
 });
 
 // error handlers
-
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
