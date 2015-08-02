@@ -1,6 +1,6 @@
 (function() {
   angular.module('stockboard.controllers.nav', [])
-  .controller('NavCtrl', function($scope, StockHistoryService) {
+  .controller('NavCtrl', function($scope, UserService, StockHistoryService) {
     $scope.loggedIn = true;
     $scope.recordStockWatch = function() {
       $scope.recordWatch = true;

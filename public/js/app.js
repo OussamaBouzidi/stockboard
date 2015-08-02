@@ -28452,6 +28452,14 @@ var minlengthDirective = function() {
 (function() {
   'use strict';
 
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
+
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -28641,7 +28649,7 @@ var minlengthDirective = function() {
 
 (function() {
   angular.module('stockboard.controllers.nav', [])
-  .controller('NavCtrl', function($scope, StockHistoryService) {
+  .controller('NavCtrl', function($scope, UserService, StockHistoryService) {
     $scope.loggedIn = true;
     $scope.recordStockWatch = function() {
       $scope.recordWatch = true;
@@ -28671,14 +28679,6 @@ var minlengthDirective = function() {
     console.log('This is the register page');
   });
 })();
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
 (function() {
   'use strict';
   angular.module('stockboard.models', [
@@ -28712,17 +28712,15 @@ var minlengthDirective = function() {
 
 (function() {
   angular.module('stockboard.models.user', [])
-  .factory('UserService', function($http) {
-    return {
-      getUser: function (user) {
-        return $http.get('/users/' + user);
-      },
-      addStockPurchase: function (user, purchase) {
-        return $http.post('/users/' + user, purchase);
-      },
-      addStockWatch: function (user, watch) {
-        return $http.post('/users/' + user, watch);
-      }
-    }
+  .service('UserService', function($http) {
+    this.getUser = function(user) {
+      return $http.get('/users/' + user);
+    };
+    this.addStockPurchase = function(user, purchase) {
+      return $http.post('/users/' + user, purchase);
+    };
+    this.addStockWatch = function(user, watch) {
+      return $http.post('/users/' + user, watch);
+    };
   });
 })();
