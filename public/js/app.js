@@ -28441,13 +28441,19 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
   'use strict';
 
   angular.module('stockboard.config', [
-    'stockboard.config.routes'
+    'stockboard.config.routes',
+    'stockboard.config.constants'
   ]);
 })();
 
 (function() {
   'use strict';
+  angular.module('stockboard.config.constants', [])
+    .constant("BASE_URL", "http:localhost:3000")
+})();
 
+(function() {
+  'use strict';
   angular.module('stockboard.config.routes', [])
     .config(function($urlRouterProvider, $locationProvider, $stateProvider) {
       $urlRouterProvider.otherwise('/');
@@ -28493,14 +28499,11 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
           templateUrl: 'templates/registration.html',
           controller: 'RegisterCtrl'
         });
-
       $locationProvider.html5Mode({
         enabled: false,
         requireBase: false
       });
-
       $locationProvider.hashPrefix('!');
-
     });
 })();
 

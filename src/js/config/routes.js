@@ -1,6 +1,5 @@
 (function() {
   'use strict';
-
   angular.module('stockboard.config.routes', [])
     .config(function($urlRouterProvider, $locationProvider, $stateProvider) {
       $urlRouterProvider.otherwise('/');
@@ -46,13 +45,10 @@
           templateUrl: 'templates/registration.html',
           controller: 'RegisterCtrl'
         });
-
       $locationProvider.html5Mode({
         enabled: false,
         requireBase: false
       });
-
       $locationProvider.hashPrefix('!');
-
     });
 })();
