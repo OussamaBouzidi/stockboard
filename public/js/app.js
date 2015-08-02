@@ -28452,14 +28452,6 @@ var minlengthDirective = function() {
 (function() {
   'use strict';
 
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
-
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -28649,7 +28641,7 @@ var minlengthDirective = function() {
 
 (function() {
   angular.module('stockboard.controllers.nav', [])
-  .controller('NavCtrl', function($scope) {
+  .controller('NavCtrl', function($scope, StockHistoryService) {
     $scope.loggedIn = true;
     $scope.recordStockWatch = function() {
       $scope.recordWatch = true;
@@ -28658,6 +28650,11 @@ var minlengthDirective = function() {
     $scope.recordStockPurchase = function() {
       $scope.recordPurchase = true;
       $scope.recordWatch = false;
+    }
+    $scope.modalClose = function() {
+      console.log('running');
+      $scope.recordPurchase = null;
+      $scope.recordWatch = null;
     }
     $scope.saveStockPurchase = function(purchase) {
       console.log(purchase);
@@ -28674,6 +28671,14 @@ var minlengthDirective = function() {
     console.log('This is the register page');
   });
 })();
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
 (function() {
   'use strict';
   angular.module('stockboard.models', [

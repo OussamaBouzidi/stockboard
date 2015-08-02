@@ -25,10 +25,10 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
               <li><a ui-sref="forum" class="navbar-content">FORUM</a></li>
-              <li><a data-toggle="modal" data-target="#myModal" class="navbar-content">STOCK</a></li>
-              <li><a ui-sref="dashboard" class="navbar-content">DASHBOARD</a></li>
-              <li><a ui-sref="login" class="navbar-content">LOGIN</a></li>
-              <li><a href="#" class="navbar-content">LOGOUT</a></li>
+              <li><a data-toggle="modal" data-target="#myModal" class="navbar-content" ng-show="loggedIn">STOCK</a></li>
+              <li><a ui-sref="dashboard" class="navbar-content" ng-show="loggedIn">DASHBOARD</a></li>
+              <li><a ui-sref="login" class="navbar-content" ng-hide="loggedIn">LOGIN</a></li>
+              <li><a href="#" class="navbar-content" ng-show="loggedIn">LOGOUT</a></li>
             </ul>
           </div>
         </div>
@@ -39,8 +39,9 @@
           <div class="modal-content">
 
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <ul class="nav nav-pills">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" ng-click="modalClose()">&times;</span></button>
+              <h3>Stock Form</h3>
+              <ul class="nav nav-pills" ng-hide="recordWatch || recordPurchase">
                 <li><a ng-click="recordStockPurchase()">RECORD STOCK PURCHASE</a></li>
                 <li><a ng-click="recordStockWatch()">WATCH STOCK PRICE</a></li>
               </ul>
@@ -56,7 +57,7 @@
                   </div>
                   <br><br>
                   <div style="float: right;">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="modalClose()">Close</button>
                     <button type="button" class="btn btn-primary" ng-click="saveStockWatch(watch)">Watch</button>                  
                   </div>
                 </form>
@@ -78,17 +79,13 @@
                   </div>
                   <br><br>
                   <div style="float: right;">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="modalClose()">Close</button>
                     <button type="button" class="btn btn-primary" ng-click="saveStockPurchase(purchase)">Save Purchase</button>
                   </div>
                 </form>
               </div>
             </div>
-          
-            <div class="modal-footer">
-
-            </div>
-
+            <div class="modal-footer"></div>
           </div>
         </div>
       </div>
