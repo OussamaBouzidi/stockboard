@@ -28716,7 +28716,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     }
     $scope.saveStockPurchase = function(purchase) {
       console.log(purchase);
-      
+      UserService.addStockPurchase 
     }
     $scope.saveStockWatch = function(watch) {
       console.log(watch);
@@ -28749,7 +28749,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   angular.module('stockboard.models.stockHistory', [])
-  .factory('StockHistoryService', function($http) {
+  .factory('StockHistoryService', function($http, BASE_URL) {
     return {
       getStockHistory: function(stock) {
         return $http.get();
@@ -28760,7 +28760,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   angular.module('stockboard.models.stockPrice', [])
-  .factory('StockPriceService', function($http) {
+  .factory('StockPriceService', function($http, BASE_URL) {
     return {
       getStockQuote: function (stockSymbol) {
         return $http.get('http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=' + stockSymbol + '&callback=JSON_CALLBACK');
@@ -28771,7 +28771,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   angular.module('stockboard.models.user', [])
-  .service('UserService', function($http) {
+  .service('UserService', function($http, BASE_URL) {
     this.getUser = function(user) {
       return $http.get('/users/' + user);
     };

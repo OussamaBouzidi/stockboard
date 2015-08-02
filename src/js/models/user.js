@@ -1,6 +1,6 @@
 (function() {
   angular.module('stockboard.models.user', [])
-  .service('UserService', function($http) {
+  .service('UserService', function($http, BASE_URL) {
     this.getUser = function(user) {
       return $http.get('/users/' + user);
     };
