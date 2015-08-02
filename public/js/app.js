@@ -28544,7 +28544,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   angular.module('stockboard.controllers.dashboardPortfolio', [])
-  .controller('DashboardPortfolioCtrl', function() {
+  .controller('DashboardPortfolioCtrl', function($scope, UserService) {
     console.log('This is the dashboard-portfolio');
     $('#expenditure-bar').highcharts({
       chart: {
@@ -28778,5 +28778,27 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     this.addStockWatch = function(user, watch) {
       return $http.post('/users/' + user, watch);
     };
+    this.getCurrentUser = function() {
+      return $http.get('/currentUser');
+    };
+    this.logoutCurrentUser = function() {
+      $rootScope.currentUserData = {};
+      $rootScope.currentUserData.loggedIn = false;
+    };
+    this.getAllUserStockPurchases = function() {
+      return $http.get('/');
+    };
+    this.getAllUserStockWatches = function() {
+      return $http.get('/');
+    }
+    this.editPurchase = function() {
+      return $http.patch('/');
+    }
+    this.deletePurchase = function() {
+      return $http.delete('/');
+    }
+    this.deleteWatch = function() {
+      return $http.delete('/');
+    }
   });
 })();

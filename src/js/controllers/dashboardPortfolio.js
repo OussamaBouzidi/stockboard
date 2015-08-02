@@ -1,6 +1,6 @@
 (function() {
   angular.module('stockboard.controllers.dashboardPortfolio', [])
-  .controller('DashboardPortfolioCtrl', function() {
+  .controller('DashboardPortfolioCtrl', function($scope, UserService) {
     console.log('This is the dashboard-portfolio');
     $('#expenditure-bar').highcharts({
       chart: {
