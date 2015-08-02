@@ -15,10 +15,10 @@
           templateUrl: 'templates/dashboard.html',
           controller: 'DashboardCtrl'
         })
-        .state('dashboard.purchases', {
-          url: 'purchases',
-          templateUrl: 'templates/dashboard-purchases.html',
-          controller: 'DashboardPurchasesCtrl'
+        .state('dashboard.profile', {
+          url: 'profile',
+          templateUrl: 'templates/dashboard-profile.html',
+          controller: 'DashboardProfileCtrl'
         })
         .state('dashboard.portfolio', {
           url: 'portfolio',

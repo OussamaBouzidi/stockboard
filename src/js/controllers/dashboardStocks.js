@@ -1,6 +1,7 @@
 (function() {
   angular.module('stockboard.controllers.dashboardStocks', [])
-  .controller('DashboardStocksCtrl', function() {
+  .controller('DashboardStocksCtrl', function($scope, UserService, StockHistoryService) {
+    
     $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
       $('#container1').highcharts('StockChart', {
         rangeSelector : {

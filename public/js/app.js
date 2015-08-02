@@ -28440,6 +28440,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
 
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
+
   angular.module('stockboard.config', [
     'stockboard.config.routes',
     'stockboard.config.constants'
@@ -28469,10 +28477,10 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
           templateUrl: 'templates/dashboard.html',
           controller: 'DashboardCtrl'
         })
-        .state('dashboard.purchases', {
-          url: 'purchases',
-          templateUrl: 'templates/dashboard-purchases.html',
-          controller: 'DashboardPurchasesCtrl'
+        .state('dashboard.profile', {
+          url: 'profile',
+          templateUrl: 'templates/dashboard-profile.html',
+          controller: 'DashboardProfileCtrl'
         })
         .state('dashboard.portfolio', {
           url: 'portfolio',
@@ -28509,6 +28517,227 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   'use strict';
+  angular.module('stockboard.models', [
+    'stockboard.models.user',
+    'stockboard.models.stockHistory',
+    'stockboard.models.stockPrice'
+  ]);
+})();
+
+(function() {
+  angular.module('stockboard.models.stockHistory', [])
+  .factory('StockHistoryService', function($http, BASE_URL) {
+    return {
+      getStockHistory: function(stockSymbol) {
+        return $http.jsonp("http://dev.markitondemand.com/Api/v2/InteractiveChart/jsonp?symbol=" + stockSymbol + '&callback=JSON_CALLBACK');
+      }
+    }
+  //   var Markit = {};
+  //   Markit.InteractiveChartApi = function(symbol,duration){
+  //     this.symbol = symbol.toUpperCase();
+  //     this.duration = duration;
+  //     this.PlotChart();
+  //   };
+  //   Markit.InteractiveChartApi.prototype.PlotChart = function(){  
+  //     var params = {
+  //       parameters: JSON.stringify( this.getInputParams() )
+  //     }
+  //     $.ajax({
+  //       beforeSend:function(){
+  //         $("#chartDemoContainer").text("Loading chart...");
+  //       },
+  //       data: params,
+  //       url: "http://dev.markitondemand.com/Api/v2/InteractiveChart/jsonp",
+  //       dataType: "jsonp",
+  //       context: this,
+  //       success: function(json){
+  //         //Catch errors
+  //         if (!json || json.Message){
+  //           console.error("Error: ", json.Message);
+  //           return;
+  //         }
+  //         this.render(json);
+  //       },
+  //       error: function(response,txtStatus){
+  //         console.log(response,txtStatus)
+  //       }
+  //     });
+  //   };
+  //   Markit.InteractiveChartApi.prototype.getInputParams = function(){
+  //     return {  
+  //       Normalized: false,
+  //       NumberOfDays: this.duration,
+  //       DataPeriod: "Day",
+  //       Elements: [
+  //         {
+  //           Symbol: this.symbol,
+  //           Type: "price",
+  //           Params: ["ohlc"]
+  //         },
+  //         {
+  //           Symbol: this.symbol,
+  //           Type: "volume"
+  //         }
+  //       ]
+  //     }
+  //   };
+
+  //   Markit.InteractiveChartApi.prototype._fixDate = function(dateIn) {
+  //     var dat = new Date(dateIn);
+  //     return Date.UTC(dat.getFullYear(), dat.getMonth(), dat.getDate());
+  //   };
+
+  //   Markit.InteractiveChartApi.prototype._getOHLC = function(json) {
+  //     var dates = json.Dates || [];
+  //     var elements = json.Elements || [];
+  //     var chartSeries = [];
+
+  //     if (elements[0]){
+
+  //       for (var i = 0, datLen = dates.length; i < datLen; i++) {
+  //         var dat = this._fixDate( dates[i] );
+  //         var pointData = [
+  //           dat,
+  //           elements[0].DataSeries['open'].values[i],
+  //           elements[0].DataSeries['high'].values[i],
+  //           elements[0].DataSeries['low'].values[i],
+  //           elements[0].DataSeries['close'].values[i]
+  //         ];
+  //         chartSeries.push( pointData );
+  //       };
+  //     }
+  //     return chartSeries;
+  //   };
+
+  //   Markit.InteractiveChartApi.prototype._getVolume = function(json) {
+  //     var dates = json.Dates || [];
+  //     var elements = json.Elements || [];
+  //     var chartSeries = [];
+  //     if (elements[1]){
+  //       for (var i = 0, datLen = dates.length; i < datLen; i++) {
+  //         var dat = this._fixDate( dates[i] );
+  //         var pointData = [
+  //           dat,
+  //           elements[1].DataSeries['volume'].values[i]
+  //         ];
+  //         chartSeries.push( pointData );
+  //       };
+  //     }
+  //     return chartSeries;
+  //   };
+
+  //   Markit.InteractiveChartApi.prototype.render = function(data) {
+  //     //console.log(data)
+  //     // split the data set into ohlc and volume
+  //     var ohlc = this._getOHLC(data),
+  //         volume = this._getVolume(data);
+  //     // set the allowed units for data grouping
+  //     var groupingUnits = [[
+  //       'week',                         // unit name
+  //       [1]                             // allowed multiples
+  //     ], [
+  //       'month',
+  //       [1, 2, 3, 4, 6]
+  //     ]];
+  //     // create the chart
+  //     $('#chartDemoContainer').highcharts('StockChart', {
+  //       rangeSelector: {
+  //         selected: 1
+  //         //enabled: false
+  //       },
+  //       title: {
+  //         text: this.symbol + ' Historical Price'
+  //       },
+  //       yAxis: [{
+  //         title: {
+  //           text: 'OHLC'
+  //         },
+  //         height: 200,
+  //         lineWidth: 2
+  //       }, {
+  //         title: {
+  //           text: 'Volume'
+  //         },
+  //         top: 300,
+  //         height: 100,
+  //         offset: 0,
+  //         lineWidth: 2
+  //       }],
+        
+  //       series: [{
+  //         type: 'candlestick',
+  //         name: this.symbol,
+  //         data: ohlc,
+  //         dataGrouping: {
+  //             units: groupingUnits
+  //         }
+  //       }, {
+  //         type: 'column',
+  //         name: 'Volume',
+  //         data: volume,
+  //         yAxis: 1,
+  //         dataGrouping: {
+  //             units: groupingUnits
+  //         }
+  //       }],
+  //       credits: {
+  //         enabled:false
+  //       }
+  //     });
+    // };
+  });
+})();
+
+(function() {
+  angular.module('stockboard.models.stockPrice', [])
+  .factory('StockPriceService', function($http) {
+    return {
+      getStockQuote: function (stockSymbol) {
+        return $http.jsonp('http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=' + stockSymbol + '&callback=JSON_CALLBACK');
+      }
+    }
+  });
+})();
+
+(function() {
+  angular.module('stockboard.models.user', [])
+  .service('UserService', function($http, BASE_URL) {
+    this.getUser = function(user) {
+      return $http.get('/users/' + user);
+    };
+    this.addStockPurchase = function(user, purchase) {
+      return $http.post('/users/' + user, purchase);
+    };
+    this.addStockWatch = function(user, watch) {
+      return $http.post('/users/' + user, watch);
+    };
+    this.getCurrentUser = function() {
+      return $http.get('/currentUser');
+    };
+    this.logoutCurrentUser = function() {
+      $rootScope.currentUserData = {};
+      $rootScope.currentUserData.loggedIn = false;
+    };
+    this.getAllUserStockPurchases = function() {
+      return $http.get('/');
+    };
+    this.getAllUserStockWatches = function() {
+      return $http.get('/');
+    }
+    this.editPurchase = function() {
+      return $http.patch('/');
+    }
+    this.deletePurchase = function() {
+      return $http.delete('/');
+    }
+    this.deleteWatch = function() {
+      return $http.delete('/');
+    }
+  });
+})();
+
+(function() {
+  'use strict';
 
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
@@ -28516,7 +28745,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     'stockboard.controllers.login',
     'stockboard.controllers.register',
     'stockboard.controllers.dashboard',
-    'stockboard.controllers.dashboardPurchases',
+    'stockboard.controllers.dashboardProfile',
     'stockboard.controllers.dashboardPortfolio',
     'stockboard.controllers.dashboardStocks',
     'stockboard.controllers.dashboardAnalytics'
@@ -28547,88 +28776,112 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   angular.module('stockboard.controllers.dashboardPortfolio', [])
-  .controller('DashboardPortfolioCtrl', function($scope, UserService) {
-    console.log('This is the dashboard-portfolio');
-    $('#expenditure-bar').highcharts({
-      chart: {
-        type: 'column'
-      },
-      title: {
-        text: 'Stock Returns'
-      },
-      xAxis: {
-        categories: ['APPL', 'GOOG', 'QQQ', 'IVSN', 'POOP', 'CHIK']
-      },
-      yAxis: {
+  .controller('DashboardPortfolioCtrl', function($scope, UserService, StockPriceService) {
+    // UserService.getAllUserStockPurchases()
+    // .success(function(data) {
+    //   console.log(data);
+    // })
+    // .catch(function(error) {
+    //   console.error(error);
+    // })
+    $scope.allStocks = [];
+    var stocksData = [{name: 'Apple', symbol: 'AAPL', shares: 101, priceBought: 121.4},
+                      {name: 'Google', symbol: 'GOOG', shares: 73, priceBought: 657.69},
+                      {name: 'Facebook', symbol: 'FB', shares: 45, priceBought: 94},
+                      {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought:17.9},
+                      {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 23.29},
+                      {name: 'Microsoft', symbol: 'MSFT', shares: 80, priceBought: 46.71}];
+    var stockSymbols = [];
+    var pieChartData = [];
+    var pieChartDataConverted = [];
+    var totalExpenditure = stocksData.reduce(function(total, price) {
+      return Number(total) + Number(price.shares * price.priceBought);
+    }, 0).toFixed(2);
+    stocksData.forEach(function(stockData) {
+      stockSymbols.push(stockData.symbol);
+      pieChartData.push({ 
+                      name: stockData.name,
+                      y: (stockData.shares * stockData.priceBought)/totalExpenditure
+                    })
+    })
+    chartRender();
+    // stockSymbols.forEach(function(symbol) {
+    //   StockPriceService.getStockQuote(symbol)
+    //   .success(function(data) {
+    //     console.log(data, symbol);
+    //     $scope.allStocks.push(data);
+    //     chartRender();
+    //   })
+    //   .catch(function(error) {
+    //     console.error(error);
+    //   })
+    // })
+
+    function chartRender() {
+      $('#expenditure-bar').highcharts({
+        chart: {
+          type: 'column'
+        },
         title: {
-          text: 'Percentage'
-        }
-      },
-      series: [{
-        name: 'Stanley',
-        data: [1.9, 0.5, -4.0, 3.2, -2.4, 4.1]
-      }]
-    });
-    $('#expenditure-pie').highcharts({
-      chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
-        type: 'pie'
-      },
-      title: {
-        text: 'Expenditure Breakdown'
-      },
-      tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-      },
-      plotOptions: {
-        pie: {
-          allowPointSelect: true,
-          cursor: 'pointer',
-          dataLabels: {
-            enabled: false
-          },
-          showInLegend: true
-        }
-      },
-      series: [{
-        name: "Brands",
-        colorByPoint: true,
-        data: [{
-          name: "MSFT",
-          y: 56.33
-        }, {
-          name: "GOOG",
-          y: 24.03
-        }, {
-          name: "QQQ",
-          y: 10.38
-        }, {
-          name: "IVSN",
-          y: 4.77
-        }, {
-          name: "POOP",
-          y: 0.91
-        }, {
-          name: "CHIK",
-          y: 0.2
+          text: 'Stock Returns'
+        },
+        xAxis: {
+          categories: stockSymbols
+        },
+        yAxis: {
+          title: {
+            text: 'Percentage'
+          }
+        },
+        series: [{
+          name: 'Stanley',
+          data: [1.9, 0.5, -4.0, 3.2, -2.4, 4.1]
         }]
-      }]
-    });
+      });
+      $('#expenditure-pie').highcharts({
+        chart: {
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false,
+          type: 'pie'
+        },
+        title: {
+          text: 'Expenditure Breakdown'
+        },
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: false
+            },
+            showInLegend: true
+          }
+        },
+        series: [{
+          name: "Brands",
+          colorByPoint: true,
+          data: pieChartData
+        }]      
+      })
+    };
   });
 })();
 
 (function() {
-  angular.module('stockboard.controllers.dashboardPurchases', [])
-  .controller('DashboardPurchasesCtrl', function() {
-    console.log('This is the dashboard-purchases');
+  angular.module('stockboard.controllers.dashboardProfile', [])
+  .controller('DashboardProfileCtrl', function() {
+    console.log('This is the dashboard-profile');
   });
 })();
 
 (function() {
   angular.module('stockboard.controllers.dashboardStocks', [])
-  .controller('DashboardStocksCtrl', function() {
+  .controller('DashboardStocksCtrl', function($scope, UserService, StockHistoryService) {
+    
     $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
       $('#container1').highcharts('StockChart', {
         rangeSelector : {
@@ -28716,10 +28969,25 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     }
     $scope.saveStockPurchase = function(purchase) {
       console.log(purchase);
-      UserService.addStockPurchase 
+      var user;
+      UserService.addStockPurchase(user, purchase)
+      .success(function(success) {
+        console.log(success);
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
     }
     $scope.saveStockWatch = function(watch) {
       console.log(watch);
+      var user;
+      UserService.addStockWatch(user, watch)
+      .success(function(success) {
+        console.log(success);
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
     }
   });
 })();
@@ -28728,80 +28996,5 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
   angular.module('stockboard.controllers.register', [])
   .controller('RegisterCtrl', function() {
     console.log('This is the register page');
-  });
-})();
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
-  angular.module('stockboard.models', [
-    'stockboard.models.user',
-    'stockboard.models.stockHistory',
-    'stockboard.models.stockPrice'
-  ]);
-})();
-
-(function() {
-  angular.module('stockboard.models.stockHistory', [])
-  .factory('StockHistoryService', function($http, BASE_URL) {
-    return {
-      getStockHistory: function(stock) {
-        return $http.get();
-      }
-    }
-  });
-})();
-
-(function() {
-  angular.module('stockboard.models.stockPrice', [])
-  .factory('StockPriceService', function($http, BASE_URL) {
-    return {
-      getStockQuote: function (stockSymbol) {
-        return $http.get('http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=' + stockSymbol + '&callback=JSON_CALLBACK');
-      }
-    }
-  });
-})();
-
-(function() {
-  angular.module('stockboard.models.user', [])
-  .service('UserService', function($http, BASE_URL) {
-    this.getUser = function(user) {
-      return $http.get('/users/' + user);
-    };
-    this.addStockPurchase = function(user, purchase) {
-      return $http.post('/users/' + user, purchase);
-    };
-    this.addStockWatch = function(user, watch) {
-      return $http.post('/users/' + user, watch);
-    };
-    this.getCurrentUser = function() {
-      return $http.get('/currentUser');
-    };
-    this.logoutCurrentUser = function() {
-      $rootScope.currentUserData = {};
-      $rootScope.currentUserData.loggedIn = false;
-    };
-    this.getAllUserStockPurchases = function() {
-      return $http.get('/');
-    };
-    this.getAllUserStockWatches = function() {
-      return $http.get('/');
-    }
-    this.editPurchase = function() {
-      return $http.patch('/');
-    }
-    this.deletePurchase = function() {
-      return $http.delete('/');
-    }
-    this.deleteWatch = function() {
-      return $http.delete('/');
-    }
   });
 })();

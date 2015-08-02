@@ -7,7 +7,7 @@
     'stockboard.controllers.login',
     'stockboard.controllers.register',
     'stockboard.controllers.dashboard',
-    'stockboard.controllers.dashboardPurchases',
+    'stockboard.controllers.dashboardProfile',
     'stockboard.controllers.dashboardPortfolio',
     'stockboard.controllers.dashboardStocks',
     'stockboard.controllers.dashboardAnalytics'

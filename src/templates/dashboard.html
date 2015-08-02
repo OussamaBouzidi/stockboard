@@ -1,21 +1,14 @@
 <div class="container-fluid dashboard">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-3">
-        <div class="person-card">
-          <img class="text-center" src="https://placehold.it/250x250" alt="">
-          <p class="dashboard-content person-card-text">Stanley Liu</p>
-          <p class="dashboard-content person-card-text">stanleyliu@berkeley.edu</p>
-          <p class="dashboard-content person-card-text">Invested: $9736.23</p>
-        </div>
-      </div>
-      <div class="col-md-9">
+      <div class="col-md-12">
         <div style="margin-left: 13px;">
           <ul class="nav nav-tabs">
+            <li><a class="dashboard-content" ui-sref=".profile">PROFILE</a></li>
             <li><a class="dashboard-content" ui-sref=".portfolio">PORTFOLIO</a></li>
-            <li><a class="dashboard-content" ui-sref=".purchases">PURCHASES</a></li>
             <li><a class="dashboard-content" ui-sref=".stocks">STOCKS</a></li>
             <li><a class="dashboard-content" ui-sref=".analytics">ANALYTICS</a></li>
+            <button style="float: right; border-radius: 9999px;" data-toggle="modal" data-target="#myModal" class=" btn dashboard-content">+</button>
           </ul>
         </div>
         <br>
