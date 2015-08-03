@@ -28755,8 +28755,11 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   angular.module('stockboard.controllers.nav', [])
-  .controller('NavCtrl', function($scope, UserService, StockHistoryService) {
+  .controller('NavCtrl', function($scope, $state, UserService, StockHistoryService) {
     $scope.loggedIn = true;
+    $scope.logout = function() {
+      $state.go('home');
+    }
     $scope.recordStockWatch = function() {
       $scope.recordWatch = true;
       $scope.recordPurchase = false;
@@ -28801,6 +28804,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     console.log('This is the register page');
   });
 })();
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
 (function() {
   'use strict';
   angular.module('stockboard.models', [
@@ -28867,12 +28878,4 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       return $http.delete('/');
     }
   });
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
 })();

@@ -27,7 +27,7 @@
               <li><a ui-sref="forum" class="navbar-content">FORUM</a></li>
               <li><a ui-sref="dashboard" class="navbar-content" ng-show="loggedIn">DASHBOARD</a></li>
               <li><a ui-sref="login" class="navbar-content" ng-hide="loggedIn">LOGIN</a></li>
-              <li><a href="#" class="navbar-content" ng-show="loggedIn">LOGOUT</a></li>
+              <li><a href="#" class="navbar-content" ng-show="loggedIn" ng-click="logout()">LOGOUT</a></li>
             </ul>
           </div>
         </div>
@@ -39,7 +39,6 @@
 
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" ng-click="modalClose()">&times;</span></button>
-              <h3>Stock Form</h3>
               <ul class="nav nav-pills" ng-hide="recordWatch || recordPurchase">
                 <li><a ng-click="recordStockPurchase()">RECORD STOCK PURCHASE</a></li>
                 <li><a ng-click="recordStockWatch()">WATCH STOCK PRICE</a></li>

@@ -1,7 +1,10 @@
 (function() {
   angular.module('stockboard.controllers.nav', [])
-  .controller('NavCtrl', function($scope, UserService, StockHistoryService) {
+  .controller('NavCtrl', function($scope, $state, UserService, StockHistoryService) {
     $scope.loggedIn = true;
+    $scope.logout = function() {
+      $state.go('home');
+    }
     $scope.recordStockWatch = function() {
       $scope.recordWatch = true;
       $scope.recordPurchase = false;
