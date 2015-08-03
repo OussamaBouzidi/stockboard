@@ -12,16 +12,14 @@
                       {name: 'Google', symbol: 'GOOG', shares: 73, priceBought: 655.69},
                       {name: 'Facebook', symbol: 'FB', shares: 245, priceBought: 96},
                       {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought:16.9},
-                      {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 29.29},
+                      {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 22.29},
                       {name: 'Microsoft', symbol: 'MSFT', shares: 180, priceBought: 49.71}];
-    var stockSymbols = [];
     var pieChartData = [];
     var barChartData = [];
     $scope.totalExpenditure = stocksData.reduce(function(total, price) {
       return Number(total) + Number(price.shares * price.priceBought);
     }, 0).toFixed(2);
     stocksData.forEach(function(stockData) {
-      stockSymbols.push(stockData.symbol);
       pieChartData.push({ 
                         name: stockData.name,
                         y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
@@ -32,7 +30,7 @@
       .success(function(data) {
         console.log(data.LastPrice, stock.symbol);
         barChartData.push(
-          ((data.LastPrice - stock.priceBought)/stock.priceBought) * 100
+          [stock.symbol, ((data.LastPrice - stock.priceBought)/stock.priceBought) * 100]
         );
         chartRender();
       })
@@ -40,16 +38,6 @@
         console.error(error);
       })
     })
-    // stockSymbols.forEach(function(symbol) {
-    //   StockPriceService.getStockQuote(symbol)
-    //   .success(function(data) {
-    //     console.log(data, symbol);
-    //     chartRender();
-    //   })
-    //   .catch(function(error) {
-    //     console.error(error);
-    //   })
-    // })
 
     function chartRender() {
       $('#expenditure-bar').highcharts({
@@ -60,7 +48,9 @@
           text: 'Stock Returns'
         },
         xAxis: {
-          categories: stockSymbols
+          categories: barChartData.map(function(stock) {
+            return stock[0];
+          })
         },
         yAxis: {
           title: {
@@ -69,7 +59,9 @@
         },
         series: [{
           name: 'Stanley',
-          data: barChartData
+          data: barChartData.map(function(stock) {
+            return stock[1];
+          })
         }]
       });
       $('#expenditure-pie').highcharts({

@@ -28509,6 +28509,278 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('stockboard.controllers', [
+    'stockboard.controllers.home',
+    'stockboard.controllers.nav',
+    'stockboard.controllers.login',
+    'stockboard.controllers.register',
+    'stockboard.controllers.dashboard',
+    'stockboard.controllers.dashboardProfile',
+    'stockboard.controllers.dashboardPortfolio',
+    'stockboard.controllers.dashboardStocks',
+    'stockboard.controllers.dashboardAnalytics'
+  ]);
+})();
+
+(function() {
+  angular.module('stockboard.controllers.dashboard', [])
+  .controller('DashboardCtrl', function($scope) {
+    console.log('This is the dashboard');
+    $scope.stocks = [
+    {name: 'AAPL', price: '53.49', change: '+0.30'},
+    {name: 'AAPL', price: '13.43', change: '+0.39'},
+    {name: 'AAPL', price: '33.23', change: '+0.34'},
+    {name: 'AAPL', price: '45.95', change: '+0.32'},
+    {name: 'AAPL', price: '8.40', change: '+0.12'},
+    {name: 'AAPL', price: '24.62', change: '+0.35'}
+    ];
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.dashboardAnalytics', [])
+  .controller('DashboardAnalyticsCtrl', function() {
+    console.log('This is the dashboard-analytics');
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.dashboardPortfolio', [])
+  .controller('DashboardPortfolioCtrl', function($scope, UserService, StockPriceService) {
+    // UserService.getAllUserStockPurchases()
+    // .success(function(data) {
+    //   console.log(data);
+    // })
+    // .catch(function(error) {
+    //   console.error(error);
+    // })
+    var stocksData = [{name: 'Apple', symbol: 'AAPL', shares: 101, priceBought: 122.4},
+                      {name: 'Google', symbol: 'GOOG', shares: 73, priceBought: 655.69},
+                      {name: 'Facebook', symbol: 'FB', shares: 245, priceBought: 96},
+                      {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought:16.9},
+                      {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 22.29},
+                      {name: 'Microsoft', symbol: 'MSFT', shares: 180, priceBought: 49.71}];
+    var pieChartData = [];
+    var barChartData = [];
+    $scope.totalExpenditure = stocksData.reduce(function(total, price) {
+      return Number(total) + Number(price.shares * price.priceBought);
+    }, 0).toFixed(2);
+    stocksData.forEach(function(stockData) {
+      pieChartData.push({ 
+                        name: stockData.name,
+                        y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
+                      })
+    })
+    stocksData.forEach(function(stock) {
+      StockPriceService.getStockQuote(stock.symbol)
+      .success(function(data) {
+        console.log(data.LastPrice, stock.symbol);
+        barChartData.push(
+          [stock.symbol, ((data.LastPrice - stock.priceBought)/stock.priceBought) * 100]
+        );
+        chartRender();
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
+    })
+
+    function chartRender() {
+      $('#expenditure-bar').highcharts({
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: 'Stock Returns'
+        },
+        xAxis: {
+          categories: barChartData.map(function(stock) {
+            return stock[0];
+          })
+        },
+        yAxis: {
+          title: {
+            text: 'Percentage'
+          }
+        },
+        series: [{
+          name: 'Stanley',
+          data: barChartData.map(function(stock) {
+            return stock[1];
+          })
+        }]
+      });
+      $('#expenditure-pie').highcharts({
+        chart: {
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false,
+          type: 'pie'
+        },
+        title: {
+          text: 'Expenditure Breakdown'
+        },
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: false
+            },
+            showInLegend: true
+          }
+        },
+        series: [{
+          name: "Brands",
+          colorByPoint: true,
+          data: pieChartData
+        }]      
+      })
+    };
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.dashboardProfile', [])
+  .controller('DashboardProfileCtrl', function() {
+    console.log('This is the dashboard-profile');
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.dashboardStocks', [])
+  .controller('DashboardStocksCtrl', function($scope, UserService, StockHistoryService) {
+    
+    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
+      $('#container1').highcharts('StockChart', {
+        rangeSelector : {
+          selected : 1
+        },
+        title : {
+          text : 'AAPL'
+        },
+        series : [{
+          name : 'AAPL',
+          data : data,
+          tooltip: {
+              valueDecimals: 2
+          }
+        }]
+      });
+    });
+    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
+      $('#container2').highcharts('StockChart', {
+        rangeSelector : {
+          selected : 1
+        },
+        title : {
+          text : 'AAPL'
+        },
+        series : [{
+          name : 'AAPL',
+          data : data,
+          tooltip: {
+              valueDecimals: 2
+          }
+        }]
+      });
+    });
+    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
+      $('#container3').highcharts('StockChart', {
+        rangeSelector : {
+          selected : 1
+        },
+        title : {
+          text : 'AAPL'
+        },
+        series : [{
+          name : 'AAPL',
+          data : data,
+          tooltip: {
+              valueDecimals: 2
+          }
+        }]
+      });
+    });
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.home', [])
+  .controller('HomeCtrl', function() {
+    console.log('This is the home page');
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.login', [])
+  .controller('LoginCtrl', function() {
+    console.log('This is the login page');
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.nav', [])
+  .controller('NavCtrl', function($scope, UserService, StockHistoryService) {
+    $scope.loggedIn = true;
+    $scope.recordStockWatch = function() {
+      $scope.recordWatch = true;
+      $scope.recordPurchase = false;
+    }
+    $scope.recordStockPurchase = function() {
+      $scope.recordPurchase = true;
+      $scope.recordWatch = false;
+    }
+    $scope.modalClose = function() {
+      console.log('running');
+      $scope.recordPurchase = null;
+      $scope.recordWatch = null;
+    }
+    $scope.saveStockPurchase = function(purchase) {
+      console.log(purchase);
+      var user;
+      UserService.addStockPurchase(user, purchase)
+      .success(function(success) {
+        console.log(success);
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
+    }
+    $scope.saveStockWatch = function(watch) {
+      console.log(watch);
+      var user;
+      UserService.addStockWatch(user, watch)
+      .success(function(success) {
+        console.log(success);
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
+    }
+  });
+})();
+
+(function() {
+  angular.module('stockboard.controllers.register', [])
+  .controller('RegisterCtrl', function() {
+    console.log('This is the register page');
+  });
+})();
+(function() {
+  'use strict';
   angular.module('stockboard.models', [
     'stockboard.models.user',
     'stockboard.models.stockHistory',
@@ -28725,286 +28997,5 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     this.deleteWatch = function() {
       return $http.delete('/');
     }
-  });
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.controllers', [
-    'stockboard.controllers.home',
-    'stockboard.controllers.nav',
-    'stockboard.controllers.login',
-    'stockboard.controllers.register',
-    'stockboard.controllers.dashboard',
-    'stockboard.controllers.dashboardProfile',
-    'stockboard.controllers.dashboardPortfolio',
-    'stockboard.controllers.dashboardStocks',
-    'stockboard.controllers.dashboardAnalytics'
-  ]);
-})();
-
-(function() {
-  angular.module('stockboard.controllers.dashboard', [])
-  .controller('DashboardCtrl', function($scope) {
-    console.log('This is the dashboard');
-    $scope.stocks = [
-    {name: 'AAPL', price: '53.49', change: '+0.30'},
-    {name: 'AAPL', price: '13.43', change: '+0.39'},
-    {name: 'AAPL', price: '33.23', change: '+0.34'},
-    {name: 'AAPL', price: '45.95', change: '+0.32'},
-    {name: 'AAPL', price: '8.40', change: '+0.12'},
-    {name: 'AAPL', price: '24.62', change: '+0.35'}
-    ];
-  });
-})();
-
-(function() {
-  angular.module('stockboard.controllers.dashboardAnalytics', [])
-  .controller('DashboardAnalyticsCtrl', function() {
-    console.log('This is the dashboard-analytics');
-  });
-})();
-
-(function() {
-  angular.module('stockboard.controllers.dashboardPortfolio', [])
-  .controller('DashboardPortfolioCtrl', function($scope, UserService, StockPriceService) {
-    // UserService.getAllUserStockPurchases()
-    // .success(function(data) {
-    //   console.log(data);
-    // })
-    // .catch(function(error) {
-    //   console.error(error);
-    // })
-    var stocksData = [{name: 'Apple', symbol: 'AAPL', shares: 101, priceBought: 122.4},
-                      {name: 'Google', symbol: 'GOOG', shares: 73, priceBought: 655.69},
-                      {name: 'Facebook', symbol: 'FB', shares: 245, priceBought: 96},
-                      {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought:16.9},
-                      {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 29.29},
-                      {name: 'Microsoft', symbol: 'MSFT', shares: 180, priceBought: 49.71}];
-    var stockSymbols = [];
-    var pieChartData = [];
-    var barChartData = [];
-    $scope.totalExpenditure = stocksData.reduce(function(total, price) {
-      return Number(total) + Number(price.shares * price.priceBought);
-    }, 0).toFixed(2);
-    stocksData.forEach(function(stockData) {
-      stockSymbols.push(stockData.symbol);
-      pieChartData.push({ 
-                        name: stockData.name,
-                        y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
-                      })
-    })
-    stocksData.forEach(function(stock) {
-      StockPriceService.getStockQuote(stock.symbol)
-      .success(function(data) {
-        console.log(data.LastPrice, stock.symbol);
-        barChartData.push(
-          ((data.LastPrice - stock.priceBought)/stock.priceBought) * 100
-        );
-        chartRender();
-      })
-      .catch(function(error) {
-        console.error(error);
-      })
-    })
-    // stockSymbols.forEach(function(symbol) {
-    //   StockPriceService.getStockQuote(symbol)
-    //   .success(function(data) {
-    //     console.log(data, symbol);
-    //     chartRender();
-    //   })
-    //   .catch(function(error) {
-    //     console.error(error);
-    //   })
-    // })
-
-    function chartRender() {
-      $('#expenditure-bar').highcharts({
-        chart: {
-          type: 'column'
-        },
-        title: {
-          text: 'Stock Returns'
-        },
-        xAxis: {
-          categories: stockSymbols
-        },
-        yAxis: {
-          title: {
-            text: 'Percentage'
-          }
-        },
-        series: [{
-          name: 'Stanley',
-          data: barChartData
-        }]
-      });
-      $('#expenditure-pie').highcharts({
-        chart: {
-          plotBackgroundColor: null,
-          plotBorderWidth: null,
-          plotShadow: false,
-          type: 'pie'
-        },
-        title: {
-          text: 'Expenditure Breakdown'
-        },
-        tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-              enabled: false
-            },
-            showInLegend: true
-          }
-        },
-        series: [{
-          name: "Brands",
-          colorByPoint: true,
-          data: pieChartData
-        }]      
-      })
-    };
-  });
-})();
-
-(function() {
-  angular.module('stockboard.controllers.dashboardProfile', [])
-  .controller('DashboardProfileCtrl', function() {
-    console.log('This is the dashboard-profile');
-  });
-})();
-
-(function() {
-  angular.module('stockboard.controllers.dashboardStocks', [])
-  .controller('DashboardStocksCtrl', function($scope, UserService, StockHistoryService) {
-    
-    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
-      $('#container1').highcharts('StockChart', {
-        rangeSelector : {
-          selected : 1
-        },
-        title : {
-          text : 'AAPL'
-        },
-        series : [{
-          name : 'AAPL',
-          data : data,
-          tooltip: {
-              valueDecimals: 2
-          }
-        }]
-      });
-    });
-    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
-      $('#container2').highcharts('StockChart', {
-        rangeSelector : {
-          selected : 1
-        },
-        title : {
-          text : 'AAPL'
-        },
-        series : [{
-          name : 'AAPL',
-          data : data,
-          tooltip: {
-              valueDecimals: 2
-          }
-        }]
-      });
-    });
-    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
-      $('#container3').highcharts('StockChart', {
-        rangeSelector : {
-          selected : 1
-        },
-        title : {
-          text : 'AAPL'
-        },
-        series : [{
-          name : 'AAPL',
-          data : data,
-          tooltip: {
-              valueDecimals: 2
-          }
-        }]
-      });
-    });
-  });
-})();
-
-(function() {
-  angular.module('stockboard.controllers.home', [])
-  .controller('HomeCtrl', function() {
-    console.log('This is the home page');
-  });
-})();
-
-(function() {
-  angular.module('stockboard.controllers.login', [])
-  .controller('LoginCtrl', function() {
-    console.log('This is the login page');
-  });
-})();
-
-(function() {
-  angular.module('stockboard.controllers.nav', [])
-  .controller('NavCtrl', function($scope, UserService, StockHistoryService) {
-    $scope.loggedIn = true;
-    $scope.recordStockWatch = function() {
-      $scope.recordWatch = true;
-      $scope.recordPurchase = false;
-    }
-    $scope.recordStockPurchase = function() {
-      $scope.recordPurchase = true;
-      $scope.recordWatch = false;
-    }
-    $scope.modalClose = function() {
-      console.log('running');
-      $scope.recordPurchase = null;
-      $scope.recordWatch = null;
-    }
-    $scope.saveStockPurchase = function(purchase) {
-      console.log(purchase);
-      var user;
-      UserService.addStockPurchase(user, purchase)
-      .success(function(success) {
-        console.log(success);
-      })
-      .catch(function(error) {
-        console.error(error);
-      })
-    }
-    $scope.saveStockWatch = function(watch) {
-      console.log(watch);
-      var user;
-      UserService.addStockWatch(user, watch)
-      .success(function(success) {
-        console.log(success);
-      })
-      .catch(function(error) {
-        console.error(error);
-      })
-    }
-  });
-})();
-
-(function() {
-  angular.module('stockboard.controllers.register', [])
-  .controller('RegisterCtrl', function() {
-    console.log('This is the register page');
   });
 })();
