@@ -14,8 +14,7 @@
       return $http.get('/currentUser');
     };
     this.logoutCurrentUser = function() {
-      $rootScope.currentUserData = {};
-      $rootScope.currentUserData.loggedIn = false;
+      return $http.get('/logout');
     };
     this.getAllUserStockPurchases = function() {
       return $http.get('/');

@@ -3,6 +3,13 @@
   .controller('NavCtrl', function($scope, $state, UserService, StockHistoryService) {
     $scope.loggedIn = true;
     $scope.logout = function() {
+      UserService.logoutCurrentUser()
+      .success(function(data) {
+        console.log('successfully logged out');
+      })
+      .catch(function(error) {
+        console.log('failed logging out');
+      })
       $state.go('home');
     }
     $scope.recordStockWatch = function() {

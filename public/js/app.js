@@ -28508,6 +28508,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
 
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
+
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -28758,6 +28766,13 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
   .controller('NavCtrl', function($scope, $state, UserService, StockHistoryService) {
     $scope.loggedIn = true;
     $scope.logout = function() {
+      UserService.logoutCurrentUser()
+      .success(function(data) {
+        console.log('successfully logged out');
+      })
+      .catch(function(error) {
+        console.log('failed logging out');
+      })
       $state.go('home');
     }
     $scope.recordStockWatch = function() {
@@ -28806,14 +28821,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 })();
 (function() {
   'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
   angular.module('stockboard.models', [
     'stockboard.models.user',
     'stockboard.models.stockHistory',
@@ -28859,8 +28866,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       return $http.get('/currentUser');
     };
     this.logoutCurrentUser = function() {
-      $rootScope.currentUserData = {};
-      $rootScope.currentUserData.loggedIn = false;
+      return $http.get('/logout');
     };
     this.getAllUserStockPurchases = function() {
       return $http.get('/');
