@@ -14,18 +14,19 @@ var User = mongoose.model("User", {
 router.get('/', function(req, res, next) {
   console.log(req.user);
   if (req.user){
-    var entry = new User({
+    var user = new User({
       id: req.user.id,
       displayName: req.user.displayName,
       email: req.user.emails[0].value
     });
-    User.findOneAndUpdate({email: req.user.emails }, entry ,{upsert: true, new: true}, 
-    function(err, savedEntry){
-      if (err) {
-        console.log(err);
-      }
+    User.findOneAndUpdate({email: req.user.emails }, user, {upsert: true, new: true}, 
+      function(err, savedEntry){
+        if (err) {
+          console.log(err);
+        }
       console.log("success savedEntry", savedEntry);
-    });
+      }
+    );
   }
   res.render('index', { thisUserData: req.user });
 });
