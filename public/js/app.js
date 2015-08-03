@@ -28558,7 +28558,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     var stocksData = [{name: 'Apple', symbol: 'AAPL', shares: 101, priceBought: 122.4},
                       {name: 'Google', symbol: 'GOOG', shares: 73, priceBought: 655.69},
                       {name: 'Facebook', symbol: 'FB', shares: 245, priceBought: 96},
-                      {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought:16.9},
+                      {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought: 16.9},
                       {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 22.29},
                       {name: 'Microsoft', symbol: 'MSFT', shares: 180, priceBought: 49.71}];
     var pieChartData = [];
@@ -28677,12 +28677,12 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
   .controller('DashboardProfileCtrl', function($scope) {
     console.log('This is the dashboard-profile');
     $scope.stocks = [
-      { name: 'Apple', symbol: 'AAPL', price: ,shares: 101, status: , percent:  },
-      { name: 'Google', symbol: 'GOOG', price: ,shares: 73, status: , percent:  },
-      { name: 'Facebook', symbol: 'FB', price: ,shares: 245, status: , percent:  },
-      { name: 'Bank of America', symbol: 'BAC', price: ,shares: 112, status: , percent:  },
-      { name: 'SunEdison', symbol: 'SUNE', price: ,shares: 179, status: , percent:  },
-      { name: 'Microsoft', symbol: 'MSFT', price: ,shares: 180, status: , percent:  }
+      { name: 'Apple', symbol: 'AAPL', price: 122.4, shares: 101, status: 'Sold', percent: 1.2 },
+      { name: 'Google', symbol: 'GOOG', price: 655.69, shares: 73, status: 'Hold', percent: 3 },
+      { name: 'Facebook', symbol: 'FB', price: 96, shares: 245, status: 'Hold', percent: 2.12 },
+      { name: 'Bank of America', symbol: 'BAC', price: 16.9, shares: 112, status: 'Hold', percent: -2.3 },
+      { name: 'SunEdison', symbol: 'SUNE', price: 22.29, shares: 179, status: 'Hold', percent: -1.4 },
+      { name: 'Microsoft', symbol: 'MSFT', price: 49.71, shares: 180, status: 'Sold', percent: 1.11 }
     ];
   });
 })();
@@ -28690,7 +28690,21 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   angular.module('stockboard.controllers.dashboardStocks', [])
   .controller('DashboardStocksCtrl', function($scope, UserService, StockHistoryService) {
-    
+    // UserService.getAllUserStockWatches()
+    // .success(function(data) {
+    //   console.log(data);
+    // })
+    // .catch(function(error) {
+    //   console.error(error);
+    // })
+    StockHistoryService.getStockHistory()
+    .success(function(data) {
+      console.log(data);
+    })
+    .catch(function(error) {
+      console.error(error);
+    })
+
     $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
       $('#container1').highcharts('StockChart', {
         rangeSelector : {
@@ -28807,6 +28821,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     console.log('This is the register page');
   });
 })();
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
 (function() {
   'use strict';
   angular.module('stockboard.models', [
@@ -29026,12 +29048,4 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       return $http.delete('/');
     }
   });
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
 })();

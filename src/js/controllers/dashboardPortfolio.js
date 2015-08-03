@@ -11,7 +11,7 @@
     var stocksData = [{name: 'Apple', symbol: 'AAPL', shares: 101, priceBought: 122.4},
                       {name: 'Google', symbol: 'GOOG', shares: 73, priceBought: 655.69},
                       {name: 'Facebook', symbol: 'FB', shares: 245, priceBought: 96},
-                      {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought:16.9},
+                      {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought: 16.9},
                       {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 22.29},
                       {name: 'Microsoft', symbol: 'MSFT', shares: 180, priceBought: 49.71}];
     var pieChartData = [];

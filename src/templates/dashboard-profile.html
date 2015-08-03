@@ -20,37 +20,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>NASDAQ</td>
-          <td>QQQ</td>
-          <td>24.65</td>
-          <td>100</td>
-          <td>Sold</td>
-          <td> </td>
-        </tr>
-        <tr>
-          <td>NASDAQ</td>
-          <td>QQQ</td>
-          <td>24.65</td>
-          <td>100</td>
-          <td>Holding</td>
-          <td>-1.23%</td>
-        </tr>
-        <tr>
-          <td>NASDAQ</td>
-          <td>QQQ</td>
-          <td>24.65</td>
-          <td>100</td>
-          <td>Holding</td>
-          <td>-1.23%</td>
-        </tr>
-        <tr>
-          <td>NASDAQ</td>
-          <td>QQQ</td>
-          <td>24.65</td>
-          <td>100</td>
-          <td>Holding</td>
-          <td>-1.23%</td>
+        <tr ng-repeat="stock in stocks">
+          <td>{{stock.name}}</td>
+          <td>{{stock.symbol}}</td>
+          <td>{{stock.price}}</td>
+          <td>{{stock.shares}}</td>
+          <td>{{stock.status}}</td>
+          <td>{{stock.percent}}</td>
         </tr>
       </tbody>
     </table>

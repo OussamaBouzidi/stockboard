@@ -1,7 +1,21 @@
 (function() {
   angular.module('stockboard.controllers.dashboardStocks', [])
   .controller('DashboardStocksCtrl', function($scope, UserService, StockHistoryService) {
-    
+    // UserService.getAllUserStockWatches()
+    // .success(function(data) {
+    //   console.log(data);
+    // })
+    // .catch(function(error) {
+    //   console.error(error);
+    // })
+    StockHistoryService.getStockHistory()
+    .success(function(data) {
+      console.log(data);
+    })
+    .catch(function(error) {
+      console.error(error);
+    })
+
     $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
       $('#container1').highcharts('StockChart', {
         rangeSelector : {
