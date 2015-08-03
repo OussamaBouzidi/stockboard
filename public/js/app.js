@@ -28457,7 +28457,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
   angular.module('stockboard.config.routes', [])
     .config(function($urlRouterProvider, $locationProvider, $stateProvider) {
       $urlRouterProvider.otherwise('/');
-
       $stateProvider
         .state('home', {
           url: '/',
@@ -28503,76 +28502,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         enabled: false,
         requireBase: false
       });
-      $locationProvider.hashPrefix('!');
     });
-})();
-
-(function() {
-  'use strict';
-  angular.module('stockboard.models', [
-    'stockboard.models.user',
-    'stockboard.models.stockHistory',
-    'stockboard.models.stockPrice'
-  ]);
-})();
-
-(function() {
-  angular.module('stockboard.models.stockHistory', [])
-  .factory('StockHistoryService', function($http, BASE_URL) {
-    return {
-      getStockHistory: function(stockSymbol) {
-        return $http.jsonp('http://dev.markitondemand.com/Api/v2/InteractiveChart/jsonp?parameters=%7B%22Normalized%22%3Afalse%2C%22NumberOfDays%22%3A1825%2C%22DataPeriod%22%3A%22Day%22%2C%22Elements%22%3A%5B%7B%22Symbol%22%3A%22' + stockSymbol + '%22%2C%22Type%22%3A%22price%22%2C%22Params%22%3A%5B%22c%22%5D%7D%5D%7D&callback=JSON_CALLBACK');
-      }
-    }
-  });
-})();
-
-(function() {
-  angular.module('stockboard.models.stockPrice', [])
-  .factory('StockPriceService', function($http) {
-    return {
-      getStockQuote: function (stockSymbol) {
-        return $http.jsonp('http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=' + stockSymbol + '&callback=JSON_CALLBACK');
-      }
-    }
-  });
-})();
-
-(function() {
-  angular.module('stockboard.models.user', [])
-  .service('UserService', function($http, BASE_URL) {
-    this.getUser = function(user) {
-      return $http.get('/users/' + user);
-    };
-    this.addStockPurchase = function(user, purchase) {
-      return $http.post('/users/' + user, purchase);
-    };
-    this.addStockWatch = function(user, watch) {
-      return $http.post('/users/' + user, watch);
-    };
-    this.getCurrentUser = function() {
-      return $http.get('/currentUser');
-    };
-    this.logoutCurrentUser = function() {
-      $rootScope.currentUserData = {};
-      $rootScope.currentUserData.loggedIn = false;
-    };
-    this.getAllUserStockPurchases = function() {
-      return $http.get('/');
-    };
-    this.getAllUserStockWatches = function() {
-      return $http.get('/');
-    }
-    this.editPurchase = function() {
-      return $http.patch('/');
-    }
-    this.deletePurchase = function() {
-      return $http.delete('/');
-    }
-    this.deleteWatch = function() {
-      return $http.delete('/');
-    }
-  });
 })();
 
 (function() {
@@ -28871,6 +28801,74 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     console.log('This is the register page');
   });
 })();
+(function() {
+  'use strict';
+  angular.module('stockboard.models', [
+    'stockboard.models.user',
+    'stockboard.models.stockHistory',
+    'stockboard.models.stockPrice'
+  ]);
+})();
+
+(function() {
+  angular.module('stockboard.models.stockHistory', [])
+  .factory('StockHistoryService', function($http, BASE_URL) {
+    return {
+      getStockHistory: function(stockSymbol) {
+        return $http.jsonp('http://dev.markitondemand.com/Api/v2/InteractiveChart/jsonp?parameters=%7B%22Normalized%22%3Afalse%2C%22NumberOfDays%22%3A1825%2C%22DataPeriod%22%3A%22Day%22%2C%22Elements%22%3A%5B%7B%22Symbol%22%3A%22' + stockSymbol + '%22%2C%22Type%22%3A%22price%22%2C%22Params%22%3A%5B%22c%22%5D%7D%5D%7D&callback=JSON_CALLBACK');
+      }
+    }
+  });
+})();
+
+(function() {
+  angular.module('stockboard.models.stockPrice', [])
+  .factory('StockPriceService', function($http) {
+    return {
+      getStockQuote: function (stockSymbol) {
+        return $http.jsonp('http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=' + stockSymbol + '&callback=JSON_CALLBACK');
+      }
+    }
+  });
+})();
+
+(function() {
+  angular.module('stockboard.models.user', [])
+  .service('UserService', function($http, BASE_URL) {
+    this.getUser = function(user) {
+      return $http.get('/users/' + user);
+    };
+    this.addStockPurchase = function(user, purchase) {
+      return $http.post('/users/' + user, purchase);
+    };
+    this.addStockWatch = function(user, watch) {
+      return $http.post('/users/' + user, watch);
+    };
+    this.getCurrentUser = function() {
+      return $http.get('/currentUser');
+    };
+    this.logoutCurrentUser = function() {
+      $rootScope.currentUserData = {};
+      $rootScope.currentUserData.loggedIn = false;
+    };
+    this.getAllUserStockPurchases = function() {
+      return $http.get('/');
+    };
+    this.getAllUserStockWatches = function() {
+      return $http.get('/');
+    }
+    this.editPurchase = function() {
+      return $http.patch('/');
+    }
+    this.deletePurchase = function() {
+      return $http.delete('/');
+    }
+    this.deleteWatch = function() {
+      return $http.delete('/');
+    }
+  });
+})();
+
 (function() {
   'use strict';
 

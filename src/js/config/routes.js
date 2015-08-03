@@ -3,7 +3,6 @@
   angular.module('stockboard.config.routes', [])
     .config(function($urlRouterProvider, $locationProvider, $stateProvider) {
       $urlRouterProvider.otherwise('/');
-
       $stateProvider
         .state('home', {
           url: '/',
@@ -49,6 +48,5 @@
         enabled: false,
         requireBase: false
       });
-      $locationProvider.hashPrefix('!');
     });
 })();

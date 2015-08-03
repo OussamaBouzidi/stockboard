@@ -1,6 +1,7 @@
 'use strict';
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var passport = require('passport');
+
 module.exports = function() {
   // passport.serializeUser(function(user, done) {
   //   done(null, user);

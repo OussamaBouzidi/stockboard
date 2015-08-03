@@ -1,35 +1,51 @@
-'use strict';
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session');
 var passport = require('passport');
+var session = require('express-session');
 
-var auth = require('./routes/auth');
 var routes = require('./routes/index');
+var auth = require('./routes/auth');
 
 var app = express();
+// var google = require('./config/googleStrategy')();
+
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: 'http://localhost:3000/auth/google/callback',
+  passReqToCallback: true},
+  function(req, accessToken, refreshToken, profile, done){
+    done(null, profile);
+  }
+))
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(id, done) {
+  done(null, id);
+});
 
 // view engine setup
-app.set('src', path.join(__dirname, 'src'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+// app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-app.use(session({ secret: 'stockboard', saveUninitialized: true, resave: true }));
-// Initialize Passport!  Also use passport.session() middleware, to support
-// persistent login sessions (recommended).
-require('./config/passport.js')(app);
-
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({ secret: 'stockboard', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', routes);
 app.use('/auth', auth);
@@ -42,6 +58,7 @@ app.use(function(req, res, next) {
 });
 
 // error handlers
+
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
