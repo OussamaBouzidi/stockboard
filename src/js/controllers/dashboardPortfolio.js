@@ -8,32 +8,42 @@
     // .catch(function(error) {
     //   console.error(error);
     // })
-    $scope.allStocks = [];
-    var stocksData = [{name: 'Apple', symbol: 'AAPL', shares: 101, priceBought: 121.4},
-                      {name: 'Google', symbol: 'GOOG', shares: 73, priceBought: 657.69},
-                      {name: 'Facebook', symbol: 'FB', shares: 45, priceBought: 94},
-                      {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought:17.9},
-                      {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 23.29},
-                      {name: 'Microsoft', symbol: 'MSFT', shares: 80, priceBought: 46.71}];
+    var stocksData = [{name: 'Apple', symbol: 'AAPL', shares: 101, priceBought: 122.4},
+                      {name: 'Google', symbol: 'GOOG', shares: 73, priceBought: 655.69},
+                      {name: 'Facebook', symbol: 'FB', shares: 245, priceBought: 96},
+                      {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought:16.9},
+                      {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 29.29},
+                      {name: 'Microsoft', symbol: 'MSFT', shares: 180, priceBought: 49.71}];
     var stockSymbols = [];
     var pieChartData = [];
-    var pieChartDataConverted = [];
-    var totalExpenditure = stocksData.reduce(function(total, price) {
+    var barChartData = [];
+    $scope.totalExpenditure = stocksData.reduce(function(total, price) {
       return Number(total) + Number(price.shares * price.priceBought);
     }, 0).toFixed(2);
     stocksData.forEach(function(stockData) {
       stockSymbols.push(stockData.symbol);
       pieChartData.push({ 
-                      name: stockData.name,
-                      y: (stockData.shares * stockData.priceBought)/totalExpenditure
-                    })
+                        name: stockData.name,
+                        y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
+                      })
     })
-    chartRender();
+    stocksData.forEach(function(stock) {
+      StockPriceService.getStockQuote(stock.symbol)
+      .success(function(data) {
+        console.log(data.LastPrice, stock.symbol);
+        barChartData.push(
+          ((data.LastPrice - stock.priceBought)/stock.priceBought) * 100
+        );
+        chartRender();
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
+    })
     // stockSymbols.forEach(function(symbol) {
     //   StockPriceService.getStockQuote(symbol)
     //   .success(function(data) {
     //     console.log(data, symbol);
-    //     $scope.allStocks.push(data);
     //     chartRender();
     //   })
     //   .catch(function(error) {
@@ -59,7 +69,7 @@
         },
         series: [{
           name: 'Stanley',
-          data: [1.9, 0.5, -4.0, 3.2, -2.4, 4.1]
+          data: barChartData
         }]
       });
       $('#expenditure-pie').highcharts({
