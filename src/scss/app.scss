@@ -61,6 +61,9 @@ body {
 .google {
   background-color: #E14D2F;
 }
+#graph-container {
+  width: 95%
+}
 .stock-line-graph {
   height: 300px;
   margin-top: 20px;
@@ -80,6 +83,14 @@ body {
 .profile-table {
   background-color: #484D5A;
   color: white;
+}
+#add-button {
+  float: right;
+  height: 45px;
+  width: 45px;
+  border-radius: 9999px;
+  padding-top: 10px;
+  padding-right: 37px;
 }
 
 .chicken {

@@ -14,15 +14,22 @@
                       {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought: 16.9},
                       {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 22.29},
                       {name: 'Microsoft', symbol: 'MSFT', shares: 180, priceBought: 49.71}];
-    stocksData.forEach(function(stock) {
+    var graphDivs = [];
+    for (var i = 0; i < stocksData.length; i++) {
+      graphDivs.push($('<div>').addClass('col-md-6').addClass('stock-line-graph').attr('id', 'graph' + i));
+    }
+    $('#graphs-container').append(graphDivs);
+    stocksData.forEach(function(stock, graphIndex) {
       StockHistoryService.getStockHistory(stock.symbol)
       .success(function(data) {
         var dataPrices = data.Elements[0].DataSeries.close.values;
         var dataCoordinates = [];
         dataPrices.forEach(function(dataPoint, index) {
-          dataCoordinates.push([data.Positions[index], dataPoint]);
+          var dateArray = data.Dates[index].split('-');
+          var date = Date.UTC(Number(dateArray[0]), Number(dateArray[1])-1, Number(dateArray[2].slice(0,2)));
+          dataCoordinates.push([date, dataPoint]);
         })
-        $('#container1').highcharts('StockChart', {
+        $('#graph' + graphIndex).highcharts('StockChart', {
           rangeSelector : {
             selected : 1
           },
@@ -42,40 +49,5 @@
         console.error(error);
       })
     })
-
-    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
-      $('#container2').highcharts('StockChart', {
-        rangeSelector : {
-          selected : 1
-        },
-        title : {
-          text : 'AAPL'
-        },
-        series : [{
-          name : 'AAPL',
-          data : data,
-          tooltip: {
-            valueDecimals: 2
-          }
-        }]
-      });
-    });
-    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
-      $('#container3').highcharts('StockChart', {
-        rangeSelector : {
-          selected : 1
-        },
-        title : {
-          text : 'AAPL'
-        },
-        series : [{
-          name : 'AAPL',
-          data : data,
-          tooltip: {
-            valueDecimals: 2
-          }
-        }]
-      });
-    });
   });
 })();

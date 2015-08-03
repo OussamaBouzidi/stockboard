@@ -23,10 +23,10 @@
         <tr ng-repeat="stock in stocks">
           <td>{{stock.name}}</td>
           <td>{{stock.symbol}}</td>
-          <td>{{stock.price}}</td>
+          <td>{{stock.price.toFixed(2)}}</td>
           <td>{{stock.shares}}</td>
           <td>{{stock.status}}</td>
-          <td>{{stock.percent}}</td>
+          <td>{{stock.percent.toFixed(2) + '%'}}</td>
         </tr>
       </tbody>
     </table>
