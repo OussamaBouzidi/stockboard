@@ -17,31 +17,32 @@
     stocksData.forEach(function(stock) {
       StockHistoryService.getStockHistory(stock.symbol)
       .success(function(data) {
-        console.log(data);
-
+        var dataPrices = data.Elements[0].DataSeries.close.values;
+        var dataCoordinates = [];
+        dataPrices.forEach(function(dataPoint, index) {
+          dataCoordinates.push([data.Positions[index], dataPoint]);
+        })
+        $('#container1').highcharts('StockChart', {
+          rangeSelector : {
+            selected : 1
+          },
+          title : {
+            text : stock.name
+          },
+          series : [{
+            name : stock.name,
+            data : dataCoordinates,
+            tooltip: {
+              valueDecimals: 2
+            }
+          }]
+        });
       })
       .catch(function(error) {
         console.error(error);
       })
     })
 
-    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
-      $('#container1').highcharts('StockChart', {
-        rangeSelector : {
-          selected : 1
-        },
-        title : {
-          text : 'AAPL'
-        },
-        series : [{
-          name : 'AAPL',
-          data : data,
-          tooltip: {
-            valueDecimals: 2
-          }
-        }]
-      });
-    });
     $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
       $('#container2').highcharts('StockChart', {
         rangeSelector : {
