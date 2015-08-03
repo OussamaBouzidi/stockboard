@@ -28510,14 +28510,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
 
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
-
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -28576,86 +28568,122 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     }, 0).toFixed(2);
     stocksData.forEach(function(stockData) {
       pieChartData.push({ 
-                        name: stockData.name,
-                        y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
-                      })
+                          name: stockData.name,
+                          y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
+                        })
     })
     stocksData.forEach(function(stock) {
       StockPriceService.getStockQuote(stock.symbol)
       .success(function(data) {
-        console.log(data.LastPrice, stock.symbol);
         barChartData.push(
           [stock.symbol, ((data.LastPrice - stock.priceBought)/stock.priceBought) * 100]
         );
-        chartRender();
+        chartRenders.barChartSort(barChartData, 'percent', true);
+        chartRenders.barChartRender();
+        chartRenders.pieChartRender();
       })
       .catch(function(error) {
         console.error(error);
       })
     })
 
-    function chartRender() {
-      $('#expenditure-bar').highcharts({
-        chart: {
-          type: 'column'
-        },
-        title: {
-          text: 'Stock Returns'
-        },
-        xAxis: {
-          categories: barChartData.map(function(stock) {
-            return stock[0];
-          })
-        },
-        yAxis: {
+    var chartRenders = {
+      barChartSort: function(barChartData, type, ascending) {
+        if (type === 'percent') {
+          if (ascending) {
+            return barChartData.sort(function(a, b) {
+              return a[1] - b[1];
+            });
+          } else {
+            return barChartData.sort(function(a, b) {
+              return b[1] - a[1];
+            });
+          }
+        } else {
+          if (ascending) {
+            return barChartData.sort(function(a, b) {
+              return a[0] - b[0];
+            });
+          } else {
+            return barChartData.sort(function(a, b) {
+              return b[0] - a[0];
+            });
+          }
+        }        
+      },
+      barChartRender: function() {
+        $('#expenditure-bar').highcharts({
+          chart: {
+            type: 'column'
+          },
           title: {
-            text: 'Percentage'
-          }
-        },
-        series: [{
-          name: 'Stanley',
-          data: barChartData.map(function(stock) {
-            return stock[1];
-          })
-        }]
-      });
-      $('#expenditure-pie').highcharts({
-        chart: {
-          plotBackgroundColor: null,
-          plotBorderWidth: null,
-          plotShadow: false,
-          type: 'pie'
-        },
-        title: {
-          text: 'Expenditure Breakdown'
-        },
-        tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-              enabled: false
-            },
-            showInLegend: true
-          }
-        },
-        series: [{
-          name: "Brands",
-          colorByPoint: true,
-          data: pieChartData
-        }]      
-      })
-    };
+            text: 'Stock Returns'
+          },
+          xAxis: {
+            categories: barChartData.map(function(stock) {
+              return stock[0];
+            })
+          },
+          yAxis: {
+            title: {
+              text: 'Percentage'
+            }
+          },
+          series: [{
+            name: 'Stanley',
+            data: barChartData.map(function(stock) {
+              return stock[1];
+            })
+          }]
+        });
+      },
+      pieChartRender: function() {
+        $('#expenditure-pie').highcharts({
+          chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+          },
+          title: {
+            text: 'Expenditure Breakdown'
+          },
+          tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+          },
+          plotOptions: {
+            pie: {
+              allowPointSelect: true,
+              cursor: 'pointer',
+              dataLabels: {
+                enabled: false
+              },
+              showInLegend: true
+            }
+          },
+          series: [{
+            name: "Brands",
+            colorByPoint: true,
+            data: pieChartData
+          }]      
+        })
+      }
+    }
   });
 })();
 
 (function() {
   angular.module('stockboard.controllers.dashboardProfile', [])
-  .controller('DashboardProfileCtrl', function() {
+  .controller('DashboardProfileCtrl', function($scope) {
     console.log('This is the dashboard-profile');
+    $scope.stocks = [
+      { name: 'Apple', symbol: 'AAPL', price: ,shares: 101, status: , percent:  },
+      { name: 'Google', symbol: 'GOOG', price: ,shares: 73, status: , percent:  },
+      { name: 'Facebook', symbol: 'FB', price: ,shares: 245, status: , percent:  },
+      { name: 'Bank of America', symbol: 'BAC', price: ,shares: 112, status: , percent:  },
+      { name: 'SunEdison', symbol: 'SUNE', price: ,shares: 179, status: , percent:  },
+      { name: 'Microsoft', symbol: 'MSFT', price: ,shares: 180, status: , percent:  }
+    ];
   });
 })();
 
@@ -28998,4 +29026,12 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       return $http.delete('/');
     }
   });
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
 })();
