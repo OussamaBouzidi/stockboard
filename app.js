@@ -8,23 +8,23 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var session = require('express-session');
 
-// var routes = require('./routes/index');
+var routes = require('./routes/index');
 var auth = require('./routes/auth');
 
 var app = express();
 
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/stockboard');
 
-// var User = require('./models/user');
+var User = require('./models/user');
 // var google = require('./config/googleStrategy')();
 
-var User = mongoose.model("User", {
-  displayName: { type: String, required: true },
-  email: { type: String, required: true, index: { unique: true, dropDups: true } },
-  pictureUrl: { type: String },
-  stockPurchases: Array,
-  stockWatch: Array
-});
+// var User = mongoose.model("User", {
+//   displayName: { type: String, required: true },
+//   email: { type: String, required: true, index: { unique: true, dropDups: true } },
+//   pictureUrl: { type: String },
+//   stockPurchases: Array,
+//   stockWatch: Array
+// });
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 passport.use(new GoogleStrategy({
@@ -73,7 +73,7 @@ app.use(session({ secret: 'stockboard', resave: false, saveUninitialized: true }
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use('/', routes);
+app.use('/', routes);
 app.use('/auth', auth);
 
 // catch 404 and forward to error handler

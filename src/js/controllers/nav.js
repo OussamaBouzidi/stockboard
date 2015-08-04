@@ -2,15 +2,25 @@
   angular.module('stockboard.controllers.nav', [])
   .controller('NavCtrl', function($scope, $state, UserService, StockHistoryService) {
     $scope.loggedIn = true;
+    UserService.getCurrentUser()
+    .success(function(data) {
+      UserService.currentUserData = data;
+      UserService.loggedIn = true;
+    })
+    .catch(function(error) {
+      console.error(error);
+      UserService.loggedIn = false;
+    })
+
     $scope.logout = function() {
       UserService.logoutCurrentUser()
       .success(function(data) {
         console.log('successfully logged out');
+        $state.go('home');
       })
       .catch(function(error) {
         console.log('failed logging out');
       })
-      $state.go('home');
     }
     $scope.recordStockWatch = function() {
       $scope.recordWatch = true;
@@ -29,8 +39,8 @@
       console.log(purchase);
       var user;
       UserService.addStockPurchase(user, purchase)
-      .success(function(success) {
-        console.log(success);
+      .success(function(data) {
+        console.log(data);
       })
       .catch(function(error) {
         console.error(error);
@@ -40,8 +50,8 @@
       console.log(watch);
       var user;
       UserService.addStockWatch(user, watch)
-      .success(function(success) {
-        console.log(success);
+      .success(function(data) {
+        console.log(data);
       })
       .catch(function(error) {
         console.error(error);

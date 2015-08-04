@@ -1,7 +1,6 @@
 (function() {
   angular.module('stockboard.controllers.dashboardProfile', [])
-  .controller('DashboardProfileCtrl', function($scope) {
-    console.log('This is the dashboard-profile');
+  .controller('DashboardProfileCtrl', function($scope, UserService) {
     $scope.stocks = [
       { name: 'Apple', symbol: 'AAPL', price: 122.4, shares: 101, status: 'Sold', percent: 1.2 },
       { name: 'Google', symbol: 'GOOG', price: 655.69, shares: 73, status: 'Hold', percent: 3 },
@@ -10,5 +9,6 @@
       { name: 'SunEdison', symbol: 'SUNE', price: 22.29, shares: 179, status: 'Hold', percent: -1.4 },
       { name: 'Microsoft', symbol: 'MSFT', price: 49.71, shares: 180, status: 'Sold', percent: 1.11 }
     ];
+    $scope.userData = UserService.currentUserData;
   });
 })();
