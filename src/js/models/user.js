@@ -3,12 +3,6 @@
   .service('UserService', function($http, BASE_URL) {
     this.currentUserData;
     this.loggedIn;
-    this.addStockPurchase = function(user, purchase) {
-      return $http.post('/users/' + user + '/purchases', purchase);
-    };
-    this.addStockWatch = function(user, watch) {
-      return $http.post('/users/' + user + '/watches', watch);
-    };
     this.getCurrentUser = function() {
       return $http.get('/currentuser');
     };
@@ -16,12 +10,18 @@
       this.currentUserData = {};
       this.loggedIn = false;
       return $http.get('/logout');
+    };    
+    this.addStockPurchase = function(userId, purchase) {
+      return $http.post('/users/' + userId + '/purchases', purchase);
     };
-    this.getAllUserStockPurchases = function() {
-      return $http.get('/users/' + user + '/purchases');
+    this.addStockWatch = function(userId, watch) {
+      return $http.post('/users/' + userId + '/watches', watch);
     };
-    this.getAllUserStockWatches = function() {
-      return $http.get('/users/' + user + '/watches');
+    this.getAllUserStockPurchases = function(userId) {
+      return $http.get('/users/' + userId + '/purchases');
+    };
+    this.getAllUserStockWatches = function(userId) {
+      return $http.get('/users/' + userId + '/watches');
     };
     // this.editPurchase = function() {
     //   return $http.patch('/');

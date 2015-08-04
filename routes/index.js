@@ -32,18 +32,28 @@ router.get('/users/:id', function(req, res, next) {
 //   })
 // })
 
-var StockWatch = mongoose.model("StockWatch", {
+var StockToWatch = mongoose.model("StockWatch", {
   symbol: { type: String }
 })
 
-router.post('/users/:id/watches', function() {
-  var newWatch = new StockWatch(req.body);
-  newWatch.save(function(err, savedWatch) {
+router.get('/users/:id/watches', function(req, res, next) {
+  StockToWatch.find().exec(function(err, userStocksToWatches) {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ error: "Could not retrieve user stocks to watch." })
+    }
+    res.json(userStocksToWatch)
+  })
+})
+
+router.post('/users/:id/watches', function(req, res, next) {
+  var newWatch = new StockToWatch(req.body);
+  newWatch.save(function(err, savedStockToWatch) {
     if (err) {
       console.log(err);
       res.status(400).json({ error: "Validation Failed!" });
     }
-    res.json(savedWatch);
+    res.json(savedStockToWatch);
   })
 })
 
@@ -51,7 +61,17 @@ var StockPurchase = mongoose.model("StockPurchase", {
   name: { type: String },
   symbol: { type: String },
   shares: { type: Number },
-  price: { type: Number }
+  priceBought: { type: Number }
+})
+
+router.get('/users/:id/purchases', function(req, res, next) {
+  StockPurchase.find().exec(function(err, purchases) {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ error: "Could not retrieve user stocks to purchase." })
+    }
+    res.json(purchases)
+  })
 })
 
 router.post('/users/:id/purchases', function(req, res, next) {
