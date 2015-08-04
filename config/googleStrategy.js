@@ -2,7 +2,7 @@
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var passport = require('passport');
 
-module.exports = function() {
+module.exports = function(passport) {
   var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
