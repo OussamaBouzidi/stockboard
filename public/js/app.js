@@ -28507,6 +28507,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
   angular.module('stockboard.models', [
     'stockboard.models.user',
     'stockboard.models.stockHistory',
@@ -28541,12 +28549,12 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
   .service('UserService', function($http, BASE_URL) {
     this.currentUserData;
     this.loggedIn;
-    // this.addStockPurchase = function(user, purchase) {
-    //   return $http.post('/users/' + user, purchase);
-    // };
-    // this.addStockWatch = function(watch) {
-    //   return $http.post('/users/' + user, watch);
-    // };
+    this.addStockPurchase = function(user, purchase) {
+      return $http.post('/users/' + user + '/purchases', purchase);
+    };
+    this.addStockWatch = function(user, watch) {
+      return $http.post('/users/' + user + '/watches', watch);
+    };
     this.getCurrentUser = function() {
       return $http.get('/currentuser');
     };
@@ -28556,10 +28564,10 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       return $http.get('/logout');
     };
     this.getAllUserStockPurchases = function() {
-      return $http.get('/');
+      return $http.get('/users/' + user + '/purchases');
     };
     this.getAllUserStockWatches = function() {
-      return $http.get('/');
+      return $http.get('/users/' + user + '/watches');
     };
     // this.editPurchase = function() {
     //   return $http.patch('/');
@@ -28571,14 +28579,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     //   return $http.delete('/');
     // }
   });
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
 })();
 
 (function() {
@@ -28879,14 +28879,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     }
     $scope.saveStockWatch = function(watch) {
       console.log(watch);
-      var user;
-      UserService.addStockWatch(user, watch)
-      .success(function(data) {
-        console.log(data);
-      })
-      .catch(function(error) {
-        console.error(error);
-      })
+      // var userData = UserService.currentUserData;
+      // UserService.addStockWatch(userData._id, watch)
+      // .success(function(data) {
+      //   console.log(data);
+      // })
+      // .catch(function(error) {
+      //   console.error(error);
+      // })
     }
   });
 })();

@@ -48,14 +48,14 @@
     }
     $scope.saveStockWatch = function(watch) {
       console.log(watch);
-      var user;
-      UserService.addStockWatch(user, watch)
-      .success(function(data) {
-        console.log(data);
-      })
-      .catch(function(error) {
-        console.error(error);
-      })
+      // var userData = UserService.currentUserData;
+      // UserService.addStockWatch(userData._id, watch)
+      // .success(function(data) {
+      //   console.log(data);
+      // })
+      // .catch(function(error) {
+      //   console.error(error);
+      // })
     }
   });
 })();

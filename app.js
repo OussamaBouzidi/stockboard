@@ -18,14 +18,6 @@ mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/stockboard');
 var User = require('./models/user');
 // var google = require('./config/googleStrategy')();
 
-// var User = mongoose.model("User", {
-//   displayName: { type: String, required: true },
-//   email: { type: String, required: true, index: { unique: true, dropDups: true } },
-//   pictureUrl: { type: String },
-//   stockPurchases: Array,
-//   stockWatch: Array
-// });
-
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
