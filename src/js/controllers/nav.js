@@ -36,9 +36,8 @@
       $scope.recordWatch = null;
     }
     $scope.saveStockPurchase = function(purchase) {
-      console.log(purchase);
-      var user;
-      UserService.addStockPurchase(user, purchase)
+      var userData = UserService.currentUserData;
+      UserService.addStockPurchase(userData._id, purchase)
       .success(function(data) {
         console.log(data);
       })
@@ -47,7 +46,6 @@
       })
     }
     $scope.saveStockWatch = function(watch) {
-      console.log(watch);
       var userData = UserService.currentUserData;
       UserService.addStockWatch(userData._id, watch)
       .success(function(data) {

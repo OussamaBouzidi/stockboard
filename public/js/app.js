@@ -28554,21 +28554,24 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   angular.module('stockboard.controllers.dashboardPortfolio', [])
   .controller('DashboardPortfolioCtrl', function($scope, UserService, StockPriceService) {
-    UserService.getAllUserStockPurchases()
+    UserService.getAllUserStockPurchases(UserService.currentUserData._id)
     .success(function(data) {
-      console.log(data);
       stocksData = data;
       pieChartData = [];
       barChartData = [];
+
       $scope.totalExpenditure = stocksData.reduce(function(total, price) {
         return Number(total) + Number(price.shares * price.priceBought);
       }, 0).toFixed(2);
+
+
       stocksData.forEach(function(stockData) {
         pieChartData.push({ 
                             name: stockData.name,
                             y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
                           })
       })
+
       stocksData.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
         .success(function(data) {
@@ -28587,13 +28590,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     .catch(function(error) {
       console.error(error);
     })
-    // var stocksData = [{name: 'Apple', symbol: 'AAPL', shares: 101, priceBought: 122.4},
-    //                   {name: 'Google', symbol: 'GOOG', shares: 73, priceBought: 655.69},
-    //                   {name: 'Facebook', symbol: 'FB', shares: 245, priceBought: 96},
-    //                   {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought: 16.9},
-    //                   {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 22.29},
-    //                   {name: 'Microsoft', symbol: 'MSFT', shares: 180, priceBought: 49.71}];
-
 
     var chartRenders = {
       barChartSort: function(barChartData, type, ascending) {
@@ -28638,7 +28634,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
             }
           },
           series: [{
-            name: 'Stanley',
+            name: UserService.currentUserData.displayName,
             data: barChartData.map(function(stock) {
               return stock[1];
             })
@@ -28683,14 +28679,21 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   angular.module('stockboard.controllers.dashboardProfile', [])
   .controller('DashboardProfileCtrl', function($scope, UserService) {
-    $scope.stocks = [
-      { name: 'Apple', symbol: 'AAPL', price: 122.4, shares: 101, status: 'Sold', percent: 1.2 },
-      { name: 'Google', symbol: 'GOOG', price: 655.69, shares: 73, status: 'Hold', percent: 3 },
-      { name: 'Facebook', symbol: 'FB', price: 96, shares: 245, status: 'Hold', percent: 2.12 },
-      { name: 'Bank of America', symbol: 'BAC', price: 16.9, shares: 112, status: 'Hold', percent: -2.3 },
-      { name: 'SunEdison', symbol: 'SUNE', price: 22.29, shares: 179, status: 'Hold', percent: -1.4 },
-      { name: 'Microsoft', symbol: 'MSFT', price: 49.71, shares: 180, status: 'Sold', percent: 1.11 }
-    ];
+    UserService.getAllUserStockPurchases(UserService.getCurrentUser._id)
+    .success(function(data) {
+      $scope.stocks = data
+    })
+    .catch(function(error) {
+      console.error(error);
+    })
+    // $scope.stocks = [
+    //   { name: 'Apple', symbol: 'AAPL', price: 122.4, shares: 101, status: 'Sold', percent: 1.2 },
+    //   { name: 'Google', symbol: 'GOOG', price: 655.69, shares: 73, status: 'Hold', percent: 3 },
+    //   { name: 'Facebook', symbol: 'FB', price: 96, shares: 245, status: 'Hold', percent: 2.12 },
+    //   { name: 'Bank of America', symbol: 'BAC', price: 16.9, shares: 112, status: 'Hold', percent: -2.3 },
+    //   { name: 'SunEdison', symbol: 'SUNE', price: 22.29, shares: 179, status: 'Hold', percent: -1.4 },
+    //   { name: 'Microsoft', symbol: 'MSFT', price: 49.71, shares: 180, status: 'Sold', percent: 1.11 }
+    // ];
     $scope.userData = UserService.currentUserData;
   });
 })();
@@ -28698,54 +28701,54 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   angular.module('stockboard.controllers.dashboardStocks', [])
   .controller('DashboardStocksCtrl', function($scope, UserService, StockHistoryService) {
-    // UserService.getAllUserStockWatches()
-    // .success(function(data) {
-    //   console.log(data);
-    // })
-    // .catch(function(error) {
-    //   console.error(error);
-    // })
-    var stocksData = [{name: 'Apple', symbol: 'AAPL', shares: 101, priceBought: 122.4},
-                      {name: 'Google', symbol: 'GOOG', shares: 73, priceBought: 655.69},
-                      {name: 'Facebook', symbol: 'FB', shares: 245, priceBought: 96},
-                      {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought: 16.9},
-                      {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 22.29},
-                      {name: 'Microsoft', symbol: 'MSFT', shares: 180, priceBought: 49.71}];
-    var graphDivs = [];
-    for (var i = 0; i < stocksData.length; i++) {
-      graphDivs.push($('<div>').addClass('col-md-6').addClass('stock-line-graph').attr('id', 'graph' + i));
-    }
-    $('#graphs-container').append(graphDivs);
-    stocksData.forEach(function(stock, graphIndex) {
-      StockHistoryService.getStockHistory(stock.symbol)
-      .success(function(data) {
-        var dataPrices = data.Elements[0].DataSeries.close.values;
-        var dataCoordinates = [];
-        dataPrices.forEach(function(dataPoint, index) {
-          var dateArray = data.Dates[index].split('-');
-          var date = Date.UTC(Number(dateArray[0]), Number(dateArray[1])-1, Number(dateArray[2].slice(0,2)));
-          dataCoordinates.push([date, dataPoint]);
+    graphDivs = [];
+    UserService.getAllUserStockWatches(UserService.currentUserData._id)
+    .success(function(data) {
+      stocksData = data;
+      for (var i = 0; i < stocksData.length; i++) {
+        graphDivs.push($('<div>').addClass('col-md-6').addClass('stock-line-graph').attr('id', 'graph' + i));
+      }
+      $('#graphs-container').append(graphDivs);
+      stocksData.forEach(function(stock, graphIndex) {
+        StockHistoryService.getStockHistory(stock.symbol)
+        .success(function(data) {
+          dataPrices = data.Elements[0].DataSeries.close.values;
+          dataCoordinates = [];
+          dataPrices.forEach(function(dataPoint, index) {
+            var dateArray = data.Dates[index].split('-');
+            var date = Date.UTC(Number(dateArray[0]), Number(dateArray[1])-1, Number(dateArray[2].slice(0,2)));
+            dataCoordinates.push([date, dataPoint]);
+          })
+          $('#graph' + graphIndex).highcharts('StockChart', {
+            rangeSelector : {
+              selected : 1
+            },
+            title : {
+              text : stock.name
+            },
+            series : [{
+              name : stock.name,
+              data : dataCoordinates,
+              tooltip: {
+                valueDecimals: 2
+              }
+            }]
+          });
         })
-        $('#graph' + graphIndex).highcharts('StockChart', {
-          rangeSelector : {
-            selected : 1
-          },
-          title : {
-            text : stock.name
-          },
-          series : [{
-            name : stock.name,
-            data : dataCoordinates,
-            tooltip: {
-              valueDecimals: 2
-            }
-          }]
-        });
-      })
-      .catch(function(error) {
-        console.error(error);
+        .catch(function(error) {
+          console.error(error);
+        })
       })
     })
+    .catch(function(error) {
+      console.error(error);
+    })
+    // var stocksData = [{name: 'Apple', symbol: 'AAPL', shares: 101, priceBought: 122.4},
+    //                   {name: 'Google', symbol: 'GOOG', shares: 73, priceBought: 655.69},
+    //                   {name: 'Facebook', symbol: 'FB', shares: 245, priceBought: 96},
+    //                   {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought: 16.9},
+    //                   {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 22.29},
+    //                   {name: 'Microsoft', symbol: 'MSFT', shares: 180, priceBought: 49.71}];
   });
 })();
 
@@ -28801,9 +28804,8 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       $scope.recordWatch = null;
     }
     $scope.saveStockPurchase = function(purchase) {
-      console.log(purchase);
-      var user;
-      UserService.addStockPurchase(user, purchase)
+      var userData = UserService.currentUserData;
+      UserService.addStockPurchase(userData._id, purchase)
       .success(function(data) {
         console.log(data);
       })
@@ -28812,7 +28814,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       })
     }
     $scope.saveStockWatch = function(watch) {
-      console.log(watch);
       var userData = UserService.currentUserData;
       UserService.addStockWatch(userData._id, watch)
       .success(function(data) {

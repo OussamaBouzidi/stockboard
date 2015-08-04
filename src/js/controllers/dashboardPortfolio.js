@@ -1,21 +1,24 @@
 (function() {
   angular.module('stockboard.controllers.dashboardPortfolio', [])
   .controller('DashboardPortfolioCtrl', function($scope, UserService, StockPriceService) {
-    UserService.getAllUserStockPurchases()
+    UserService.getAllUserStockPurchases(UserService.currentUserData._id)
     .success(function(data) {
-      console.log(data);
       stocksData = data;
       pieChartData = [];
       barChartData = [];
+
       $scope.totalExpenditure = stocksData.reduce(function(total, price) {
         return Number(total) + Number(price.shares * price.priceBought);
       }, 0).toFixed(2);
+
+
       stocksData.forEach(function(stockData) {
         pieChartData.push({ 
                             name: stockData.name,
                             y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
                           })
       })
+
       stocksData.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
         .success(function(data) {
@@ -34,13 +37,6 @@
     .catch(function(error) {
       console.error(error);
     })
-    // var stocksData = [{name: 'Apple', symbol: 'AAPL', shares: 101, priceBought: 122.4},
-    //                   {name: 'Google', symbol: 'GOOG', shares: 73, priceBought: 655.69},
-    //                   {name: 'Facebook', symbol: 'FB', shares: 245, priceBought: 96},
-    //                   {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought: 16.9},
-    //                   {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 22.29},
-    //                   {name: 'Microsoft', symbol: 'MSFT', shares: 180, priceBought: 49.71}];
-
 
     var chartRenders = {
       barChartSort: function(barChartData, type, ascending) {
@@ -85,7 +81,7 @@
             }
           },
           series: [{
-            name: 'Stanley',
+            name: UserService.currentUserData.displayName,
             data: barChartData.map(function(stock) {
               return stock[1];
             })

@@ -33,11 +33,12 @@ router.get('/users/:id', function(req, res, next) {
 // })
 
 var StockToWatch = mongoose.model("StockWatch", {
-  symbol: { type: String }
+  name: { type: String, required: true },
+  symbol: { type: String, required: true }
 })
 
 router.get('/users/:id/watches', function(req, res, next) {
-  StockToWatch.find().exec(function(err, userStocksToWatches) {
+  StockToWatch.find().exec(function(err, userStocksToWatch) {
     if (err) {
       console.log(err);
       res.status(500).json({ error: "Could not retrieve user stocks to watch." })
@@ -58,10 +59,10 @@ router.post('/users/:id/watches', function(req, res, next) {
 })
 
 var StockPurchase = mongoose.model("StockPurchase", {
-  name: { type: String },
-  symbol: { type: String },
-  shares: { type: Number },
-  priceBought: { type: Number }
+  name: { type: String, required: true },
+  symbol: { type: String, required: true },
+  shares: { type: Number, required: true },
+  priceBought: { type: Number, required: true }
 })
 
 router.get('/users/:id/purchases', function(req, res, next) {
