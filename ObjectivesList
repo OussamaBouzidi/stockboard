@@ -1,0 +1,42 @@
+THINGS TO DO
+
+Add purchased to watch list as well.
+
+Make sure there are no duplicates in watches route in backend
+
+Add accordion to certain pages
+  - Profile
+
+Add filter features for Stocks History Page
+
+Restructure profile page
+  - Profile page will have the following:
+    - Purchased
+    - Sold
+    - Watching
+
+Rename tabs
+  - Profile
+  - Portfolio Statistics
+  - Stock History
+  - (Analytics)
+
+Integrate Analytics into Profile page
+
+With profile page add watches 
+
+
+
+
+
+
+BIG TASK
+
+Integate sentiment analysis based on twitter feed into stocks with sentiment API
+
+
+
+
+
+
+COMPLETED
