@@ -1,15 +1,17 @@
 (function() {
   angular.module('stockboard.controllers.dashboardPortfolio', [])
   .controller('DashboardPortfolioCtrl', function($scope, UserService, StockPriceService) {
-    UserService.getAllUserStockPurchases(UserService.currentUserData._id)
+    var userData = UserService.currentUserData;
+    UserService.getAllUserStockPurchases(userData._id)
     .success(function(data) {
+      pieChartData = [];
+      barChartData = [];
+
       stocksData = data.filter(function(stock) {
         if (stock.user === userData.displayName) {
           return stock;
         }
       });
-      pieChartData = [];
-      barChartData = [];
 
       $scope.totalExpenditure = stocksData.reduce(function(total, price) {
         return Number(total) + Number(price.shares * price.priceBought);
@@ -21,16 +23,17 @@
                             y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
                           })
       })
+      chartRenders.pieChartRender();
 
       stocksData.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
         .success(function(data) {
+          console.log(data);
           barChartData.push(
             [stock.symbol, ((data.LastPrice - stock.priceBought)/stock.priceBought) * 100]
           );
           chartRenders.barChartSort(barChartData, 'percent', true);
           chartRenders.barChartRender();
-          chartRenders.pieChartRender();
         })
         .catch(function(error) {
           console.error(error);

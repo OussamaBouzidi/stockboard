@@ -28508,6 +28508,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
 
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
+
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -28546,15 +28554,17 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   angular.module('stockboard.controllers.dashboardPortfolio', [])
   .controller('DashboardPortfolioCtrl', function($scope, UserService, StockPriceService) {
-    UserService.getAllUserStockPurchases(UserService.currentUserData._id)
+    var userData = UserService.currentUserData;
+    UserService.getAllUserStockPurchases(userData._id)
     .success(function(data) {
+      pieChartData = [];
+      barChartData = [];
+
       stocksData = data.filter(function(stock) {
         if (stock.user === userData.displayName) {
           return stock;
         }
       });
-      pieChartData = [];
-      barChartData = [];
 
       $scope.totalExpenditure = stocksData.reduce(function(total, price) {
         return Number(total) + Number(price.shares * price.priceBought);
@@ -28566,16 +28576,17 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
                             y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
                           })
       })
+      chartRenders.pieChartRender();
 
       stocksData.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
         .success(function(data) {
+          console.log(data);
           barChartData.push(
             [stock.symbol, ((data.LastPrice - stock.priceBought)/stock.priceBought) * 100]
           );
           chartRenders.barChartSort(barChartData, 'percent', true);
           chartRenders.barChartRender();
-          chartRenders.pieChartRender();
         })
         .catch(function(error) {
           console.error(error);
@@ -28673,38 +28684,28 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   angular.module('stockboard.controllers.dashboardProfile', [])
-  .controller('DashboardProfileCtrl', function($scope, UserService) {
-    UserService.getCurrentUser()
-    .success(function(data) {
-      UserService.currentUserData = data;
-      $scope.userData = UserService.currentUserData;
-    })
-    .catch(function(error) {
-      console.error(error);
-    })
+  .controller('DashboardProfileCtrl', function($scope, UserService, StockPriceService) {
+    $scope.userData = UserService.currentUserData;
     UserService.getAllUserStockPurchases(UserService.getCurrentUser._id)
     .success(function(data) {
-      data.forEach(function(stock) {
-        StockPriceService.getStockQuote()
-        .success(function(data) {
-          $scope.stocks.push(data);
-        })
-        .catch(function(error) {
-          console.error(error);
-        })      
-      })
+      $scope.stocks = data.filter(function(stock) {
+        if (stock.user === $scope.userData.displayName) {
+          return stock;
+        }
+      });
+      // data.forEach(function(stock) {
+      //   StockPriceService.getStockQuote()
+      //   .success(function(data) {
+      //     console.log(data);
+      //   })
+      //   .catch(function(error) {
+      //     console.error(error);
+      //   })      
+      // })
     })
     .catch(function(error) {
       console.error(error);
     })
-    // $scope.stocks = [
-    //   { name: 'Apple', symbol: 'AAPL', priceBought: 122.4, shares: 101, status: 'Sold', percent: 1.2 },
-    //   { name: 'Google', symbol: 'GOOG', priceBought: 655.69, shares: 73, status: 'Hold', percent: 3 },
-    //   { name: 'Facebook', symbol: 'FB', priceBought: 96, shares: 245, status: 'Hold', percent: 2.12 },
-    //   { name: 'Bank of America', symbol: 'BAC', priceBought: 16.9, shares: 112, status: 'Hold', percent: -2.3 },
-    //   { name: 'SunEdison', symbol: 'SUNE', priceBought: 22.29, shares: 179, status: 'Hold', percent: -1.4 },
-    //   { name: 'Microsoft', symbol: 'MSFT', priceBought: 49.71, shares: 180, status: 'Sold', percent: 1.11 }
-    // ];
   });
 })();
 
@@ -28820,7 +28821,8 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     }
     $scope.saveStockPurchase = function(purchase) {
       var userData = UserService.currentUserData;
-      purchase.user = userData.displayName
+      purchase.user = userData.displayName;
+      purchase.status = 'Purchased';
       UserService.addStockPurchase(userData._id, purchase)
       .success(function(data) {
         console.log(data);
@@ -28831,7 +28833,8 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     }
     $scope.saveStockWatch = function(watch) {
       var userData = UserService.currentUserData;
-      watch.user = userData.displayName
+      watch.user = userData.displayName;
+      watch.status = 'Purchased';
       UserService.addStockWatch(userData._id, watch)
       .success(function(data) {
         console.log(data);
@@ -28915,12 +28918,4 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     //   return $http.delete('/');
     // }
   });
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
 })();

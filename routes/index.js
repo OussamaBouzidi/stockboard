@@ -70,7 +70,7 @@ var StockPurchase = mongoose.model("StockPurchase", {
   symbol: { type: String, required: true },
   shares: { type: Number, required: true },
   priceBought: { type: Number, required: true },
-  status: { type: Boolean },
+  status: { type: String, required: true },
   user: { type: String, required: true }
 })
 
