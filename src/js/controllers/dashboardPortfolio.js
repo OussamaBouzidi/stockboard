@@ -28,7 +28,6 @@
       stocksData.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
         .success(function(data) {
-          console.log(data);
           barChartData.push(
             [stock.symbol, ((data.LastPrice - stock.priceBought)/stock.priceBought) * 100]
           );

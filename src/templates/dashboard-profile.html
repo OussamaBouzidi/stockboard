@@ -1,12 +1,24 @@
 <div class="row">
-  <div class="col-md-3">
-    <div class="person-card">
-      <img class="text-center" src="{{userData.pictureUrl}}" alt="">
-      <p class="dashboard-content person-card-text">{{userData.displayName}}</p>
-      <p class="dashboard-content person-card-text">{{userData.email}}</p>
+  <div class="col-md-2">
+    <div class="card">
+      <div class="card-image text-center">
+        <img class="col-md-8 col-md-offset-2" src="{{userData.pictureUrl}}" alt="">
+        <span class="card-title">{{userData.displayName}}</span>
+      </div>
+      <div class="card-content text-center">
+        <p class="dashboard-content">{{userData.email}}</p>
+      </div>
+      <hr width="90%">
+      <div class="card-action text-center">
+        <a href="#" target="new_blank">Link</a>
+        <a href="#" target="new_blank">Link</a>
+        <a href="#" target="new_blank">Link</a>
+        <a href="#" target="new_blank">Link</a>
+      </div>
     </div>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-10">
+    <h4 class="dashboard-content">Purchased</h4>
     <table class="table profile-table">
       <thead>
         <tr>
@@ -14,7 +26,10 @@
           <th>Symbol</th>
           <th>Price</th>
           <th>Shares</th>
+          <th>Total</th>
           <th>Status</th>
+          <th>Edit</th>
+          <th>Sell</th>
         </tr>
       </thead>
       <tbody>
@@ -23,9 +38,106 @@
           <td>{{stock.symbol}}</td>
           <td>{{stock.priceBought.toFixed(2)}}</td>
           <td>{{stock.shares}}</td>
+          <td>{{stock.priceBought.toFixed(2) * stock.shares}}</td>
           <td>{{stock.status}}</td>
+          <td><button class="btn btn-edit" data-toggle="modal" data-target="#editPurchasedModal">Edit</button></td>
+          <td><button class="btn btn-sell" data-toggle="modal" data-target="#sellModal">Sell</button></td>
         </tr>
       </tbody>
     </table>
+    <h4 class="dashboard-content">Sold</h4>
+    <table class="table profile-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Symbol</th>
+          <th>Price</th>
+          <th>Shares Sold</th>
+          <th>Profit</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="stock in stocks">
+          <td>{{stock.name}}</td>
+          <td>{{stock.symbol}}</td>
+          <td>{{stock.priceBought.toFixed(2)}}</td>
+          <td>{{stock.shares}}</td>
+          <td>{{stock.priceBought.toFixed(2) * stock.shares}}</td>
+          <td><button class="btn btn-edit" data-toggle="modal" data-target="#editSoldModal">Edit</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="modal fade" id="editPurchasedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" ng-click="modalClose()">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Edit Purchased Form</h3>
+        <form action="" class="input-group">
+          <input type="text" class="form-control" placeholder="Name">
+          <input type="text" class="form-control" placeholder="Symbol">
+          <input type="text" class="form-control" placeholder="Price">
+          <input type="text" class="form-control" placeholder="Shares Bought">
+          <input type="text" class="form-control" placeholder="Total">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn">Submit Edit</button>
+        <button class="btn">Delete Stock Purchased</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="editSoldModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" ng-click="modalClose()">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Edit Sold Form</h3>
+        <form action="" class="input-group">
+          <input type="text" class="form-control" placeholder="Name">
+          <input type="text" class="form-control" placeholder="Symbol">
+          <input type="text" class="form-control" placeholder="Price">        
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn">Submit Edit</button>
+        <button class="btn">Delete Stock Sold</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="sellModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" ng-click="modalClose()">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Sell Form</h3>
+        <h5>Stock Name</h5>
+        <h5>Stock Symbol</h5>
+        <form action="" class="input-group">
+          <input type="text" class="form-control" placeholder="Shares sold">
+          <input type="text" class="form-control" placeholder="Price">         
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn">Submit</button>
+      </div>
+    </div>
   </div>
 </div>

@@ -11,7 +11,7 @@
         }
       });
       for (var i = 0; i < stocksData.length; i++) {
-        graphDivs.push($('<div>').addClass('col-md-6').addClass('stock-line-graph').attr('id', 'graph' + i));
+        graphDivs.push($('<div>').addClass('col-md-6 stock-line-graph').attr('id', 'graph' + i));
       }
       $('#graphs-container').append(graphDivs);
       stocksData.forEach(function(stock, graphIndex) {
