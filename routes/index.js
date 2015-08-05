@@ -41,7 +41,8 @@ router.get('/users/:id', function(req, res, next) {
 var StockToWatch = mongoose.model("StockWatch", {
   name: { type: String, required: true },
   symbol: { type: String, required: true },
-  user: { type: String, required: true }
+  user: { type: String, required: true },
+  hash: { type: String, unique: true }
 })
 
 router.get('/watches', function(req, res, next) {
@@ -59,7 +60,7 @@ router.post('/watches', function(req, res, next) {
   newWatch.save(function(err, savedStockToWatch) {
     if (err) {
       console.log(err);
-      res.status(400).json({ error: "Validation Failed!" });
+      res.status(400).json({ error: "Stock Watch Post Failed!" });
     }
     res.json(savedStockToWatch);
   })

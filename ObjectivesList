@@ -1,8 +1,7 @@
 THINGS TO DO
 
-Add purchased to watch list as well -- COMPLETED
-
-Make sure there are no duplicates in watches route in backend
+Make sure there are no duplicates in watches route in backend 
+  -- unique does not seem to work ASK CADE WHY 
 
 Add accordion to certain pages
   - Profile
@@ -25,6 +24,9 @@ Integrate Analytics into Profile page
 
 With profile page add watches 
 
+Redo purchased model so that includes sold price and shares sold
+
+Add button on watches to Delete
 
 
 
@@ -40,3 +42,5 @@ Integate sentiment analysis based on twitter feed into stocks with sentiment API
 
 
 COMPLETED
+
+Add purchased to watch list as well -- COMPLETED
