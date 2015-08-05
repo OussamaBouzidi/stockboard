@@ -2,9 +2,14 @@
   angular.module('stockboard.controllers.dashboardStocks', [])
   .controller('DashboardStocksCtrl', function($scope, UserService, StockHistoryService) {
     graphDivs = [];
-    UserService.getAllUserStockWatches(UserService.currentUserData._id)
+    var userData = UserService.currentUserData;
+    UserService.getAllUserStockWatches(userData._id)
     .success(function(data) {
-      stocksData = data;
+      stocksData = data.filter(function(stock) {
+        if (stock.user === userData.displayName) {
+          return stock;
+        }
+      });
       for (var i = 0; i < stocksData.length; i++) {
         graphDivs.push($('<div>').addClass('col-md-6').addClass('stock-line-graph').attr('id', 'graph' + i));
       }

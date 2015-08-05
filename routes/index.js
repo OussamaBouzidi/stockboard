@@ -6,6 +6,7 @@ var User = require('../models/user');
 // /* GET home page. */
 
 router.get('/users', function(req, res, next) {
+  console.log('/users');
   User.find().exec(function(err, users) {
     if (err) {
       console.error(err);
@@ -16,6 +17,7 @@ router.get('/users', function(req, res, next) {
 })
 
 router.get('/users/:id', function(req, res, next) {
+  console.log('/users/:id');
   User.findById(req.params.id).exec(function(err, user) {
     if (err) {
       console.error(err);
@@ -27,14 +29,19 @@ router.get('/users/:id', function(req, res, next) {
 
 // router.patch('/users/:id', function(req, res, next) {
 //   User.findById(req.params.id, function(err, user) {
-//     user.stockWatch.push(req.body);
+//     if (req.body.shares) {
+//       user.stocksPurchased.push(req.body);
+//     } else {
+//       user.stockWatch.push(req.body);
+//     }
 //     user.save();
 //   })
 // })
 
 var StockToWatch = mongoose.model("StockWatch", {
   name: { type: String, required: true },
-  symbol: { type: String, required: true }
+  symbol: { type: String, required: true },
+  user: { type: String, required: true }
 })
 
 router.get('/users/:id/watches', function(req, res, next) {
@@ -62,7 +69,9 @@ var StockPurchase = mongoose.model("StockPurchase", {
   name: { type: String, required: true },
   symbol: { type: String, required: true },
   shares: { type: Number, required: true },
-  priceBought: { type: Number, required: true }
+  priceBought: { type: Number, required: true },
+  status: { type: Boolean },
+  user: { type: String, required: true }
 })
 
 router.get('/users/:id/purchases', function(req, res, next) {

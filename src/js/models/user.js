@@ -2,7 +2,7 @@
   angular.module('stockboard.models.user', [])
   .service('UserService', function($http, BASE_URL) {
     this.currentUserData;
-    this.loggedIn;
+    this.loggedIn = false;
     this.getCurrentUser = function() {
       return $http.get('/currentuser');
     };

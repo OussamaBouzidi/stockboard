@@ -3,14 +3,17 @@
   .controller('DashboardPortfolioCtrl', function($scope, UserService, StockPriceService) {
     UserService.getAllUserStockPurchases(UserService.currentUserData._id)
     .success(function(data) {
-      stocksData = data;
+      stocksData = data.filter(function(stock) {
+        if (stock.user === userData.displayName) {
+          return stock;
+        }
+      });
       pieChartData = [];
       barChartData = [];
 
       $scope.totalExpenditure = stocksData.reduce(function(total, price) {
         return Number(total) + Number(price.shares * price.priceBought);
       }, 0).toFixed(2);
-
 
       stocksData.forEach(function(stockData) {
         pieChartData.push({ 
