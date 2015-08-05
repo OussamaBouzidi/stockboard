@@ -28508,14 +28508,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
 
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
-
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -28676,23 +28668,29 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   angular.module('stockboard.controllers.dashboardProfile', [])
   .controller('DashboardProfileCtrl', function($scope, $state, UserService, StockPriceService) {
+    // On page state load
+    // grab the user data and render to DOM 
     $scope.userData = UserService.currentUserData;
+    // grab user stock information
     UserService.getAllUserStockPurchases(UserService.getCurrentUser._id)
     .success(function(data) {
-      //filter through stocks pulled for individuals stocks
+      //filter through stocks pulled for individuals stocks and render to DOM
       $scope.stocksPurchased = data.filter(function(stock) {
         if (stock.user === $scope.userData.displayName) {
           return stock;
         }
       });
       // calculate total expenditure and render to DOM
-      $scope.totalExpenditure = $scope.stocks.reduce(function(total, price) {
+      $scope.totalExpenditure = $scope.stocksPurchased.reduce(function(total, price) {
         return Number(total) + Number(price.shares * price.priceBought);
       }, 0).toFixed(2);
     })
     .catch(function(error) {
       console.error(error);
     })
+
+    // Event-listener functions
+    // Delete stock purchase -- on click
     $scope.deleteStockPurchase = function(stockId) {
       console.log(stockId);
       UserService.deleteStockPurchase(stockId)
@@ -28704,6 +28702,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         console.log(error);
       })
     }
+    // Edit stock purchase -- on click
   });
 })();
 
@@ -28806,9 +28805,17 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       })
     }
     $scope.saveStockPurchase = function(purchase) {
+      // grab user data to add to purchase object
       var userData = UserService.currentUserData;
+      // add user data to purchase object
       purchase.user = userData.displayName;
       purchase.status = 'Purchased';
+      // create watch object with user data and purchase data
+      var watch = {
+        name: purchase.name,
+        symbol: purchase.symbol,
+        user: userData.displayName
+      }
       UserService.addStockPurchase(purchase)
       .success(function(data) {
         console.log(data);
@@ -28817,14 +28824,20 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       .catch(function(error) {
         console.error(error);
       })
+      UserService.addStockWatch(watch)
+      .success(function(data) {
+        console.log(data);
+        $state.reload();
+      })
+      .catch(function(error) {
+        console.error(error);
+      })      
     }
     $scope.saveStockWatch = function(watch) {
       var userData = UserService.currentUserData;
       watch.user = userData.displayName;
-      watch.status = 'Purchased';
       UserService.addStockWatch(watch)
       .success(function(data) {
-        console.log(data);
         $state.reload();
       })
       .catch(function(error) {
@@ -28920,4 +28933,12 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     //   return $http.delete('/');
     // }
   });
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
 })();

@@ -24,9 +24,17 @@
       })
     }
     $scope.saveStockPurchase = function(purchase) {
+      // grab user data to add to purchase object
       var userData = UserService.currentUserData;
+      // add user data to purchase object
       purchase.user = userData.displayName;
       purchase.status = 'Purchased';
+      // create watch object with user data and purchase data
+      var watch = {
+        name: purchase.name,
+        symbol: purchase.symbol,
+        user: userData.displayName
+      }
       UserService.addStockPurchase(purchase)
       .success(function(data) {
         console.log(data);
@@ -35,14 +43,20 @@
       .catch(function(error) {
         console.error(error);
       })
+      UserService.addStockWatch(watch)
+      .success(function(data) {
+        console.log(data);
+        $state.reload();
+      })
+      .catch(function(error) {
+        console.error(error);
+      })      
     }
     $scope.saveStockWatch = function(watch) {
       var userData = UserService.currentUserData;
       watch.user = userData.displayName;
-      watch.status = 'Purchased';
       UserService.addStockWatch(watch)
       .success(function(data) {
-        console.log(data);
         $state.reload();
       })
       .catch(function(error) {
