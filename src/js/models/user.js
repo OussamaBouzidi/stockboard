@@ -11,24 +11,24 @@
       this.loggedIn = false;
       return $http.get('/logout');
     };    
-    this.addStockPurchase = function(userId, purchase) {
-      return $http.post('/users/' + userId + '/purchases', purchase);
+    this.addStockPurchase = function(purchase) {
+      return $http.post('/purchases', purchase);
     };
-    this.addStockWatch = function(userId, watch) {
-      return $http.post('/users/' + userId + '/watches', watch);
+    this.addStockWatch = function(watch) {
+      return $http.post('/watches', watch);
     };
-    this.getAllUserStockPurchases = function(userId) {
-      return $http.get('/users/' + userId + '/purchases');
+    this.getAllUserStockPurchases = function() {
+      return $http.get('/purchases');
     };
-    this.getAllUserStockWatches = function(userId) {
-      return $http.get('/users/' + userId + '/watches');
+    this.getAllUserStockWatches = function() {
+      return $http.get('/watches');
     };
     // this.editPurchase = function() {
     //   return $http.patch('/');
     // }
-    // this.deletePurchase = function() {
-    //   return $http.delete('/');
-    // }
+    this.deleteStockPurchase = function(watchId) {
+      return $http.delete('/purchases/' + watchId);
+    }
     // this.deleteWatch = function() {
     //   return $http.delete('/');
     // }

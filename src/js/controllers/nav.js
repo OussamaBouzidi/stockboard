@@ -39,7 +39,7 @@
       var userData = UserService.currentUserData;
       purchase.user = userData.displayName;
       purchase.status = 'Purchased';
-      UserService.addStockPurchase(userData._id, purchase)
+      UserService.addStockPurchase(purchase)
       .success(function(data) {
         console.log(data);
       })
@@ -51,7 +51,7 @@
       var userData = UserService.currentUserData;
       watch.user = userData.displayName;
       watch.status = 'Purchased';
-      UserService.addStockWatch(userData._id, watch)
+      UserService.addStockWatch(watch)
       .success(function(data) {
         console.log(data);
       })

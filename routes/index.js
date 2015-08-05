@@ -44,7 +44,7 @@ var StockToWatch = mongoose.model("StockWatch", {
   user: { type: String, required: true }
 })
 
-router.get('/users/:id/watches', function(req, res, next) {
+router.get('/watches', function(req, res, next) {
   StockToWatch.find().exec(function(err, userStocksToWatch) {
     if (err) {
       console.log(err);
@@ -54,7 +54,7 @@ router.get('/users/:id/watches', function(req, res, next) {
   })
 })
 
-router.post('/users/:id/watches', function(req, res, next) {
+router.post('/watches', function(req, res, next) {
   var newWatch = new StockToWatch(req.body);
   newWatch.save(function(err, savedStockToWatch) {
     if (err) {
@@ -74,7 +74,7 @@ var StockPurchase = mongoose.model("StockPurchase", {
   user: { type: String, required: true }
 })
 
-router.get('/users/:id/purchases', function(req, res, next) {
+router.get('/purchases', function(req, res, next) {
   StockPurchase.find().exec(function(err, purchases) {
     if (err) {
       console.log(err);
@@ -84,7 +84,7 @@ router.get('/users/:id/purchases', function(req, res, next) {
   })
 })
 
-router.post('/users/:id/purchases', function(req, res, next) {
+router.post('/purchases', function(req, res, next) {
   var newPurchase = new StockPurchase(req.body);
   newPurchase.save(function(err, savedPurchase) {
     if (err) {
@@ -92,6 +92,32 @@ router.post('/users/:id/purchases', function(req, res, next) {
       res.status(400).json({ error: "Validation Failed!" });
     }
     res.json(savedPurchase);
+  })
+})
+
+router.get('/purchases/:purchaseId', function(req, res, next) {
+  StockPurchase.findById(req.params.id, function(err, purchase) {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ error: "Could not read purchase data" });
+    }
+    if (!purchase) {
+      res.status(404);
+    }
+    res.json({ message: "Stock purchase deleted!" });
+  })
+})
+
+router.delete('/purchases/:purchaseId', function(req, res, next) {
+  StockPurchase.findOneAndRemove({ _id: req.params.id}, function(err, purchase) {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ error: "Could not read purchase data" });
+    }
+    if (!purchase) {
+      res.status(404);
+    }
+    res.json({ message: "Stock purchase deleted!" });
   })
 })
 

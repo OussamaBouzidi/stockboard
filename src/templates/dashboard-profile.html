@@ -29,23 +29,25 @@
           <th>Total</th>
           <th>Status</th>
           <th>Edit</th>
+          <th>Delete</th>
           <th>Sell</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="stock in stocks">
-          <td>{{stock.name}}</td>
-          <td>{{stock.symbol}}</td>
-          <td>{{stock.priceBought.toFixed(2)}}</td>
-          <td>{{stock.shares}}</td>
-          <td>{{stock.priceBought.toFixed(2) * stock.shares}}</td>
-          <td>{{stock.status}}</td>
+        <tr ng-repeat="stockPurchased in stocksPurchased">
+          <td>{{stockPurchased.name}}</td>
+          <td>{{stockPurchased.symbol}}</td>
+          <td>{{stockPurchased.priceBought.toFixed(2)}}</td>
+          <td>{{stockPurchased.shares}}</td>
+          <td>{{stockPurchased.priceBought.toFixed(2) * stockPurchased.shares}}</td>
+          <td>{{stockPurchased.status}}</td>
           <td><button class="btn btn-edit" data-toggle="modal" data-target="#editPurchasedModal">Edit</button></td>
+          <td><button class="btn btn-delete" ng-click="deleteStockPurchase(stockPurchased._id)">Delete</button></td>
           <td><button class="btn btn-sell" data-toggle="modal" data-target="#sellModal">Sell</button></td>
         </tr>
       </tbody>
     </table>
-    <h4 class="dashboard-content">Sold</h4>
+    <!-- <h4 class="dashboard-content">Sold</h4>
     <table class="table profile-table">
       <thead>
         <tr>
@@ -67,7 +69,7 @@
           <td><button class="btn btn-edit" data-toggle="modal" data-target="#editSoldModal">Edit</button></td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
   </div>
 </div>
 <div class="modal fade" id="editPurchasedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -82,26 +84,26 @@
         <h3 class="text-center">Edit Purchased Form</h3>
         <form action="" class="form-group">
           <div class="input-group">
-            <span class="input-group-addon">Name</span>
-            <input type="text" class="form-control" ng-model="stock.name" required placeholder="Name">
+            <span class="input-group-addon">Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" class="form-control" ng-model="stockPurchasedUpdate.name" required placeholder="Name">
           </div>
           <div class="input-group">
-            <span class="input-group-addon">Symbol</span>
-            <input type="text" class="form-control" ng-model="stock.symbol" required>
+            <span class="input-group-addon">Symbol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" class="form-control" ng-model="stockPurchasedUpdate.symbol" required>
           </div>
           <div class="input-group">
-            <span class="input-group-addon">Price</span>
-            <input type="text" class="form-control" ng-model="stock.priceBought" required placeholder="Price">
+            <span class="input-group-addon">Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" class="form-control" ng-model="stockPurchasedUpdate.priceBought" required placeholder="Price">
           </div>
           <div class="input-group">
             <span class="input-group-addon">Shares Bought</span>
-            <input type="text" class="form-control" ng-model="stock.shares"required placeholder="Shares Bought">
+            <input type="text" class="form-control" ng-model="stockPurchasedUpdate.shares"required placeholder="Shares Bought">
           </div>          
         </form>
       </div>
       <div class="modal-footer">
         <button class="btn">Submit Edit</button>
-        <button class="btn">Delete Stock Purchased</button>
+        <button class="btn" ng-click="deleteStockPurchase(stock._id)">Delete Stock Purchased</button>
       </div>
     </div>
   </div>

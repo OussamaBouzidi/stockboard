@@ -28508,14 +28508,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
 
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
-
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -28688,7 +28680,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     UserService.getAllUserStockPurchases(UserService.getCurrentUser._id)
     .success(function(data) {
       //filter through stocks pulled for individuals stocks
-      $scope.stocks = data.filter(function(stock) {
+      $scope.stocksPurchased = data.filter(function(stock) {
         if (stock.user === $scope.userData.displayName) {
           return stock;
         }
@@ -28697,20 +28689,20 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       $scope.totalExpenditure = $scope.stocks.reduce(function(total, price) {
         return Number(total) + Number(price.shares * price.priceBought);
       }, 0).toFixed(2);
-
-      // data.forEach(function(stock) {
-      //   StockPriceService.getStockQuote()
-      //   .success(function(data) {
-      //     console.log(data);
-      //   })
-      //   .catch(function(error) {
-      //     console.error(error);
-      //   })      
-      // })
     })
     .catch(function(error) {
       console.error(error);
     })
+    $scope.deleteStockPurchase = function(stockId) {
+
+      UserService.deleteStockPurchase($scope.userData._id, stockId)
+      .success(function(data) {
+        console.log('successfully deleted stock');
+      })
+      .catch(function(error) {
+        console.log(error);
+      })
+    }
   });
 })();
 
@@ -28828,7 +28820,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       var userData = UserService.currentUserData;
       purchase.user = userData.displayName;
       purchase.status = 'Purchased';
-      UserService.addStockPurchase(userData._id, purchase)
+      UserService.addStockPurchase(purchase)
       .success(function(data) {
         console.log(data);
       })
@@ -28840,7 +28832,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       var userData = UserService.currentUserData;
       watch.user = userData.displayName;
       watch.status = 'Purchased';
-      UserService.addStockWatch(userData._id, watch)
+      UserService.addStockWatch(watch)
       .success(function(data) {
         console.log(data);
       })
@@ -28857,6 +28849,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     console.log('This is the register page');
   });
 })();
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
 (function() {
   'use strict';
   angular.module('stockboard.models', [
@@ -28901,24 +28901,24 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       this.loggedIn = false;
       return $http.get('/logout');
     };    
-    this.addStockPurchase = function(userId, purchase) {
-      return $http.post('/users/' + userId + '/purchases', purchase);
+    this.addStockPurchase = function(purchase) {
+      return $http.post('/purchases', purchase);
     };
-    this.addStockWatch = function(userId, watch) {
-      return $http.post('/users/' + userId + '/watches', watch);
+    this.addStockWatch = function(watch) {
+      return $http.post('/watches', watch);
     };
-    this.getAllUserStockPurchases = function(userId) {
-      return $http.get('/users/' + userId + '/purchases');
+    this.getAllUserStockPurchases = function() {
+      return $http.get('/purchases');
     };
-    this.getAllUserStockWatches = function(userId) {
-      return $http.get('/users/' + userId + '/watches');
+    this.getAllUserStockWatches = function() {
+      return $http.get('/watches');
     };
     // this.editPurchase = function() {
     //   return $http.patch('/');
     // }
-    // this.deletePurchase = function() {
-    //   return $http.delete('/');
-    // }
+    this.deleteStockPurchase = function(watchId) {
+      return $http.delete('/purchases/' + watchId);
+    }
     // this.deleteWatch = function() {
     //   return $http.delete('/');
     // }
