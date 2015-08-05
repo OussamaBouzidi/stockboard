@@ -28439,70 +28439,70 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   'use strict';
-
-  angular.module('stockboard.config', [
-    'stockboard.config.routes',
-    'stockboard.config.constants'
+  angular.module('stockboard.models', [
+    'stockboard.models.user',
+    'stockboard.models.stockHistory',
+    'stockboard.models.stockPrice'
   ]);
 })();
 
 (function() {
-  'use strict';
-  angular.module('stockboard.config.constants', [])
-    .constant("BASE_URL", "http:localhost:3000")
+  angular.module('stockboard.models.stockHistory', [])
+  .factory('StockHistoryService', function($http, BASE_URL) {
+    return {
+      getStockHistory: function(stockSymbol) {
+        return $http.jsonp('http://dev.markitondemand.com/Api/v2/InteractiveChart/jsonp?parameters=%7B%22Normalized%22%3Afalse%2C%22NumberOfDays%22%3A1825%2C%22DataPeriod%22%3A%22Day%22%2C%22Elements%22%3A%5B%7B%22Symbol%22%3A%22' + stockSymbol + '%22%2C%22Type%22%3A%22price%22%2C%22Params%22%3A%5B%22c%22%5D%7D%5D%7D&callback=JSON_CALLBACK');
+      }
+    }
+  });
 })();
 
 (function() {
-  'use strict';
-  angular.module('stockboard.config.routes', [])
-    .config(function($urlRouterProvider, $locationProvider, $stateProvider) {
-      $urlRouterProvider.otherwise('/');
-      $stateProvider
-        .state('home', {
-          url: '/',
-          templateUrl: 'templates/home.html',
-          controller: 'HomeCtrl'
-        })
-        .state('dashboard', {
-          url: '/dashboard/:hash',
-          templateUrl: 'templates/dashboard.html',
-          controller: 'DashboardCtrl'
-        })
-        .state('dashboard.profile', {
-          url: 'profile',
-          templateUrl: 'templates/dashboard-profile.html',
-          controller: 'DashboardProfileCtrl'
-        })
-        .state('dashboard.portfolio', {
-          url: 'portfolio',
-          templateUrl: 'templates/dashboard-portfolio.html',
-          controller: 'DashboardPortfolioCtrl'
-        })
-        .state('dashboard.stocks', {
-          url: 'stocks',
-          templateUrl: 'templates/dashboard-stocks.html',
-          controller: 'DashboardStocksCtrl'
-        })
-        .state('dashboard.analytics', {
-          url: 'analytics',
-          templateUrl: 'templates/dashboard-analytics.html',
-          controller: 'DashboardAnalyticsCtrl'
-        })
-        .state('login', {
-          url: '/login',
-          templateUrl: 'templates/login.html',
-          controller: 'LoginCtrl'
-        })
-        .state('register', {
-          url: '/register',
-          templateUrl: 'templates/registration.html',
-          controller: 'RegisterCtrl'
-        });
-      $locationProvider.html5Mode({
-        enabled: false,
-        requireBase: false
-      });
-    });
+  angular.module('stockboard.models.stockPrice', [])
+  .factory('StockPriceService', function($http) {
+    return {
+      getStockQuote: function (stockSymbol) {
+        return $http.jsonp('http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=' + stockSymbol + '&callback=JSON_CALLBACK');
+      }
+    }
+  });
+})();
+
+(function() {
+  angular.module('stockboard.models.user', [])
+  .service('UserService', function($http, BASE_URL) {
+    this.currentUserData;
+    this.loggedIn = false;
+    this.getCurrentUser = function() {
+      return $http.get('/currentuser');
+    };
+    this.logoutCurrentUser = function() {
+      this.currentUserData = {};
+      this.loggedIn = false;
+      return $http.get('/logout');
+    };    
+    this.addStockPurchase = function(purchase) {
+      return $http.post('/purchases', purchase);
+    };
+    this.addStockWatch = function(watch) {
+      return $http.post('/watches', watch);
+    };
+    this.getAllUserStockPurchases = function() {
+      return $http.get('/purchases');
+    };
+    this.getAllUserStockWatches = function() {
+      return $http.get('/watches');
+    };
+    // this.editPurchase = function() {
+    //   return $http.patch('/');
+    // }
+    this.deleteStockPurchase = function(purchaseId) {
+      return $http.delete('/purchases/' + purchaseId);
+    }
+    // this.deleteWatch = function() {
+    //   return $http.delete('/');
+    // }
+  });
 })();
 
 (function() {
@@ -28814,19 +28814,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       var watch = {
         name: purchase.name,
         symbol: purchase.symbol,
-        user: userData.displayName
+        user: userData.displayName,
+        hash: userData._id + this.symbol
       }
       UserService.addStockPurchase(purchase)
-      .success(function(data) {
-        console.log(data);
-        $state.reload();
-      })
-      .catch(function(error) {
-        console.error(error);
-      })
+      .success(function(data) {})
+      .catch(function(error) { console.error(error); })
       UserService.addStockWatch(watch)
       .success(function(data) {
-        console.log(data);
         $state.reload();
       })
       .catch(function(error) {
@@ -28836,6 +28831,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     $scope.saveStockWatch = function(watch) {
       var userData = UserService.currentUserData;
       watch.user = userData.displayName;
+      watch.hash = userData._id + watch.symbol
       UserService.addStockWatch(watch)
       .success(function(data) {
         $state.reload();
@@ -28869,70 +28865,70 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 })();
 (function() {
   'use strict';
-  angular.module('stockboard.models', [
-    'stockboard.models.user',
-    'stockboard.models.stockHistory',
-    'stockboard.models.stockPrice'
+
+  angular.module('stockboard.config', [
+    'stockboard.config.routes',
+    'stockboard.config.constants'
   ]);
 })();
 
 (function() {
-  angular.module('stockboard.models.stockHistory', [])
-  .factory('StockHistoryService', function($http, BASE_URL) {
-    return {
-      getStockHistory: function(stockSymbol) {
-        return $http.jsonp('http://dev.markitondemand.com/Api/v2/InteractiveChart/jsonp?parameters=%7B%22Normalized%22%3Afalse%2C%22NumberOfDays%22%3A1825%2C%22DataPeriod%22%3A%22Day%22%2C%22Elements%22%3A%5B%7B%22Symbol%22%3A%22' + stockSymbol + '%22%2C%22Type%22%3A%22price%22%2C%22Params%22%3A%5B%22c%22%5D%7D%5D%7D&callback=JSON_CALLBACK');
-      }
-    }
-  });
+  'use strict';
+  angular.module('stockboard.config.constants', [])
+    .constant("BASE_URL", "http:localhost:3000")
 })();
 
 (function() {
-  angular.module('stockboard.models.stockPrice', [])
-  .factory('StockPriceService', function($http) {
-    return {
-      getStockQuote: function (stockSymbol) {
-        return $http.jsonp('http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=' + stockSymbol + '&callback=JSON_CALLBACK');
-      }
-    }
-  });
-})();
-
-(function() {
-  angular.module('stockboard.models.user', [])
-  .service('UserService', function($http, BASE_URL) {
-    this.currentUserData;
-    this.loggedIn = false;
-    this.getCurrentUser = function() {
-      return $http.get('/currentuser');
-    };
-    this.logoutCurrentUser = function() {
-      this.currentUserData = {};
-      this.loggedIn = false;
-      return $http.get('/logout');
-    };    
-    this.addStockPurchase = function(purchase) {
-      return $http.post('/purchases', purchase);
-    };
-    this.addStockWatch = function(watch) {
-      return $http.post('/watches', watch);
-    };
-    this.getAllUserStockPurchases = function() {
-      return $http.get('/purchases');
-    };
-    this.getAllUserStockWatches = function() {
-      return $http.get('/watches');
-    };
-    // this.editPurchase = function() {
-    //   return $http.patch('/');
-    // }
-    this.deleteStockPurchase = function(purchaseId) {
-      return $http.delete('/purchases/' + purchaseId);
-    }
-    // this.deleteWatch = function() {
-    //   return $http.delete('/');
-    // }
-  });
+  'use strict';
+  angular.module('stockboard.config.routes', [])
+    .config(function($urlRouterProvider, $locationProvider, $stateProvider) {
+      $urlRouterProvider.otherwise('/');
+      $stateProvider
+        .state('home', {
+          url: '/',
+          templateUrl: 'templates/home.html',
+          controller: 'HomeCtrl'
+        })
+        .state('dashboard', {
+          url: '/dashboard/:hash',
+          templateUrl: 'templates/dashboard.html',
+          controller: 'DashboardCtrl'
+        })
+        .state('dashboard.profile', {
+          url: 'profile',
+          templateUrl: 'templates/dashboard-profile.html',
+          controller: 'DashboardProfileCtrl'
+        })
+        .state('dashboard.portfolio', {
+          url: 'portfolio',
+          templateUrl: 'templates/dashboard-portfolio.html',
+          controller: 'DashboardPortfolioCtrl'
+        })
+        .state('dashboard.stocks', {
+          url: 'stocks',
+          templateUrl: 'templates/dashboard-stocks.html',
+          controller: 'DashboardStocksCtrl'
+        })
+        .state('dashboard.analytics', {
+          url: 'analytics',
+          templateUrl: 'templates/dashboard-analytics.html',
+          controller: 'DashboardAnalyticsCtrl'
+        })
+        .state('login', {
+          url: '/login',
+          templateUrl: 'templates/login.html',
+          controller: 'LoginCtrl'
+        })
+        .state('register', {
+          url: '/register',
+          templateUrl: 'templates/registration.html',
+          controller: 'RegisterCtrl'
+        });
+      $locationProvider.html5Mode({
+        enabled: false,
+        requireBase: false
+      });
+    });
 })();
 
 (function() {

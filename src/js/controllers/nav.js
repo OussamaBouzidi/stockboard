@@ -33,19 +33,14 @@
       var watch = {
         name: purchase.name,
         symbol: purchase.symbol,
-        user: userData.displayName
+        user: userData.displayName,
+        hash: userData._id + this.symbol
       }
       UserService.addStockPurchase(purchase)
-      .success(function(data) {
-        console.log(data);
-        $state.reload();
-      })
-      .catch(function(error) {
-        console.error(error);
-      })
+      .success(function(data) {})
+      .catch(function(error) { console.error(error); })
       UserService.addStockWatch(watch)
       .success(function(data) {
-        console.log(data);
         $state.reload();
       })
       .catch(function(error) {
@@ -55,6 +50,7 @@
     $scope.saveStockWatch = function(watch) {
       var userData = UserService.currentUserData;
       watch.user = userData.displayName;
+      watch.hash = userData._id + watch.symbol
       UserService.addStockWatch(watch)
       .success(function(data) {
         $state.reload();
