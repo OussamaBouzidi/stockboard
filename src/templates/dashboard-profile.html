@@ -10,7 +10,7 @@
       </div>
       <hr width="90%">
       <div class="card-action text-center">
-        <a href="#" target="new_blank">Link</a>
+        <p class="dashboard-content">Total Expenditure: {{totalExpenditure}}</p>
         <a href="#" target="new_blank">Link</a>
         <a href="#" target="new_blank">Link</a>
         <a href="#" target="new_blank">Link</a>
@@ -79,13 +79,24 @@
         </button>
       </div>
       <div class="modal-body">
-        <h3>Edit Purchased Form</h3>
-        <form action="" class="input-group">
-          <input type="text" class="form-control" placeholder="Name">
-          <input type="text" class="form-control" placeholder="Symbol">
-          <input type="text" class="form-control" placeholder="Price">
-          <input type="text" class="form-control" placeholder="Shares Bought">
-          <input type="text" class="form-control" placeholder="Total">
+        <h3 class="text-center">Edit Purchased Form</h3>
+        <form action="" class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon">Name</span>
+            <input type="text" class="form-control" ng-model="stock.name" required placeholder="Name">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Symbol</span>
+            <input type="text" class="form-control" ng-model="stock.symbol" required>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Price</span>
+            <input type="text" class="form-control" ng-model="stock.priceBought" required placeholder="Price">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Shares Bought</span>
+            <input type="text" class="form-control" ng-model="stock.shares"required placeholder="Shares Bought">
+          </div>          
         </form>
       </div>
       <div class="modal-footer">
@@ -104,11 +115,11 @@
         </button>
       </div>
       <div class="modal-body">
-        <h3>Edit Sold Form</h3>
-        <form action="" class="input-group">
-          <input type="text" class="form-control" placeholder="Name">
-          <input type="text" class="form-control" placeholder="Symbol">
-          <input type="text" class="form-control" placeholder="Price">        
+        <h3 class="text-center">Edit Sold Form</h3>
+        <form action="" class="form-group">
+          <input type="text" class="form-control" required placeholder="Name">
+          <input type="text" class="form-control" required placeholder="Symbol">
+          <input type="text" class="form-control" required placeholder="Price">        
         </form>
       </div>
       <div class="modal-footer">
@@ -127,12 +138,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <h3>Sell Form</h3>
-        <h5>Stock Name</h5>
-        <h5>Stock Symbol</h5>
-        <form action="" class="input-group">
-          <input type="text" class="form-control" placeholder="Shares sold">
-          <input type="text" class="form-control" placeholder="Price">         
+        <h3 class="text-center">Sell Form</h3>
+        <form action="" class="form-group">
+          <input type="text" class="form-control" required placeholder="Shares sold">
+          <input type="text" class="form-control" required placeholder="Price">         
         </form>
       </div>
       <div class="modal-footer">
