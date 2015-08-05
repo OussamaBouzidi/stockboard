@@ -1,6 +1,6 @@
 (function() {
   angular.module('stockboard.controllers.dashboardProfile', [])
-  .controller('DashboardProfileCtrl', function($scope, UserService, StockPriceService) {
+  .controller('DashboardProfileCtrl', function($scope, $state, UserService, StockPriceService) {
     $scope.userData = UserService.currentUserData;
     UserService.getAllUserStockPurchases(UserService.getCurrentUser._id)
     .success(function(data) {
@@ -19,10 +19,11 @@
       console.error(error);
     })
     $scope.deleteStockPurchase = function(stockId) {
-
-      UserService.deleteStockPurchase($scope.userData._id, stockId)
+      console.log(stockId);
+      UserService.deleteStockPurchase(stockId)
       .success(function(data) {
         console.log('successfully deleted stock');
+        $state.reload();
       })
       .catch(function(error) {
         console.log(error);

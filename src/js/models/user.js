@@ -26,8 +26,8 @@
     // this.editPurchase = function() {
     //   return $http.patch('/');
     // }
-    this.deleteStockPurchase = function(watchId) {
-      return $http.delete('/purchases/' + watchId);
+    this.deleteStockPurchase = function(purchaseId) {
+      return $http.delete('/purchases/' + purchaseId);
     }
     // this.deleteWatch = function() {
     //   return $http.delete('/');

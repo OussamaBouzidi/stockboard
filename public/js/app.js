@@ -28524,22 +28524,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   angular.module('stockboard.controllers.dashboard', [])
   .controller('DashboardCtrl', function($scope) {
-    console.log('This is the dashboard');
-    $scope.stocks = [
-    {name: 'AAPL', price: '53.49', change: '+0.30'},
-    {name: 'AAPL', price: '13.43', change: '+0.39'},
-    {name: 'AAPL', price: '33.23', change: '+0.34'},
-    {name: 'AAPL', price: '45.95', change: '+0.32'},
-    {name: 'AAPL', price: '8.40', change: '+0.12'},
-    {name: 'AAPL', price: '24.62', change: '+0.35'}
-    ];
+
   });
 })();
 
 (function() {
   angular.module('stockboard.controllers.dashboardAnalytics', [])
   .controller('DashboardAnalyticsCtrl', function() {
-    console.log('This is the dashboard-analytics');
+
   });
 })();
 
@@ -28675,7 +28667,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   angular.module('stockboard.controllers.dashboardProfile', [])
-  .controller('DashboardProfileCtrl', function($scope, UserService, StockPriceService) {
+  .controller('DashboardProfileCtrl', function($scope, $state, UserService, StockPriceService) {
     $scope.userData = UserService.currentUserData;
     UserService.getAllUserStockPurchases(UserService.getCurrentUser._id)
     .success(function(data) {
@@ -28694,10 +28686,11 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       console.error(error);
     })
     $scope.deleteStockPurchase = function(stockId) {
-
-      UserService.deleteStockPurchase($scope.userData._id, stockId)
+      console.log(stockId);
+      UserService.deleteStockPurchase(stockId)
       .success(function(data) {
         console.log('successfully deleted stock');
+        $state.reload();
       })
       .catch(function(error) {
         console.log(error);
@@ -28804,18 +28797,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         console.log('failed logging out');
       })
     }
-    $scope.recordStockWatch = function() {
-      $scope.recordWatch = true;
-      $scope.recordPurchase = false;
-    }
-    $scope.recordStockPurchase = function() {
-      $scope.recordPurchase = true;
-      $scope.recordWatch = false;
-    }
-    $scope.modalClose = function() {
-      $scope.recordPurchase = null;
-      $scope.recordWatch = null;
-    }
     $scope.saveStockPurchase = function(purchase) {
       var userData = UserService.currentUserData;
       purchase.user = userData.displayName;
@@ -28823,6 +28804,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       UserService.addStockPurchase(purchase)
       .success(function(data) {
         console.log(data);
+        $state.reload();
       })
       .catch(function(error) {
         console.error(error);
@@ -28835,10 +28817,25 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       UserService.addStockWatch(watch)
       .success(function(data) {
         console.log(data);
+        $state.reload();
       })
       .catch(function(error) {
         console.error(error);
       })
+    }
+
+    // Add Modal state rendering logic
+    $scope.recordStockWatch = function() {
+      $scope.recordWatch = true;
+      $scope.recordPurchase = false;
+    }
+    $scope.recordStockPurchase = function() {
+      $scope.recordPurchase = true;
+      $scope.recordWatch = false;
+    }
+    $scope.modalClose = function() {
+      $scope.recordPurchase = null;
+      $scope.recordWatch = null;
     }
   });
 })();
@@ -28849,14 +28846,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     console.log('This is the register page');
   });
 })();
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
 (function() {
   'use strict';
   angular.module('stockboard.models', [
@@ -28916,11 +28905,19 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     // this.editPurchase = function() {
     //   return $http.patch('/');
     // }
-    this.deleteStockPurchase = function(watchId) {
-      return $http.delete('/purchases/' + watchId);
+    this.deleteStockPurchase = function(purchaseId) {
+      return $http.delete('/purchases/' + purchaseId);
     }
     // this.deleteWatch = function() {
     //   return $http.delete('/');
     // }
   });
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
 })();

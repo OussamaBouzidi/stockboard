@@ -95,7 +95,7 @@ router.post('/purchases', function(req, res, next) {
   })
 })
 
-router.get('/purchases/:purchaseId', function(req, res, next) {
+router.get('/purchases/:id', function(req, res, next) {
   StockPurchase.findById(req.params.id, function(err, purchase) {
     if (err) {
       console.log(err);
@@ -104,21 +104,21 @@ router.get('/purchases/:purchaseId', function(req, res, next) {
     if (!purchase) {
       res.status(404);
     }
-    res.json({ message: "Stock purchase deleted!" });
+    res.json(purchase);
   })
 })
 
-router.delete('/purchases/:purchaseId', function(req, res, next) {
-  StockPurchase.findOneAndRemove({ _id: req.params.id}, function(err, purchase) {
+router.delete('/purchases/:id', function(req, res) {
+  StockPurchase.findOneAndRemove({ _id: req.params.id }).exec(function(err, purchase) {
     if (err) {
       console.log(err);
-      res.status(400).json({ error: "Could not read purchase data" });
+      res.status(400).json({ error: "Could not read purchased data" });
     }
     if (!purchase) {
       res.status(404);
     }
-    res.json({ message: "Stock purchase deleted!" });
-  })
+    res.json({message: 'purchase deleted'});
+  });
 })
 
 router.get('/currentuser', function(req, res) {
