@@ -28429,12 +28429,41 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
   angular.module('stockboard', [
     'ui.bootstrap',
+    'ui.bootstrap.demo',
     'ui.router',
     'stockboard.config',
     'stockboard.controllers',
     'stockboard.models',
     'stockboard.directives'
   ]);
+
+  angular.module('ui.bootstrap.demo', [])
+  .controller('AccordionDemoCtrl', function ($scope) {
+  $scope.oneAtATime = true;
+
+  $scope.groups = [
+    {
+      title: 'Dynamic Group Header - 1',
+      content: 'Dynamic Group Body - 1'
+    },
+    {
+      title: 'Dynamic Group Header - 2',
+      content: 'Dynamic Group Body - 2'
+    }
+  ];
+
+  $scope.items = ['Item 1', 'Item 2', 'Item 3'];
+
+  $scope.addItem = function() {
+    var newItemNo = $scope.items.length + 1;
+    $scope.items.push('Item ' + newItemNo);
+  };
+
+  $scope.status = {
+    isFirstOpen: true,
+    isFirstDisabled: false
+  };
+});
 })();
 
 (function() {
@@ -28503,6 +28532,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         requireBase: false
       });
     });
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
 })();
 
 (function() {
@@ -28674,7 +28711,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     // grab user stock information
     UserService.getAllUserStockPurchases(UserService.getCurrentUser._id)
     .success(function(data) {
-      //filter through stocks pulled for individuals stocks and render to DOM
+      // filter through stocks pulled for individuals stocks and render to DOM
       $scope.stocksPurchased = data.filter(function(stock) {
         if (stock.user === $scope.userData.displayName) {
           return stock;
@@ -28692,7 +28729,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     // Event-listener functions
     // Delete stock purchase -- on click
     $scope.deleteStockPurchase = function(stockId) {
-      console.log(stockId);
       UserService.deleteStockPurchase(stockId)
       .success(function(data) {
         console.log('successfully deleted stock');
@@ -28703,6 +28739,8 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       })
     }
     // Edit stock purchase -- on click
+
+    
   });
 })();
 
@@ -28870,14 +28908,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     console.log('This is the register page');
   });
 })();
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
 (function() {
   'use strict';
   angular.module('stockboard.models', [

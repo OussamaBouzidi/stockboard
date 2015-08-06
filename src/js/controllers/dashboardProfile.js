@@ -7,7 +7,7 @@
     // grab user stock information
     UserService.getAllUserStockPurchases(UserService.getCurrentUser._id)
     .success(function(data) {
-      //filter through stocks pulled for individuals stocks and render to DOM
+      // filter through stocks pulled for individuals stocks and render to DOM
       $scope.stocksPurchased = data.filter(function(stock) {
         if (stock.user === $scope.userData.displayName) {
           return stock;
@@ -25,7 +25,6 @@
     // Event-listener functions
     // Delete stock purchase -- on click
     $scope.deleteStockPurchase = function(stockId) {
-      console.log(stockId);
       UserService.deleteStockPurchase(stockId)
       .success(function(data) {
         console.log('successfully deleted stock');
@@ -36,5 +35,7 @@
       })
     }
     // Edit stock purchase -- on click
+
+    
   });
 })();
