@@ -2,6 +2,7 @@
   angular.module('stockboard.controllers.dashboardProfile', [])
   .controller('DashboardProfileCtrl', function($scope, $state, UserService, StockPriceService) {
     // On page state load
+    $scope.isCollapsed = true;
     // grab the user data and render to DOM 
     $scope.userData = UserService.currentUserData;
     // grab user stock information
@@ -36,6 +37,6 @@
     }
     // Edit stock purchase -- on click
 
-    
+
   });
 })();
