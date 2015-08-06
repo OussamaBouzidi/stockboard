@@ -27,11 +27,14 @@ Redo purchased model so that includes sold price and shares sold
 On click of historical graph, pull up current data of Stock
 
 
+Task List
+- 
+
+
 
 BIG TASK
 
 Integate sentiment analysis based on twitter feed into stocks with sentiment API
-
 
 
 
@@ -45,3 +48,8 @@ Add button on watches to Delete -- COMPLETED
 
 Add accordion to certain pages -- COMPLETED
   - Profile
+
+Add total dollars profit to portfolio page -- COMPLETED
+
+
+

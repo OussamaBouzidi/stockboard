@@ -9,6 +9,11 @@
         }
       })
     }
+    var purchaseSoldFilter = function(stock, status) {
+      if (stock.status === status) {
+        return stock;
+      }
+    }
     // On page state load
     $scope.isCollapsed = true;
     // grab the user data and render to DOM 
@@ -28,11 +33,24 @@
     UserService.getAllUserStockPurchases($scope.userData._id)
     .success(function(data) {
       // filter through stocks pulled for individuals stocks and render to DOM
-      $scope.stocksPurchased = data.filter(function(stock) {
+      $scope.stocks = data.filter(function(stock) {
         if (stock.user === $scope.userData.displayName) {
           return stock;
         }
       });
+      console.log($scope.stocks);
+      $scope.stocksPurchased = $scope.stocks.filter(function(stock) {
+        if (stock.status === 'Purchased') {
+          return stock;
+        }
+      })
+      console.log($scope.stocksPurchased);
+      $scope.stocksSold = $scope.stocks.filter(function(stock) {
+        if (stock.status === 'Sold') {
+          return stock;
+        }
+      })
+      console.log($scope.stocksSold);
       // calculate total expenditure and render to DOM
       $scope.totalExpenditure = $scope.stocksPurchased.reduce(function(total, price) {
         return Number(total) + Number(price.shares * price.priceBought);
@@ -54,9 +72,24 @@
         console.log(error);
       })
     }
+    // Delete stock watch -- on click
+    $scope.deleteWatchedStock = function(stockId) {
+      UserService.deleteStockWatch(stockId)
+      .success(function(data) {
+        console.log('successfully deleted stock watch!');
+        $state.reload();
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
+    }
     // Edit stock purchase -- on click
+    $scope.editStock = function(stockId) {
 
+    }
     // Sell stock
-    
+    $scope.sellStock = function(stockId) {
+
+    }
   });
 })();

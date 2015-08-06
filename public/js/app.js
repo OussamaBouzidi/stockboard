@@ -28544,13 +28544,11 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       pieChartExpenditureData = [];
       barChartPercentData = [];
       barChartDollarsData = [];
-
       stocksData = data.filter(function(stock) {
         if (stock.user === userData.displayName) {
           return stock;
         }
       });
-
       $scope.totalExpenditure = stocksData.reduce(function(total, price) {
         return Number(total) + Number(price.shares * price.priceBought);
       }, 0).toFixed(2);
@@ -28561,8 +28559,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
                             y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
                           })
       })
-      chartRenders.pieChartRender();
-
+      chartRenders.pieChartExpenditureRender();
       stocksData.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
         .success(function(data) {
@@ -28571,6 +28568,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
           );
           barChartDollarsData.push(
             [stock.symbol, Number(((data.LastPrice * stock.shares) - (stock.priceBought * stock.shares)).toFixed(2))]
+          );
           chartRenders.barChartSort(barChartPercentData, 'percent', true);
           chartRenders.barChartSort(barChartDollarsData, 'percent', true);
           chartRenders.barChartPercentRender();
@@ -28661,7 +28659,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
           }]
         });
       },
-      pieChartRender: function() {
+      pieChartExpenditureRender: function() {
         $('#expenditure-pie').highcharts({
           chart: {
             plotBackgroundColor: null,
@@ -28688,7 +28686,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
           series: [{
             name: "Brands",
             colorByPoint: true,
-            data: pieChartData
+            data: pieChartExpenditureData
           }]      
         })
       }
@@ -28706,6 +28704,11 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
           return stock;
         }
       })
+    }
+    var purchaseSoldFilter = function(stock, status) {
+      if (stock.status === status) {
+        return stock;
+      }
     }
     // On page state load
     $scope.isCollapsed = true;
@@ -28726,11 +28729,24 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     UserService.getAllUserStockPurchases($scope.userData._id)
     .success(function(data) {
       // filter through stocks pulled for individuals stocks and render to DOM
-      $scope.stocksPurchased = data.filter(function(stock) {
+      $scope.stocks = data.filter(function(stock) {
         if (stock.user === $scope.userData.displayName) {
           return stock;
         }
       });
+      console.log($scope.stocks);
+      $scope.stocksPurchased = $scope.stocks.filter(function(stock) {
+        if (stock.status === 'Purchased') {
+          return stock;
+        }
+      })
+      console.log($scope.stocksPurchased);
+      $scope.stocksSold = $scope.stocks.filter(function(stock) {
+        if (stock.status === 'Sold') {
+          return stock;
+        }
+      })
+      console.log($scope.stocksSold);
       // calculate total expenditure and render to DOM
       $scope.totalExpenditure = $scope.stocksPurchased.reduce(function(total, price) {
         return Number(total) + Number(price.shares * price.priceBought);
@@ -28752,10 +28768,25 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         console.log(error);
       })
     }
+    // Delete stock watch -- on click
+    $scope.deleteWatchedStock = function(stockId) {
+      UserService.deleteStockWatch(stockId)
+      .success(function(data) {
+        console.log('successfully deleted stock watch!');
+        $state.reload();
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
+    }
     // Edit stock purchase -- on click
+    $scope.editStock = function(stockId) {
 
+    }
     // Sell stock
-    
+    $scope.sellStock = function(stockId) {
+
+    }
   });
 })();
 

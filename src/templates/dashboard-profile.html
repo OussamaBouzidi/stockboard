@@ -67,17 +67,17 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <h4 class="dashboard-content">Sold Stocks</h4>
+<!--       </div>
+      <div class="col-md-6"> -->
+        <h4 class="dashboard-content" style="padding-top: 230px;">Sold Stocks</h4>
         <div class=" col-md-12 graph-card">
-          <div class="panel panel-default" ng-repeat="stockPurchased in stocksPurchased">
+          <div class="panel panel-default" ng-repeat="stockSold in stocksSold">
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a class="accordion-title" href="#" ng-click="isCollapsed = !isCollapsed">
-                  <p class="accordion-title" style="display: inline;">{{stockPurchased.symbol}} &nbsp;&mdash;&nbsp; {{stockPurchased.name}}</p>
+                  <p class="accordion-title" style="display: inline;">{{stockSold.symbol}} &nbsp;&mdash;&nbsp; {{stockSold.name}}</p>
                 </a>
-                <button class="btn btn-xs" style="display: inline; float: right; margin-top: 0;" ng-click="showInfo(stockPurchased._id)">Info</button>
+                <button class="btn btn-xs" style="display: inline; float: right; margin-top: 0;" ng-click="showInfo(stockSold._id)">Info</button>
               </h4>
             </div>
             <div collapse="isCollapsed">
@@ -92,9 +92,9 @@
                   </thead>
                   <tbody class="text-center">
                     <tr>
-                      <td class="accordion-content">{{stockPurchased.shares}}</td>
-                      <td class="accordion-content">{{stockPurchased.priceBought.toFixed(2)}}</td>
-                      <td class="accordion-content">{{stockPurchased.priceBought.toFixed(2) * stockPurchased.shares}}</td>
+                      <td class="accordion-content">{{stockSold.shares}}</td>
+                      <td class="accordion-content">{{stockSold.priceBought.toFixed(2)}}</td>
+                      <td class="accordion-content">{{stockSold.priceBought.toFixed(2) * stockSold.shares}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -112,7 +112,12 @@
             </div>
           </div>
         </div>
-      </div>      
+      </div>
+      <div class="col-md-6">
+        <h4 class="dashboard-content text-center">Stock Info</h4>
+        <div class="dashboard-content">Graph Here</div>
+        <div class="dashboard-content">Stock Information Here</div>
+      </div>
     </div>
   </div>
 </div>

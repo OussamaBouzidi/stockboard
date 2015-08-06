@@ -7,13 +7,11 @@
       pieChartExpenditureData = [];
       barChartPercentData = [];
       barChartDollarsData = [];
-
       stocksData = data.filter(function(stock) {
         if (stock.user === userData.displayName) {
           return stock;
         }
       });
-
       $scope.totalExpenditure = stocksData.reduce(function(total, price) {
         return Number(total) + Number(price.shares * price.priceBought);
       }, 0).toFixed(2);
@@ -24,8 +22,7 @@
                             y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
                           })
       })
-      chartRenders.pieChartRender();
-
+      chartRenders.pieChartExpenditureRender();
       stocksData.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
         .success(function(data) {
@@ -34,6 +31,7 @@
           );
           barChartDollarsData.push(
             [stock.symbol, Number(((data.LastPrice * stock.shares) - (stock.priceBought * stock.shares)).toFixed(2))]
+          );
           chartRenders.barChartSort(barChartPercentData, 'percent', true);
           chartRenders.barChartSort(barChartDollarsData, 'percent', true);
           chartRenders.barChartPercentRender();
@@ -124,7 +122,7 @@
           }]
         });
       },
-      pieChartRender: function() {
+      pieChartExpenditureRender: function() {
         $('#expenditure-pie').highcharts({
           chart: {
             plotBackgroundColor: null,
@@ -151,7 +149,7 @@
           series: [{
             name: "Brands",
             colorByPoint: true,
-            data: pieChartData
+            data: pieChartExpenditureData
           }]      
         })
       }

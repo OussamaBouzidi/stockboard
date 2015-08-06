@@ -25,7 +25,6 @@ passport.use(new GoogleStrategy({
   callbackURL: 'http://localhost:3000/auth/google/callback',
   passReqToCallback: true},
   function(req, accessToken, refreshToken, profile, done){
-    console.log(profile);
     User.findOne({ email: profile.emails[0].value }, function(error, user) {
       if (!user) {
         User.create({
