@@ -5,11 +5,13 @@
     var userData = UserService.currentUserData;
     UserService.getAllUserStockWatches(userData._id)
     .success(function(data) {
+      // grab all watches 
       stocksData = data.filter(function(stock) {
         if (stock.user === userData.displayName) {
           return stock;
         }
       });
+
       for (var i = 0; i < stocksData.length; i++) {
         graphDivs.push($('<div>').addClass('col-md-6 stock-line-graph').attr('id', 'graph' + i));
       }
@@ -48,11 +50,5 @@
     .catch(function(error) {
       console.error(error);
     })
-    // var stocksData = [{name: 'Apple', symbol: 'AAPL', shares: 101, priceBought: 122.4},
-    //                   {name: 'Google', symbol: 'GOOG', shares: 73, priceBought: 655.69},
-    //                   {name: 'Facebook', symbol: 'FB', shares: 245, priceBought: 96},
-    //                   {name: 'Bank of America', symbol: 'BAC', shares: 112, priceBought: 16.9},
-    //                   {name: 'SunEdison', symbol: 'SUNE', shares: 179, priceBought: 22.29},
-    //                   {name: 'Microsoft', symbol: 'MSFT', shares: 180, priceBought: 49.71}];
   });
 })();
