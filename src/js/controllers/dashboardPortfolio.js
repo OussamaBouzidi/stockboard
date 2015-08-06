@@ -4,8 +4,9 @@
     var userData = UserService.currentUserData;
     UserService.getAllUserStockPurchases(userData._id)
     .success(function(data) {
-      pieChartData = [];
-      barChartData = [];
+      pieChartExpenditureData = [];
+      barChartPercentData = [];
+      barChartDollarsData = [];
 
       stocksData = data.filter(function(stock) {
         if (stock.user === userData.displayName) {
@@ -18,7 +19,7 @@
       }, 0).toFixed(2);
 
       stocksData.forEach(function(stockData) {
-        pieChartData.push({ 
+        pieChartExpenditureData.push({ 
                             name: stockData.name,
                             y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
                           })
@@ -28,11 +29,15 @@
       stocksData.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
         .success(function(data) {
-          barChartData.push(
-            [stock.symbol, ((data.LastPrice - stock.priceBought)/stock.priceBought) * 100]
+          barChartPercentData.push(
+            [stock.symbol, Number((((data.LastPrice - stock.priceBought)/stock.priceBought) * 100).toFixed(4))]
           );
-          chartRenders.barChartSort(barChartData, 'percent', true);
-          chartRenders.barChartRender();
+          barChartDollarsData.push(
+            [stock.symbol, Number(((data.LastPrice * stock.shares) - (stock.priceBought * stock.shares)).toFixed(2))]
+          chartRenders.barChartSort(barChartPercentData, 'percent', true);
+          chartRenders.barChartSort(barChartDollarsData, 'percent', true);
+          chartRenders.barChartPercentRender();
+          chartRenders.barChartDollarsRender();
         })
         .catch(function(error) {
           console.error(error);
@@ -67,16 +72,16 @@
           }
         }        
       },
-      barChartRender: function() {
-        $('#expenditure-bar').highcharts({
+      barChartPercentRender: function() {
+        $('#expenditure-bar-percent').highcharts({
           chart: {
             type: 'column'
           },
           title: {
-            text: 'Stock Returns'
+            text: 'Current Potential Stock Returns (Percent)'
           },
           xAxis: {
-            categories: barChartData.map(function(stock) {
+            categories: barChartPercentData.map(function(stock) {
               return stock[0];
             })
           },
@@ -87,7 +92,33 @@
           },
           series: [{
             name: UserService.currentUserData.displayName,
-            data: barChartData.map(function(stock) {
+            data: barChartPercentData.map(function(stock) {
+              return stock[1];
+            })
+          }]
+        });
+      },
+      barChartDollarsRender: function() {
+        $('#expenditure-bar-dollars').highcharts({
+          chart: {
+            type: 'column'
+          },
+          title: {
+            text: 'Current Potential Stock Returns (Dollars)'
+          },
+          xAxis: {
+            categories: barChartDollarsData.map(function(stock) {
+              return stock[0];
+            })
+          },
+          yAxis: {
+            title: {
+              text: 'Dollars'
+            }
+          },
+          series: [{
+            name: UserService.currentUserData.displayName,
+            data: barChartDollarsData.map(function(stock) {
               return stock[1];
             })
           }]

@@ -28440,6 +28440,74 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
 
+  angular.module('stockboard.config', [
+    'stockboard.config.routes',
+    'stockboard.config.constants'
+  ]);
+})();
+
+(function() {
+  'use strict';
+  angular.module('stockboard.config.constants', [])
+    .constant("BASE_URL", "http:localhost:3000")
+})();
+
+(function() {
+  'use strict';
+  angular.module('stockboard.config.routes', [])
+    .config(function($urlRouterProvider, $locationProvider, $stateProvider) {
+      $urlRouterProvider.otherwise('/');
+      $stateProvider
+        .state('home', {
+          url: '/',
+          templateUrl: 'templates/home.html',
+          controller: 'HomeCtrl'
+        })
+        .state('dashboard', {
+          url: '/dashboard/:hash',
+          templateUrl: 'templates/dashboard.html',
+          controller: 'DashboardCtrl'
+        })
+        .state('dashboard.profile', {
+          url: 'profile',
+          templateUrl: 'templates/dashboard-profile.html',
+          controller: 'DashboardProfileCtrl'
+        })
+        .state('dashboard.portfolio', {
+          url: 'portfolio',
+          templateUrl: 'templates/dashboard-portfolio.html',
+          controller: 'DashboardPortfolioCtrl'
+        })
+        .state('dashboard.stocks', {
+          url: 'stocks',
+          templateUrl: 'templates/dashboard-stocks.html',
+          controller: 'DashboardStocksCtrl'
+        })
+        .state('dashboard.analytics', {
+          url: 'analytics',
+          templateUrl: 'templates/dashboard-analytics.html',
+          controller: 'DashboardAnalyticsCtrl'
+        })
+        .state('login', {
+          url: '/login',
+          templateUrl: 'templates/login.html',
+          controller: 'LoginCtrl'
+        })
+        .state('register', {
+          url: '/register',
+          templateUrl: 'templates/registration.html',
+          controller: 'RegisterCtrl'
+        });
+      $locationProvider.html5Mode({
+        enabled: false,
+        requireBase: false
+      });
+    });
+})();
+
+(function() {
+  'use strict';
+
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -28473,8 +28541,9 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     var userData = UserService.currentUserData;
     UserService.getAllUserStockPurchases(userData._id)
     .success(function(data) {
-      pieChartData = [];
-      barChartData = [];
+      pieChartExpenditureData = [];
+      barChartPercentData = [];
+      barChartDollarsData = [];
 
       stocksData = data.filter(function(stock) {
         if (stock.user === userData.displayName) {
@@ -28487,7 +28556,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       }, 0).toFixed(2);
 
       stocksData.forEach(function(stockData) {
-        pieChartData.push({ 
+        pieChartExpenditureData.push({ 
                             name: stockData.name,
                             y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
                           })
@@ -28497,11 +28566,15 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       stocksData.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
         .success(function(data) {
-          barChartData.push(
-            [stock.symbol, ((data.LastPrice - stock.priceBought)/stock.priceBought) * 100]
+          barChartPercentData.push(
+            [stock.symbol, Number((((data.LastPrice - stock.priceBought)/stock.priceBought) * 100).toFixed(4))]
           );
-          chartRenders.barChartSort(barChartData, 'percent', true);
-          chartRenders.barChartRender();
+          barChartDollarsData.push(
+            [stock.symbol, Number(((data.LastPrice * stock.shares) - (stock.priceBought * stock.shares)).toFixed(2))]
+          chartRenders.barChartSort(barChartPercentData, 'percent', true);
+          chartRenders.barChartSort(barChartDollarsData, 'percent', true);
+          chartRenders.barChartPercentRender();
+          chartRenders.barChartDollarsRender();
         })
         .catch(function(error) {
           console.error(error);
@@ -28536,16 +28609,16 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
           }
         }        
       },
-      barChartRender: function() {
-        $('#expenditure-bar').highcharts({
+      barChartPercentRender: function() {
+        $('#expenditure-bar-percent').highcharts({
           chart: {
             type: 'column'
           },
           title: {
-            text: 'Stock Returns'
+            text: 'Current Potential Stock Returns (Percent)'
           },
           xAxis: {
-            categories: barChartData.map(function(stock) {
+            categories: barChartPercentData.map(function(stock) {
               return stock[0];
             })
           },
@@ -28556,7 +28629,33 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
           },
           series: [{
             name: UserService.currentUserData.displayName,
-            data: barChartData.map(function(stock) {
+            data: barChartPercentData.map(function(stock) {
+              return stock[1];
+            })
+          }]
+        });
+      },
+      barChartDollarsRender: function() {
+        $('#expenditure-bar-dollars').highcharts({
+          chart: {
+            type: 'column'
+          },
+          title: {
+            text: 'Current Potential Stock Returns (Dollars)'
+          },
+          xAxis: {
+            categories: barChartDollarsData.map(function(stock) {
+              return stock[0];
+            })
+          },
+          yAxis: {
+            title: {
+              text: 'Dollars'
+            }
+          },
+          series: [{
+            name: UserService.currentUserData.displayName,
+            data: barChartDollarsData.map(function(stock) {
               return stock[1];
             })
           }]
@@ -28830,74 +28929,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     console.log('This is the register page');
   });
 })();
-(function() {
-  'use strict';
-
-  angular.module('stockboard.config', [
-    'stockboard.config.routes',
-    'stockboard.config.constants'
-  ]);
-})();
-
-(function() {
-  'use strict';
-  angular.module('stockboard.config.constants', [])
-    .constant("BASE_URL", "http:localhost:3000")
-})();
-
-(function() {
-  'use strict';
-  angular.module('stockboard.config.routes', [])
-    .config(function($urlRouterProvider, $locationProvider, $stateProvider) {
-      $urlRouterProvider.otherwise('/');
-      $stateProvider
-        .state('home', {
-          url: '/',
-          templateUrl: 'templates/home.html',
-          controller: 'HomeCtrl'
-        })
-        .state('dashboard', {
-          url: '/dashboard/:hash',
-          templateUrl: 'templates/dashboard.html',
-          controller: 'DashboardCtrl'
-        })
-        .state('dashboard.profile', {
-          url: 'profile',
-          templateUrl: 'templates/dashboard-profile.html',
-          controller: 'DashboardProfileCtrl'
-        })
-        .state('dashboard.portfolio', {
-          url: 'portfolio',
-          templateUrl: 'templates/dashboard-portfolio.html',
-          controller: 'DashboardPortfolioCtrl'
-        })
-        .state('dashboard.stocks', {
-          url: 'stocks',
-          templateUrl: 'templates/dashboard-stocks.html',
-          controller: 'DashboardStocksCtrl'
-        })
-        .state('dashboard.analytics', {
-          url: 'analytics',
-          templateUrl: 'templates/dashboard-analytics.html',
-          controller: 'DashboardAnalyticsCtrl'
-        })
-        .state('login', {
-          url: '/login',
-          templateUrl: 'templates/login.html',
-          controller: 'LoginCtrl'
-        })
-        .state('register', {
-          url: '/register',
-          templateUrl: 'templates/registration.html',
-          controller: 'RegisterCtrl'
-        });
-      $locationProvider.html5Mode({
-        enabled: false,
-        requireBase: false
-      });
-    });
-})();
-
 (function() {
   'use strict';
 
