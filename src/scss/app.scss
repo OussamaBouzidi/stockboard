@@ -136,12 +136,18 @@ body {
 }
 .panel {
   margin: 5px;
+  color: white;
+  background-color: #6A6F79;
 }
+.panel-heading {
+  background-color: #5A5F6A !important;
+}
+
 .accordion-title {
-  font-size: 1.1em;
+  font-size: 1.05em;
 }
 .accordion-content {
-  font-size: 1.25em;
+  font-size: 1.2em;
 }
 .btn-edit, .btn-sell, .btn-delete {
   width: 100px;

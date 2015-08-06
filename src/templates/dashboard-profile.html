@@ -25,14 +25,14 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a class="accordion-title" href="#" ng-click="isCollapsed = !isCollapsed">
-                  <p class="accordion-title" style="display: inline;">{{stockPurchased.symbol}} &nbsp;&mdash;&nbsp; {{stockPurchased.name}}</p>
-                </a>
-                <button class="btn btn-xs" style="display: inline; float: right; margin-top: 0;" ng-click="showInfo(stockPurchased._id)">Info</button>
+                  <p class="accordion-title" style="display: inline; color: white;">{{stockPurchased.symbol}} &nbsp;&mdash;&nbsp; {{stockPurchased.name}}</p>
+                </a>    
+                <button class="btn btn-xs btn-edit" style="display: inline; float: right; margin-top: 0;" ng-click="showInfo(stockPurchased._id)">Info</button>
               </h4>
             </div>
             <div collapse="isCollapsed">
               <div class="panel-body">
-                <table class="table table-hover">
+                <table class="table">
                   <thead>
                     <tr>
                       <th class="col-md-4 text-center accordion-content">Shares</th>
@@ -57,7 +57,7 @@
                       <button class="btn btn-sm btn-sell">Sell</button>
                     </div>
                     <div class="col-md-4">
-                      <button class="btn btn-sm btn-delete">Delete</button>
+                      <button class="btn btn-sm btn-delete" ng-click="deleteStockPurchase(stockPurchased._id)">Delete</button>
                     </div>                
                   </div>
                 </div>
@@ -72,38 +72,36 @@
           <div class="panel panel-default" ng-repeat="stockPurchased in stocksPurchased">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#" ng-click="isCollapsed = !isCollapsed">
-                  <h5>{{stockPurchased.name}}</h5>
+                <a class="accordion-title" href="#" ng-click="isCollapsed = !isCollapsed">
+                  <p class="accordion-title" style="display: inline;">{{stockPurchased.symbol}} &nbsp;&mdash;&nbsp; {{stockPurchased.name}}</p>
                 </a>
+                <button class="btn btn-xs" style="display: inline; float: right; margin-top: 0;" ng-click="showInfo(stockPurchased._id)">Info</button>
               </h4>
             </div>
             <div collapse="isCollapsed">
               <div class="panel-body">
-                <table class="table table-hover">
+                <table class="table">
                   <thead>
                     <tr>
-                      <th class="col-md-4 text-center">Shares</th>
-                      <th class="col-md-4 text-center">Price Bought</th>
-                      <th class="col-md-4 text-center">Total</th>
+                      <th class="col-md-4 text-center accordion-content">Shares</th>
+                      <th class="col-md-4 text-center accordion-content">Price Bought</th>
+                      <th class="col-md-4 text-center accordion-content">Total</th>
                     </tr>
                   </thead>
                   <tbody class="text-center">
                     <tr>
-                      <td>{{stockPurchased.shares}}</td>
-                      <td>{{stockPurchased.priceBought.toFixed(2)}}</td>
-                      <td>{{stockPurchased.priceBought.toFixed(2) * stockPurchased.shares}}</td>
+                      <td class="accordion-content">{{stockPurchased.shares}}</td>
+                      <td class="accordion-content">{{stockPurchased.priceBought.toFixed(2)}}</td>
+                      <td class="accordion-content">{{stockPurchased.priceBought.toFixed(2) * stockPurchased.shares}}</td>
                     </tr>
                   </tbody>
                 </table>
                 <div class="row text-center">
                   <div class="col-md-12">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <button class="btn btn-sm btn-edit">Edit</button>
                     </div>
-                    <div class="col-md-4">
-                      <button class="btn btn-sm btn-sell">Sell</button>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <button class="btn btn-sm btn-delete">Delete</button>
                     </div>                
                   </div>
@@ -112,8 +110,16 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>      
     </div>
+<!--     <div class="row">
+      <div class="col-md-4">
+        <h4 class="dashboard-content">Watched Stocks</h4>
+      </div>
+      <div class="col-md-8">
+        <h4 class="dashboard-content">Graph</h4>
+      </div>
+    </div> -->
   </div>
 </div>
 <div class="modal fade" id="editPurchasedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
