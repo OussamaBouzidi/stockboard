@@ -10,6 +10,8 @@
       </div>
       <hr width="80%">
       <div class="card-action text-center">
+        <button class="btn btn-sm" data-toggle="modal" data-target="#watchModal">Stocks Watched</button>
+        <p></p>
         <p class="dashboard-content">Total Expenditure:</p>
         <p class="dashboard-content">{{totalExpenditure}}</p>
         <a href="#" target="new_blank">Link</a>
@@ -112,14 +114,6 @@
         </div>
       </div>      
     </div>
-<!--     <div class="row">
-      <div class="col-md-4">
-        <h4 class="dashboard-content">Watched Stocks</h4>
-      </div>
-      <div class="col-md-8">
-        <h4 class="dashboard-content">Graph</h4>
-      </div>
-    </div> -->
   </div>
 </div>
 <div class="modal fade" id="editPurchasedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -198,6 +192,39 @@
       <div class="modal-footer">
         <button class="btn">Submit</button>
       </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="watchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" ng-click="modalClose()">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <h3>{{userData.displayName}}'s Watched Stocks</h3>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="text-center">Name</th>
+              <th class="text-center">Symbol</th>
+              <th class="text-center">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tbody>
+              <tr ng-repeat="stock in watchedStocks">
+                <td>{{stock.name}}</td>
+                <td>{{stock.symbol}}</td>
+                <td><button class="btn" data-dismiss="modal" ng-click="deleteWatchedStock(stock._id)">Delete</button></td>
+              </tr>
+            </tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer"></div>
     </div>
   </div>
 </div>

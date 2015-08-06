@@ -28440,74 +28440,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
 
-  angular.module('stockboard.config', [
-    'stockboard.config.routes',
-    'stockboard.config.constants'
-  ]);
-})();
-
-(function() {
-  'use strict';
-  angular.module('stockboard.config.constants', [])
-    .constant("BASE_URL", "http:localhost:3000")
-})();
-
-(function() {
-  'use strict';
-  angular.module('stockboard.config.routes', [])
-    .config(function($urlRouterProvider, $locationProvider, $stateProvider) {
-      $urlRouterProvider.otherwise('/');
-      $stateProvider
-        .state('home', {
-          url: '/',
-          templateUrl: 'templates/home.html',
-          controller: 'HomeCtrl'
-        })
-        .state('dashboard', {
-          url: '/dashboard/:hash',
-          templateUrl: 'templates/dashboard.html',
-          controller: 'DashboardCtrl'
-        })
-        .state('dashboard.profile', {
-          url: 'profile',
-          templateUrl: 'templates/dashboard-profile.html',
-          controller: 'DashboardProfileCtrl'
-        })
-        .state('dashboard.portfolio', {
-          url: 'portfolio',
-          templateUrl: 'templates/dashboard-portfolio.html',
-          controller: 'DashboardPortfolioCtrl'
-        })
-        .state('dashboard.stocks', {
-          url: 'stocks',
-          templateUrl: 'templates/dashboard-stocks.html',
-          controller: 'DashboardStocksCtrl'
-        })
-        .state('dashboard.analytics', {
-          url: 'analytics',
-          templateUrl: 'templates/dashboard-analytics.html',
-          controller: 'DashboardAnalyticsCtrl'
-        })
-        .state('login', {
-          url: '/login',
-          templateUrl: 'templates/login.html',
-          controller: 'LoginCtrl'
-        })
-        .state('register', {
-          url: '/register',
-          templateUrl: 'templates/registration.html',
-          controller: 'RegisterCtrl'
-        });
-      $locationProvider.html5Mode({
-        enabled: false,
-        requireBase: false
-      });
-    });
-})();
-
-(function() {
-  'use strict';
-
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -28668,12 +28600,31 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   angular.module('stockboard.controllers.dashboardProfile', [])
   .controller('DashboardProfileCtrl', function($scope, $state, UserService, StockPriceService) {
+    // filter function after retreiving data
+    var stockFilter = function(data) {
+      data.filter(function(stock) {
+        if (stock.user === $scope.userData.displayName) {
+          return stock;
+        }
+      })
+    }
     // On page state load
     $scope.isCollapsed = true;
     // grab the user data and render to DOM 
     $scope.userData = UserService.currentUserData;
+    UserService.getAllUserStockWatches($scope.userData._id)
+    .success(function(data) {
+      $scope.watchedStocks = data.filter(function(stock) {
+        if (stock.user === $scope.userData.displayName) {
+          return stock;
+        }
+      });
+    })
+    .catch(function(error) {
+      console.error(error);
+    })
     // grab user stock information
-    UserService.getAllUserStockPurchases(UserService.getCurrentUser._id)
+    UserService.getAllUserStockPurchases($scope.userData._id)
     .success(function(data) {
       // filter through stocks pulled for individuals stocks and render to DOM
       $scope.stocksPurchased = data.filter(function(stock) {
@@ -28704,7 +28655,8 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     }
     // Edit stock purchase -- on click
 
-
+    // Sell stock
+    
   });
 })();
 
@@ -28714,6 +28666,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     graphDivs = [];
     var userData = UserService.currentUserData;
     $scope.userName = userData.displayName;
+
     UserService.getAllUserStockWatches(userData._id)
     .success(function(data) {
       // grab all watches 
@@ -28765,11 +28718,16 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     $scope.deleteWatchedStock = function(stockId) {
       UserService.deleteStockWatch(stockId)
       .success(function(data) {
-        console.log('successfully deleted stock watch!')
+        console.log('successfully deleted stock watch!');
+        $state.reload();
       })
       .catch(function(error) {
         console.error(error);
       })
+    }
+    $scope.filterStockWatches = function(filter) {
+      console.log(filter);
+      $scope.filters = {};
     }
   });
 })();
@@ -28875,6 +28833,74 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
 
+  angular.module('stockboard.config', [
+    'stockboard.config.routes',
+    'stockboard.config.constants'
+  ]);
+})();
+
+(function() {
+  'use strict';
+  angular.module('stockboard.config.constants', [])
+    .constant("BASE_URL", "http:localhost:3000")
+})();
+
+(function() {
+  'use strict';
+  angular.module('stockboard.config.routes', [])
+    .config(function($urlRouterProvider, $locationProvider, $stateProvider) {
+      $urlRouterProvider.otherwise('/');
+      $stateProvider
+        .state('home', {
+          url: '/',
+          templateUrl: 'templates/home.html',
+          controller: 'HomeCtrl'
+        })
+        .state('dashboard', {
+          url: '/dashboard/:hash',
+          templateUrl: 'templates/dashboard.html',
+          controller: 'DashboardCtrl'
+        })
+        .state('dashboard.profile', {
+          url: 'profile',
+          templateUrl: 'templates/dashboard-profile.html',
+          controller: 'DashboardProfileCtrl'
+        })
+        .state('dashboard.portfolio', {
+          url: 'portfolio',
+          templateUrl: 'templates/dashboard-portfolio.html',
+          controller: 'DashboardPortfolioCtrl'
+        })
+        .state('dashboard.stocks', {
+          url: 'stocks',
+          templateUrl: 'templates/dashboard-stocks.html',
+          controller: 'DashboardStocksCtrl'
+        })
+        .state('dashboard.analytics', {
+          url: 'analytics',
+          templateUrl: 'templates/dashboard-analytics.html',
+          controller: 'DashboardAnalyticsCtrl'
+        })
+        .state('login', {
+          url: '/login',
+          templateUrl: 'templates/login.html',
+          controller: 'LoginCtrl'
+        })
+        .state('register', {
+          url: '/register',
+          templateUrl: 'templates/registration.html',
+          controller: 'RegisterCtrl'
+        });
+      $locationProvider.html5Mode({
+        enabled: false,
+        requireBase: false
+      });
+    });
+})();
+
+(function() {
+  'use strict';
+
   angular.module('stockboard.directives', [
     
   ]);
@@ -28945,5 +28971,8 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     this.deleteStockWatch = function(watchId) {
       return $http.delete('/watches/' + watchId);
     }
+    // this.sellStockPurchase = function(purchaseId) {
+    //   return $http.patch('/purchases/' + purchaseId, )
+    // }
   });
 })();

@@ -4,6 +4,7 @@
     graphDivs = [];
     var userData = UserService.currentUserData;
     $scope.userName = userData.displayName;
+
     UserService.getAllUserStockWatches(userData._id)
     .success(function(data) {
       // grab all watches 
@@ -55,11 +56,16 @@
     $scope.deleteWatchedStock = function(stockId) {
       UserService.deleteStockWatch(stockId)
       .success(function(data) {
-        console.log('successfully deleted stock watch!')
+        console.log('successfully deleted stock watch!');
+        $state.reload();
       })
       .catch(function(error) {
         console.error(error);
       })
+    }
+    $scope.filterStockWatches = function(filter) {
+      console.log(filter);
+      $scope.filters = {};
     }
   });
 })();

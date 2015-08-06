@@ -5,19 +5,19 @@
         <button class="btn" style="width: 95px;" data-toggle="modal" data-target="#listModal">List</button>
       </div>
     </div>
-    <div class="col-md-5">
+    <div class="input-group filter col-md-3">
+      <input type="text" class="form-control" placeholder="Filter graphs" ng-model="filter">
+      <span class="input-group-btn">
+        <button class="btn" type="button" ng-click="filterStockWatches(filter)">Search</button>
+      </span>
+    </div>
+    <!-- <div class="col-md-5">
       <div class="btn-group" style="display: inline-block">
         <button class="btn btn-stock-graph-filter">All</button>
         <button class="btn btn-stock-graph-filter">Rising</button>
         <button class="btn btn-stock-graph-filter">Descending</button>
       </div>
-    </div>
-    <div class="input-group col-md-3">
-      <input type="text" class="form-control" placeholder="Filter graphs">
-      <span class="input-group-btn">
-        <button class="btn" type="button">Search</button>
-      </span>
-    </div>
+    </div> -->
   </div>
   <div id="graphs-container"></div>
 </div>
@@ -45,7 +45,7 @@
               <tr ng-repeat="stock in watchedStocks">
                 <td>{{stock.name}}</td>
                 <td>{{stock.symbol}}</td>
-                <td><button class="btn" ng-click="deleteWatchedStock(stock._id)">Delete</button></td>
+                <td><button class="btn" data-dismiss="modal" ng-click="deleteWatchedStock(stock._id)">Delete</button></td>
               </tr>
             </tbody>
           </tbody>
