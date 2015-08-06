@@ -49,9 +49,9 @@ router.get('/watches', function(req, res, next) {
   StockToWatch.find().exec(function(err, userStocksToWatch) {
     if (err) {
       console.log(err);
-      res.status(500).json({ error: "Could not retrieve user stocks to watch." })
+      res.status(500).json({ error: "Could not retrieve user stocks to watch." });
     }
-    res.json(userStocksToWatch)
+    res.json(userStocksToWatch);
   })
 })
 
@@ -64,6 +64,32 @@ router.post('/watches', function(req, res, next) {
     }
     res.json(savedStockToWatch);
   })
+})
+
+router.get('/watches/:id', function(req, res, next) {
+  StockToWatch.findById(req.params.id, function(err, stockToWatch) {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ error: "Could not read stock to watch data" });
+    }
+    if (!stockToWatch) {
+      res.status(404);
+    }
+    res.json(stockToWatch);
+  })
+})
+
+router.delete('/watches/:id', function(req, res) {
+  StockToWatch.findOneAndRemove({ _id: req.params.id }).exec(function(err, stockToWatch) {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ error: "Could not read stock to watch data" });
+    }
+    if (!stockToWatch) {
+      res.status(404);
+    }
+    res.json({message: 'stock to watch deleted'});
+  });
 })
 
 var StockPurchase = mongoose.model("StockPurchase", {
@@ -79,9 +105,9 @@ router.get('/purchases', function(req, res, next) {
   StockPurchase.find().exec(function(err, purchases) {
     if (err) {
       console.log(err);
-      res.status(500).json({ error: "Could not retrieve user stocks to purchase." })
+      res.status(500).json({ error: "Could not retrieve user stocks to purchase." });
     }
-    res.json(purchases)
+    res.json(purchases);
   })
 })
 

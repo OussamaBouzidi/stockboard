@@ -28711,6 +28711,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
   .controller('DashboardStocksCtrl', function($scope, UserService, StockHistoryService) {
     graphDivs = [];
     var userData = UserService.currentUserData;
+    $scope.userName = userData.displayName;
     UserService.getAllUserStockWatches(userData._id)
     .success(function(data) {
       // grab all watches 
@@ -28719,6 +28720,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
           return stock;
         }
       });
+      $scope.watchedStocks = stocksData;
 
       for (var i = 0; i < stocksData.length; i++) {
         graphDivs.push($('<div>').addClass('col-md-6 stock-line-graph').attr('id', 'graph' + i));
@@ -28758,6 +28760,17 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     .catch(function(error) {
       console.error(error);
     })
+
+    $scope.deleteWatchedStock = function(stockId) {
+      UserService.deleteStockWatch(stockId)
+      .success(function(data) {
+        console.log(data);
+        console.log('successfully deleted stock watch!')
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
+    }
   });
 })();
 
@@ -28861,6 +28874,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 })();
 (function() {
   'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
   angular.module('stockboard.models', [
     'stockboard.models.user',
     'stockboard.models.stockHistory',
@@ -28921,16 +28942,8 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     this.deleteStockPurchase = function(purchaseId) {
       return $http.delete('/purchases/' + purchaseId);
     }
-    // this.deleteWatch = function() {
-    //   return $http.delete('/');
-    // }
+    this.deleteStockWatch = function(watchId) {
+      return $http.delete('/watches/' + watchId);
+    }
   });
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
 })();

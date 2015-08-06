@@ -1,7 +1,8 @@
 THINGS TO DO
 
 Make sure there are no duplicates in watches route in backend 
-  -- unique does not seem to work ASK CADE WHY 
+  -- unique does not seem to work
+  -- try clearing database and retrying after
 
 Add accordion to certain pages
   - Profile
@@ -26,8 +27,6 @@ With profile page add watches
 
 Redo purchased model so that includes sold price and shares sold
 
-Add button on watches to Delete
-
 
 
 
@@ -44,3 +43,7 @@ Integate sentiment analysis based on twitter feed into stocks with sentiment API
 COMPLETED
 
 Add purchased to watch list as well -- COMPLETED
+
+Add button on watches to Delete -- COMPLETED
+
+

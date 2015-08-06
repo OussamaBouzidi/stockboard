@@ -3,6 +3,7 @@
   .controller('DashboardStocksCtrl', function($scope, UserService, StockHistoryService) {
     graphDivs = [];
     var userData = UserService.currentUserData;
+    $scope.userName = userData.displayName;
     UserService.getAllUserStockWatches(userData._id)
     .success(function(data) {
       // grab all watches 
@@ -11,6 +12,7 @@
           return stock;
         }
       });
+      $scope.watchedStocks = stocksData;
 
       for (var i = 0; i < stocksData.length; i++) {
         graphDivs.push($('<div>').addClass('col-md-6 stock-line-graph').attr('id', 'graph' + i));
@@ -50,5 +52,16 @@
     .catch(function(error) {
       console.error(error);
     })
+
+    $scope.deleteWatchedStock = function(stockId) {
+      UserService.deleteStockWatch(stockId)
+      .success(function(data) {
+        console.log(data);
+        console.log('successfully deleted stock watch!')
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
+    }
   });
 })();
