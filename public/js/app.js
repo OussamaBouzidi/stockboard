@@ -28429,41 +28429,12 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
   angular.module('stockboard', [
     'ui.bootstrap',
-    'ui.bootstrap.demo',
     'ui.router',
     'stockboard.config',
     'stockboard.controllers',
     'stockboard.models',
     'stockboard.directives'
   ]);
-
-  angular.module('ui.bootstrap.demo', [])
-  .controller('AccordionDemoCtrl', function ($scope) {
-  $scope.oneAtATime = true;
-
-  $scope.groups = [
-    {
-      title: 'Dynamic Group Header - 1',
-      content: 'Dynamic Group Body - 1'
-    },
-    {
-      title: 'Dynamic Group Header - 2',
-      content: 'Dynamic Group Body - 2'
-    }
-  ];
-
-  $scope.items = ['Item 1', 'Item 2', 'Item 3'];
-
-  $scope.addItem = function() {
-    var newItemNo = $scope.items.length + 1;
-    $scope.items.push('Item ' + newItemNo);
-  };
-
-  $scope.status = {
-    isFirstOpen: true,
-    isFirstDisabled: false
-  };
-});
 })();
 
 (function() {
@@ -28532,14 +28503,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         requireBase: false
       });
     });
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
 })();
 
 (function() {
@@ -28974,4 +28937,12 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       return $http.delete('/watches/' + watchId);
     }
   });
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
 })();
