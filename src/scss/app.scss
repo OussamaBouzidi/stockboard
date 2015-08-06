@@ -134,6 +134,18 @@ body {
   padding: 15px;
   border-radius: 7px;
 }
+.panel {
+  margin: 5px;
+}
+.accordion-title {
+  font-size: 1.1em;
+}
+.accordion-content {
+  font-size: 1.25em;
+}
+.btn-edit, .btn-sell, .btn-delete {
+  width: 100px;
+}
 .btn-edit {
   background-color: #5776F2;
 }
