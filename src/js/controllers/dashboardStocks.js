@@ -15,7 +15,7 @@
       $scope.watchedStocks = stocksData;
 
       for (var i = 0; i < stocksData.length; i++) {
-        graphDivs.push($('<div>').addClass('col-md-6 stock-line-graph').attr('id', 'graph' + i));
+        graphDivs.push($('<div>').addClass('col-md-6').append($('<div>').addClass('stock-line-graph col-md-12 graph-card').attr('id', 'graph' + i)));
       }
       $('#graphs-container').append(graphDivs);
       stocksData.forEach(function(stock, graphIndex) {
@@ -52,11 +52,9 @@
     .catch(function(error) {
       console.error(error);
     })
-
     $scope.deleteWatchedStock = function(stockId) {
       UserService.deleteStockWatch(stockId)
       .success(function(data) {
-        console.log(data);
         console.log('successfully deleted stock watch!')
       })
       .catch(function(error) {

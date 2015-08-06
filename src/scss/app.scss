@@ -61,8 +61,8 @@ body {
 .google {
   background-color: #E14D2F;
 }
-#graph-container {
-  width: 95%
+#graphs-container {
+  margin-left: -15px;
 }
 .stock-line-graph {
   height: 300px;
@@ -96,9 +96,8 @@ body {
 .card {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   background-color: #484D5A;
-}
-.card {
   margin-top: 10px;
+  margin-bottom: 10px;
   border-radius: 10px;
   background-clip: padding-box;
 }
@@ -129,3 +128,9 @@ body {
   width: 120px;
 }
 
+.graph-card {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  background-color: #484D5A;
+  padding: 15px;
+  border-radius: 7px;
+}
