@@ -50,7 +50,6 @@
           return stock;
         }
       })
-      console.log($scope.stocksSold);
       // calculate total expenditure and render to DOM
       $scope.totalExpenditure = $scope.stocksPurchased.reduce(function(total, price) {
         return Number(total) + Number(price.shares * price.priceBought);
@@ -87,9 +86,21 @@
     $scope.editStock = function(stockId) {
 
     }
-    // Sell stock
-    $scope.sellStock = function(stockId) {
-
+    // Sell stock, send info to modal
+    $scope.renderSellInfo = function(stock) {
+      $scope.sellStock = {
+        _id: stock._id,
+        sellName: stock.name,
+        sellSymbol: stock.symbol,
+        sharesToSell: stock.shares,
+        priceBought: stock.priceBought
+      };
+    }
+    // Sell stock, update info in backend and rerender
+    $scope.submitSell = function(stockId) {
+      console.log($scope.sellStock);
+      console.log(stockId);
+      
     }
   });
 })();

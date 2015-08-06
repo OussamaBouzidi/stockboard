@@ -53,10 +53,10 @@
                 <div class="row text-center">
                   <div class="col-md-12">
                     <div class="col-md-4">
-                      <button class="btn btn-sm btn-edit">Edit</button>
+                      <button class="btn btn-sm btn-edit" data-toggle="modal" data-target="#editPurchasedModal" >Edit</button>
                     </div>
                     <div class="col-md-4">
-                      <button class="btn btn-sm btn-sell">Sell</button>
+                      <button class="btn btn-sm btn-sell" data-toggle="modal" data-target="#sellModal" ng-click="renderSellInfo(stockPurchased)">Sell</button>
                     </div>
                     <div class="col-md-4">
                       <button class="btn btn-sm btn-delete" ng-click="deleteStockPurchase(stockPurchased._id)">Delete</button>
@@ -189,13 +189,37 @@
       </div>
       <div class="modal-body">
         <h3 class="text-center">Sell Form</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Symbol</th>
+              <th>Shares Available</th>
+              <th>Price Bought</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{sellStock.sellName}}</td>
+              <td>{{sellStock.sellSymbol}}</td>
+              <td>{{sellStock.sharesToSell}}</td>
+              <td>{{sellStock.priceBought}}</td>
+            </tr>
+          </tbody>
+        </table>
         <form action="" class="form-group">
-          <input type="text" class="form-control" required placeholder="Shares sold">
-          <input type="text" class="form-control" required placeholder="Price">         
+          <div class="input-group">
+            <span class="input-group-addon">Shares Sold</span>
+            <input type="number" class="form-control" ng-model="stockSell.shares" required placeholder="Shares sold">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Price Sold&nbsp;&nbsp;&nbsp;</span>
+            <input type="number" class="form-control" ng-model="stockSell.price" required placeholder="Price sold">
+          </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button class="btn">Submit</button>
+        <button class="btn" ng-click="submitSell(sellStock._id)">Submit</button>
       </div>
     </div>
   </div>
