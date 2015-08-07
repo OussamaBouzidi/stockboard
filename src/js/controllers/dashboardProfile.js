@@ -88,19 +88,28 @@
     }
     // Sell stock, send info to modal
     $scope.renderSellInfo = function(stock) {
-      $scope.sellStock = {
-        _id: stock._id,
-        sellName: stock.name,
-        sellSymbol: stock.symbol,
-        sharesToSell: stock.shares,
-        priceBought: stock.priceBought
-      };
+      $scope.sellStock = stock;
     }
     // Sell stock, update info in backend and rerender
-    $scope.submitSell = function(stockId) {
-      console.log($scope.sellStock);
-      console.log(stockId);
-      
+    $scope.submitSell = function(sellForm) {
+      var newSoldStock = $scope.sellStock;
+      if (newSoldStock.shares - sellForm.shares < 0) {
+        alert("You can't sell that many shares")
+        return;
+      } else {
+        newSoldStock.shares = newSoldStock.shares - sellForm.shares;
+      }
+      newSoldStock.status = "Sold";
+      newSoldStock.sharesSold = sellForm.shares;
+      newSoldStock.priceSold = sellForm.price;
+      console.log(newSoldStock);
+      UserService.sellStockPurchase(newSoldStock._id, newSoldStock)
+      .success(function(data) {
+        console.log(data, 'successfully sold stock!');
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
     }
   });
 })();

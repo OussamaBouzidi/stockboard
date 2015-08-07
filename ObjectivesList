@@ -6,25 +6,13 @@ Make sure there are no duplicates in watches route in backend
 
 Add filter features for Stocks History Page
 
-Restructure profile page
-  - Profile page will have the following:
-    - Purchased
-    - Sold
-    - Watching
-
-Rename tabs
-  - Profile
-  - Portfolio Statistics
-  - Stock History
-  - (Analytics)
-
 Integrate Analytics into Profile page
 
-With profile page add watches 
-
-Redo purchased model so that includes sold price and shares sold
-
 On click of historical graph, pull up current data of Stock
+
+
+
+
 
 
 Task List
@@ -32,10 +20,11 @@ Task List
 
 modal send information to service then grab it and store in variable and render into form
 
-
 BIG TASK
 
 Integate sentiment analysis based on twitter feed into stocks with sentiment API
+
+
 
 
 
@@ -52,5 +41,18 @@ Add accordion to certain pages -- COMPLETED
 
 Add total dollars profit to portfolio page -- COMPLETED
 
+Restructure profile page -- COMPLETED
+  - Profile page will have the following:
+    - Purchased
+    - Sold
+    - Watching
 
+Rename tabs -- COMPLETED
+  - Profile
+  - Portfolio Statistics
+  - Stock History
+  - (Analytics)
 
+With profile page add watches -- COMPLETED
+
+Redo purchased model so that includes sold price and shares sold -- COMPLETED

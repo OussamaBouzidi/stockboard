@@ -32,8 +32,8 @@
     this.deleteStockWatch = function(watchId) {
       return $http.delete('/watches/' + watchId);
     }
-    // this.sellStockPurchase = function(purchaseId) {
-    //   return $http.patch('/purchases/' + purchaseId, )
-    // }
+    this.sellStockPurchase = function(purchaseId, soldStock) {
+      return $http.patch('/purchases/' + purchaseId, soldStock)
+    }
   });
 })();

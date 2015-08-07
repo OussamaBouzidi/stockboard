@@ -28508,14 +28508,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
 
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
-
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -28550,24 +28542,44 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     UserService.getAllUserStockPurchases(userData._id)
     .success(function(data) {
       pieChartExpenditureData = [];
+      pieChartProfitData = [];
       barChartPercentData = [];
       barChartDollarsData = [];
+
       stocksData = data.filter(function(stock) {
         if (stock.user === userData.displayName) {
           return stock;
         }
       });
+      
       $scope.totalExpenditure = stocksData.reduce(function(total, price) {
         return Number(total) + Number(price.shares * price.priceBought);
       }, 0).toFixed(2);
 
       stocksData.forEach(function(stockData) {
-        pieChartExpenditureData.push({ 
-                            name: stockData.name,
-                            y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
-                          })
+        pieChartExpenditureData
+        .push({
+          name: stockData.name,
+          y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
+        })
+
+        console.log(stockData);
+        console.log(stockData.sharesSold * stockData.priceSold, 'revenue');
+        console.log(stockData.sharesSold * stockData.pricePurchased, 'expenditure');
+        console.log((stockData.sharesSold * stockData.priceSold) - (stockData.sharesSold * stockData.pricePurchased), 'profit');
+        
+        pieChartProfitData
+        .push({
+          name: stockData.name,
+          y: (stockData.sharesSold * stockData.priceSold) - (stockData.sharesSold * stockData.pricePurchased)
+        })
       })
+      
+      console.log(pieChartProfitData);
+
       chartRenders.pieChartExpenditureRender();
+      // chartRenders.pieChartProfitRender();
+
       stocksData.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
         .success(function(data) {
@@ -28692,9 +28704,40 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
             }
           },
           series: [{
-            name: "Brands",
+            name: "Companies",
             colorByPoint: true,
             data: pieChartExpenditureData
+          }]      
+        })
+      },
+      pieChartProfitRender: function() {
+        $('#expenditure-pie').highcharts({
+          chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+          },
+          title: {
+            text: 'Profit Breakdown'
+          },
+          tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+          },
+          plotOptions: {
+            pie: {
+              allowPointSelect: true,
+              cursor: 'pointer',
+              dataLabels: {
+                enabled: false
+              },
+              showInLegend: true
+            }
+          },
+          series: [{
+            name: "Companies",
+            colorByPoint: true,
+            data: pieChartProfitData
           }]      
         })
       }
@@ -28792,19 +28835,28 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     }
     // Sell stock, send info to modal
     $scope.renderSellInfo = function(stock) {
-      $scope.sellStock = {
-        _id: stock._id,
-        sellName: stock.name,
-        sellSymbol: stock.symbol,
-        sharesToSell: stock.shares,
-        priceBought: stock.priceBought
-      };
+      $scope.sellStock = stock;
     }
     // Sell stock, update info in backend and rerender
-    $scope.submitSell = function(stockId) {
-      console.log($scope.sellStock);
-      console.log(stockId);
-      
+    $scope.submitSell = function(sellForm) {
+      var newSoldStock = $scope.sellStock;
+      if (newSoldStock.shares - sellForm.shares < 0) {
+        alert("You can't sell that many shares")
+        return;
+      } else {
+        newSoldStock.shares = newSoldStock.shares - sellForm.shares;
+      }
+      newSoldStock.status = "Sold";
+      newSoldStock.sharesSold = sellForm.shares;
+      newSoldStock.priceSold = sellForm.price;
+      console.log(newSoldStock);
+      UserService.sellStockPurchase(newSoldStock._id, newSoldStock)
+      .success(function(data) {
+        console.log(data, 'successfully sold stock!');
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
     }
   });
 })();
@@ -29044,8 +29096,16 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     this.deleteStockWatch = function(watchId) {
       return $http.delete('/watches/' + watchId);
     }
-    // this.sellStockPurchase = function(purchaseId) {
-    //   return $http.patch('/purchases/' + purchaseId, )
-    // }
+    this.sellStockPurchase = function(purchaseId, soldStock) {
+      return $http.patch('/purchases/' + purchaseId, soldStock)
+    }
   });
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
 })();

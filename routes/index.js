@@ -27,17 +27,6 @@ router.get('/users/:id', function(req, res, next) {
   })
 })
 
-// router.patch('/users/:id', function(req, res, next) {
-//   User.findById(req.params.id, function(err, user) {
-//     if (req.body.shares) {
-//       user.stocksPurchased.push(req.body);
-//     } else {
-//       user.stockWatch.push(req.body);
-//     }
-//     user.save();
-//   })
-// })
-
 var StockToWatch = mongoose.model("StockWatch", {
   name: { type: String, required: true },
   symbol: { type: String, required: true },
@@ -137,6 +126,19 @@ router.get('/purchases/:id', function(req, res, next) {
   })
 })
 
+router.patch('/purchases/:id', function(req, res, next) {
+  StockPurchase.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }).exec(function(err, updatedPurchase) {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ error: "Could not read stock purchase data" });
+    }
+    if (!updatedPurchase) {
+      res.status(404);
+    }
+    res.json(updatedPurchase)
+  })
+})
+
 router.delete('/purchases/:id', function(req, res) {
   StockPurchase.findOneAndRemove({ _id: req.params.id }).exec(function(err, purchase) {
     if (err) {
@@ -161,3 +163,15 @@ router.get('/logout', function(req, res) {
 })
 
 module.exports = router;
+
+
+// router.patch('/users/:id', function(req, res, next) {
+//   User.findById(req.params.id, function(err, user) {
+//     if (req.body.shares) {
+//       user.stocksPurchased.push(req.body);
+//     } else {
+//       user.stockWatch.push(req.body);
+//     }
+//     user.save();
+//   })
+// })

@@ -5,24 +5,44 @@
     UserService.getAllUserStockPurchases(userData._id)
     .success(function(data) {
       pieChartExpenditureData = [];
+      pieChartProfitData = [];
       barChartPercentData = [];
       barChartDollarsData = [];
+
       stocksData = data.filter(function(stock) {
         if (stock.user === userData.displayName) {
           return stock;
         }
       });
+      
       $scope.totalExpenditure = stocksData.reduce(function(total, price) {
         return Number(total) + Number(price.shares * price.priceBought);
       }, 0).toFixed(2);
 
       stocksData.forEach(function(stockData) {
-        pieChartExpenditureData.push({ 
-                            name: stockData.name,
-                            y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
-                          })
+        pieChartExpenditureData
+        .push({
+          name: stockData.name,
+          y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
+        })
+
+        console.log(stockData);
+        console.log(stockData.sharesSold * stockData.priceSold, 'revenue');
+        console.log(stockData.sharesSold * stockData.pricePurchased, 'expenditure');
+        console.log((stockData.sharesSold * stockData.priceSold) - (stockData.sharesSold * stockData.pricePurchased), 'profit');
+        
+        pieChartProfitData
+        .push({
+          name: stockData.name,
+          y: (stockData.sharesSold * stockData.priceSold) - (stockData.sharesSold * stockData.pricePurchased)
+        })
       })
+      
+      console.log(pieChartProfitData);
+
       chartRenders.pieChartExpenditureRender();
+      // chartRenders.pieChartProfitRender();
+
       stocksData.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
         .success(function(data) {
@@ -147,9 +167,40 @@
             }
           },
           series: [{
-            name: "Brands",
+            name: "Companies",
             colorByPoint: true,
             data: pieChartExpenditureData
+          }]      
+        })
+      },
+      pieChartProfitRender: function() {
+        $('#expenditure-pie').highcharts({
+          chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+          },
+          title: {
+            text: 'Profit Breakdown'
+          },
+          tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+          },
+          plotOptions: {
+            pie: {
+              allowPointSelect: true,
+              cursor: 'pointer',
+              dataLabels: {
+                enabled: false
+              },
+              showInLegend: true
+            }
+          },
+          series: [{
+            name: "Companies",
+            colorByPoint: true,
+            data: pieChartProfitData
           }]      
         })
       }
