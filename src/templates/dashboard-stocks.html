@@ -6,18 +6,11 @@
       </div>
     </div>
     <div class="input-group filter col-md-3">
-      <input type="text" class="form-control" placeholder="Find one by symbol" ng-model="symbol">
+      <input type="text" class="search-control" style="padding-left: 15px; border-radius: 5px 0 0 5px;" placeholder="Find one by symbol" ng-model="symbol">
       <span class="input-group-btn">
         <button class="btn" type="button" ng-click="findOneStock(symbol)" data-toggle="modal" data-target="#infoModal">Search</button>
       </span>
     </div>
-    <!-- <div class="col-md-5">
-      <div class="btn-group" style="display: inline-block">
-        <button class="btn btn-stock-graph-filter">All</button>
-        <button class="btn btn-stock-graph-filter">Rising</button>
-        <button class="btn btn-stock-graph-filter">Descending</button>
-      </div>
-    </div> -->
   </div>
   <div id="graphs-container"></div>
 </div>

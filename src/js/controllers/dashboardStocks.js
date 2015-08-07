@@ -94,6 +94,7 @@
       .catch(function(error) {
         console.error(error);
       })
+      $scope.symbol = "";
     }
   });
 })();

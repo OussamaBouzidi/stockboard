@@ -11,7 +11,7 @@ Task List
       - profile page
       - history page
     - successfully edit stock purchase
-  - Watch modal breaks on delete on profile page and history page
+  - Watch modal breaks on delete on dashboard.html and history page
 
   PROFILE PAGE
   - After purchase, if didn't sell all, then duplicate informtion
