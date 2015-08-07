@@ -120,10 +120,13 @@
       <div class="col-md-6">
         <h4 class="dashboard-content text-center">Individual Stock Info</h4>
         <div class="col-md-12 graph-card" style="min-height: 200px;">
-          <div class="dashboard-content">
-            <h5 class="dashboard-content" ng-show="stockInfoRender">{{stockInfoRender.Symbol}} &mdash; {{stockInfoRender.Name}}</h5>
+          <div class="dashboard-content" ng-show="stockInfoRender">
+            <div class="row">
+              <h5 class="col-md-9 dashboard-content">{{stockInfoRender.Symbol}} &mdash; {{stockInfoRender.Name}}</h5>
+              <h5 class="col-md-3 right dashboard-content">${{stockInfoRender.LastPrice}}</h5>            
+            </div>
             <p>{{stockInfoRender.Timestamp}}</p>
-            <p ng-show="stockInfoRender">Daily Info</p>
+            <p class="text-center">Daily Info</p>
             <table class="table">
               <thead>
                 <tr>
@@ -135,23 +138,42 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>{{stockInfoRender.LastPrice}}</td>
-                  <td>{{stockInfoRender.Open}}</td>
-                  <td>{{stockInfoRender.Low}}</td>
-                  <td>{{stockInfoRender.High}}</td>
+                  <td>${{stockInfoRender.LastPrice}}</td>
+                  <td>${{stockInfoRender.Open}}</td>
+                  <td>${{stockInfoRender.Low}}</td>
+                  <td>${{stockInfoRender.High}}</td>
                 </tr>
               </tbody>
             </table>
-            <p ng-show="stockInfoRender">General Info</p>
-            <p>{{stockInfoRender.Volume}}</p>
-            <p>{{stockInfoRender.MarketCap}}</p>
-            <p>{{stockInfoRender.Change}}</p>
-            <p>{{stockInfoRender.ChangePercent}}</p>
-            <p>{{stockInfoRender.ChangeYTD}}</p>
+            <p class="text-center">General Info</p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Dollar Change</th>
+                  <th>Percent Change</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Daily</th>
+                  <td>{{stockInfoRender.Change.toFixed(2)}}</td>
+                  <td>{{stockInfoRender.ChangePercent.toFixed(4)}}</td>
+                </tr>
+                <tr>
+                  <th>Yearly</th>
+                  <td>{{stockInfoRender.ChangeYTD}}</td>
+                  <td>{{stockInfoRender.ChangePercentYTD.toFixed(4)}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="row">
+              <p class="col-md-6"><strong>Volume:</strong> {{stockInfoRender.Volume}}</p>
+              <p class="col-md-6 right"><strong>Market Cap:</strong> {{stockInfoRender.MarketCap}}</p>
+            </div>
           </div>  
           <div id="infoRenderGraph"></div>      
         </div>
-        
       </div>
     </div>
   </div>

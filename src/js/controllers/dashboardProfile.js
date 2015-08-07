@@ -143,6 +143,7 @@
       })
       StockPriceService.getStockQuote(stock.symbol)
       .success(function(data) {
+        console.log(data);
         $scope.stockInfoRender = data;
       })
       .catch(function(error) {
