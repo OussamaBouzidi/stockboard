@@ -1,19 +1,6 @@
 (function() {
   angular.module('stockboard.controllers.dashboardProfile', [])
   .controller('DashboardProfileCtrl', function($scope, $state, UserService, StockPriceService, StockHistoryService) {
-    // filter function after retreiving data
-    var stockFilter = function(data) {
-      data.filter(function(stock) {
-        if (stock.user === $scope.userData.displayName) {
-          return stock;
-        }
-      })
-    }
-    var purchaseSoldFilter = function(stock, status) {
-      if (stock.status === status) {
-        return stock;
-      }
-    }
     // On page state load
     $scope.isCollapsed = true;
     // grab the user data and render to DOM 
@@ -76,7 +63,7 @@
       UserService.deleteStockWatch(stockId)
       .success(function(data) {
         console.log('successfully deleted stock watch!');
-        $state.reload();
+        $('#watchModal').modal('hide');
       })
       .catch(function(error) {
         console.error(error);

@@ -58,6 +58,7 @@
       .success(function(data) {
         console.log('successfully deleted stock watch!');
         $state.reload();
+        $('#listModal').modal('hide');
       })
       .catch(function(error) {
         console.error(error);

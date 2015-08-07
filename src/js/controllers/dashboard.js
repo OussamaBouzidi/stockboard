@@ -30,6 +30,7 @@
       $scope.recordPurchase = null;
       $scope.recordWatch = null;
       $scope.purchase = {};
+      $('#myModal').modal('hide');
     }
     $scope.saveStockWatch = function(watch) {
       var userData = UserService.currentUserData;
@@ -46,6 +47,7 @@
       $scope.recordPurchase = null;
       $scope.recordWatch = null;
       $scope.watch = {};
+      $('#myModal').modal('hide');
     }
     // Add Modal state rendering logic
     $scope.recordStockWatch = function() {

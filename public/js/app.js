@@ -28508,6 +28508,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
 
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
+
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -28553,6 +28561,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       $scope.recordPurchase = null;
       $scope.recordWatch = null;
       $scope.purchase = {};
+      $('#myModal').modal('hide');
     }
     $scope.saveStockWatch = function(watch) {
       var userData = UserService.currentUserData;
@@ -28569,6 +28578,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       $scope.recordPurchase = null;
       $scope.recordWatch = null;
       $scope.watch = {};
+      $('#myModal').modal('hide');
     }
     // Add Modal state rendering logic
     $scope.recordStockWatch = function() {
@@ -28812,19 +28822,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   angular.module('stockboard.controllers.dashboardProfile', [])
   .controller('DashboardProfileCtrl', function($scope, $state, UserService, StockPriceService, StockHistoryService) {
-    // filter function after retreiving data
-    var stockFilter = function(data) {
-      data.filter(function(stock) {
-        if (stock.user === $scope.userData.displayName) {
-          return stock;
-        }
-      })
-    }
-    var purchaseSoldFilter = function(stock, status) {
-      if (stock.status === status) {
-        return stock;
-      }
-    }
     // On page state load
     $scope.isCollapsed = true;
     // grab the user data and render to DOM 
@@ -28887,7 +28884,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       UserService.deleteStockWatch(stockId)
       .success(function(data) {
         console.log('successfully deleted stock watch!');
-        $state.reload();
+        $('#watchModal').modal('hide');
       })
       .catch(function(error) {
         console.error(error);
@@ -29027,6 +29024,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       .success(function(data) {
         console.log('successfully deleted stock watch!');
         $state.reload();
+        $('#listModal').modal('hide');
       })
       .catch(function(error) {
         console.error(error);
@@ -29114,14 +29112,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     console.log('This is the register page');
   });
 })();
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
 (function() {
   'use strict';
   angular.module('stockboard.models', [
