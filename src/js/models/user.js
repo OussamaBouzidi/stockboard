@@ -23,17 +23,17 @@
     this.getAllUserStockWatches = function() {
       return $http.get('/watches');
     };
-    // this.editPurchase = function() {
-    //   return $http.patch('/');
-    // }
+    this.editPurchase = function(purchaseId, edittedStock) {
+      return $http.patch('/purchases' + purchaseId, edittedStock);
+    };
     this.deleteStockPurchase = function(purchaseId) {
       return $http.delete('/purchases/' + purchaseId);
-    }
+    };
     this.deleteStockWatch = function(watchId) {
       return $http.delete('/watches/' + watchId);
-    }
+    };
     this.sellStockPurchase = function(purchaseId, soldStock) {
       return $http.patch('/purchases/' + purchaseId, soldStock)
-    }
+    };
   });
 })();

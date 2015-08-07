@@ -28523,8 +28523,66 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   angular.module('stockboard.controllers.dashboard', [])
-  .controller('DashboardCtrl', function($scope) {
-
+  .controller('DashboardCtrl', function($scope, $state, UserService) {
+    $scope.saveStockPurchase = function(purchase) {
+      // grab user data to add to purchase object
+      var userData = UserService.currentUserData;
+      // add user data to purchase object
+      purchase.user = userData.displayName;
+      purchase.sharesSold = 0;
+      purchase.status = 'Purchased';
+      // create watch object with user data and purchase data
+      var watch = {
+        name: purchase.name,
+        symbol: purchase.symbol,
+        user: userData.displayName,
+        hash: userData._id + purchase.symbol
+      }
+      UserService.addStockPurchase(purchase)
+      .success(function(data) {})
+      .catch(function(error) {
+        console.error(error);
+      })
+      UserService.addStockWatch(watch)
+      .success(function(data) {
+        $state.reload();
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
+      $scope.recordPurchase = null;
+      $scope.recordWatch = null;
+      $scope.purchase = {};
+    }
+    $scope.saveStockWatch = function(watch) {
+      var userData = UserService.currentUserData;
+      watch.user = userData.displayName;
+      watch.hash = userData._id + watch.symbol
+      UserService.addStockWatch(watch)
+      .success(function(data) {
+        watch = {};
+        $state.reload();
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
+      $scope.recordPurchase = null;
+      $scope.recordWatch = null;
+      $scope.watch = {};
+    }
+    // Add Modal state rendering logic
+    $scope.recordStockWatch = function() {
+      $scope.recordWatch = true;
+      $scope.recordPurchase = false;
+    }
+    $scope.recordStockPurchase = function() {
+      $scope.recordPurchase = true;
+      $scope.recordWatch = false;
+    }
+    $scope.modalClose = function() {
+      $scope.recordPurchase = null;
+      $scope.recordWatch = null;
+    }
   });
 })();
 
@@ -28835,9 +28893,13 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         console.error(error);
       })
     }
+    $scope.renderEditInfo = function(stock) {
+      console.log(stock);
+      $scope.edit = stock;
+    }
     // Edit stock purchase -- on click
     $scope.editStock = function(stockId) {
-
+      
     }
     // Sell stock, send info to modal
     $scope.renderSellInfo = function(stock) {
@@ -28847,7 +28909,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     $scope.submitSell = function(sellForm) {
       var newSoldStock = $scope.sellStock;
       if (newSoldStock.shares - sellForm.shares < 0) {
-        alert("You can't sell that many shares")
+        alert("You can't sell that many shares!")
         return;
       } else {
         newSoldStock.shares = newSoldStock.shares - sellForm.shares;
@@ -28855,7 +28917,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       newSoldStock.status = "Sold";
       newSoldStock.sharesSold = sellForm.shares;
       newSoldStock.priceSold = sellForm.price;
-      console.log(newSoldStock);
       UserService.sellStockPurchase(newSoldStock._id, newSoldStock)
       .success(function(data) {
         console.log(data, 'successfully sold stock!');
@@ -28908,7 +28969,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   angular.module('stockboard.controllers.dashboardStocks', [])
-  .controller('DashboardStocksCtrl', function($scope, UserService, StockHistoryService) {
+  .controller('DashboardStocksCtrl', function($scope, $state, UserService, StockHistoryService) {
     graphDivs = [];
     var userData = UserService.currentUserData;
     $scope.userName = userData.displayName;
@@ -29044,57 +29105,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         console.log('failed logging out');
       })
     }
-    $scope.saveStockPurchase = function(purchase) {
-      // grab user data to add to purchase object
-      var userData = UserService.currentUserData;
-      // add user data to purchase object
-      purchase.user = userData.displayName;
-      purchase.sharesSold = 0;
-      purchase.status = 'Purchased';
-      // create watch object with user data and purchase data
-      var watch = {
-        name: purchase.name,
-        symbol: purchase.symbol,
-        user: userData.displayName,
-        hash: userData._id + this.symbol
-      }
-      UserService.addStockPurchase(purchase)
-      .success(function(data) {})
-      .catch(function(error) { console.error(error); })
-      UserService.addStockWatch(watch)
-      .success(function(data) {
-        $state.reload();
-      })
-      .catch(function(error) {
-        console.error(error);
-      })      
-    }
-    $scope.saveStockWatch = function(watch) {
-      var userData = UserService.currentUserData;
-      watch.user = userData.displayName;
-      watch.hash = userData._id + watch.symbol
-      UserService.addStockWatch(watch)
-      .success(function(data) {
-        $state.reload();
-      })
-      .catch(function(error) {
-        console.error(error);
-      })
-    }
-
-    // Add Modal state rendering logic
-    $scope.recordStockWatch = function() {
-      $scope.recordWatch = true;
-      $scope.recordPurchase = false;
-    }
-    $scope.recordStockPurchase = function() {
-      $scope.recordPurchase = true;
-      $scope.recordWatch = false;
-    }
-    $scope.modalClose = function() {
-      $scope.recordPurchase = null;
-      $scope.recordWatch = null;
-    }
   });
 })();
 
@@ -29168,17 +29178,17 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     this.getAllUserStockWatches = function() {
       return $http.get('/watches');
     };
-    // this.editPurchase = function() {
-    //   return $http.patch('/');
-    // }
+    this.editPurchase = function(purchaseId, edittedStock) {
+      return $http.patch('/purchases' + purchaseId, edittedStock);
+    };
     this.deleteStockPurchase = function(purchaseId) {
       return $http.delete('/purchases/' + purchaseId);
-    }
+    };
     this.deleteStockWatch = function(watchId) {
       return $http.delete('/watches/' + watchId);
-    }
+    };
     this.sellStockPurchase = function(purchaseId, soldStock) {
       return $http.patch('/purchases/' + purchaseId, soldStock)
-    }
+    };
   });
 })();

@@ -25,7 +25,7 @@
             <div class="panel panel-default" ng-repeat="stockPurchased in stocksPurchased">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  <a class="accordion-title" href="#" ng-click="isCollapsed = !isCollapsed">
+                  <a class="accordion-title" ng-click="isCollapsed = !isCollapsed">
                     <p class="accordion-title" style="display: inline; color: white;">{{stockPurchased.symbol}} &nbsp;&mdash;&nbsp; {{stockPurchased.name}}</p>
                   </a>    
                   <button class="btn btn-xs btn-edit" style="display: inline; float: right; margin-top: 0;" ng-click="showInfo(stockPurchased)">Info</button>
@@ -52,7 +52,7 @@
                   <div class="row text-center">
                     <div class="col-md-12">
                       <div class="col-md-4">
-                        <button class="btn btn-sm btn-edit" data-toggle="modal" data-target="#editPurchasedModal" >Edit</button>
+                        <button class="btn btn-sm btn-edit" data-toggle="modal" data-target="#editPurchasedModal" ng-click="renderEditInfo(stockPurchased)">Edit</button>
                       </div>
                       <div class="col-md-4">
                         <button class="btn btn-sm btn-sell" data-toggle="modal" data-target="#sellModal" ng-click="renderSellInfo(stockPurchased)">Sell</button>
@@ -73,7 +73,7 @@
             <div class="panel panel-default" ng-repeat="stockSold in stocksSold">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  <a class="accordion-title" href="#" ng-click="isCollapsed = !isCollapsed">
+                  <a class="accordion-title" ng-click="isCollapsed = !isCollapsed">
                     <p class="accordion-title" style="display: inline; color: white;">{{stockSold.symbol}} &nbsp;&mdash;&nbsp; {{stockSold.name}}</p>
                   </a>
                   <button class="btn btn-xs btn-edit" style="display: inline; float: right; margin-top: 0;" ng-click="showInfo(stockSold)">Info</button>
@@ -194,27 +194,28 @@
       </div>
       <div class="modal-body">
         <h3 class="text-center">Edit Purchased Form</h3>
+        <h5>{{edit.name}} | {{edit.symbol}}</h5>
         <form action="" class="form-group">
           <div class="input-group">
-            <span class="input-group-addon">Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span class="input-group-addon">Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <input type="text" class="form-control" ng-model="stockPurchasedUpdate.name" required placeholder="Name">
           </div>
           <div class="input-group">
-            <span class="input-group-addon">Symbol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span class="input-group-addon">Symbol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <input type="text" class="form-control" ng-model="stockPurchasedUpdate.symbol" required placeholder="Symbol">
           </div>
           <div class="input-group">
-            <span class="input-group-addon">Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <input type="text" class="form-control" ng-model="stockPurchasedUpdate.priceBought" required placeholder="Price">
+            <span class="input-group-addon">Price Bought&nbsp;&nbsp;&nbsp;</span>
+            <input type="number" class="form-control" ng-model="stockPurchasedUpdate.priceBought" required placeholder="Price Bought">
           </div>
           <div class="input-group">
             <span class="input-group-addon">Shares Bought</span>
-            <input type="text" class="form-control" ng-model="stockPurchasedUpdate.shares"required placeholder="Shares Bought">
-          </div>          
+            <input type="number" class="form-control" ng-model="stockPurchasedUpdate.shares"required placeholder="Shares Bought">
+          </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button class="btn">Submit Edit</button>
+        <button class="btn" ng-click="editStock">Submit Edit</button>
       </div>
     </div>
   </div>

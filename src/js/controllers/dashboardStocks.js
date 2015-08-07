@@ -1,6 +1,6 @@
 (function() {
   angular.module('stockboard.controllers.dashboardStocks', [])
-  .controller('DashboardStocksCtrl', function($scope, UserService, StockHistoryService) {
+  .controller('DashboardStocksCtrl', function($scope, $state, UserService, StockHistoryService) {
     graphDivs = [];
     var userData = UserService.currentUserData;
     $scope.userName = userData.displayName;

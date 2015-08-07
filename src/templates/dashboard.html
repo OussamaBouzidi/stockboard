@@ -17,3 +17,65 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" ng-click="modalClose()">&times;</span></button>
+        <ul class="nav nav-pills" ng-hide="recordWatch || recordPurchase">
+          <li><a ng-click="recordStockPurchase()">RECORD STOCK PURCHASE</a></li>
+          <li><a ng-click="recordStockWatch()">WATCH STOCK PRICE</a></li>
+        </ul>
+      </div>
+
+      <div class="modal-body">
+        <div class="watch" ng-show="recordWatch">
+          <h4 class="text-center">CHOOSE COMPANY TO WATCH</h4>
+          <form action="" class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon">Name&nbsp;&nbsp;</span>
+              <input type="text" class="form-control" id="nameWatch" placeholder="Company Name" ng-model="watch.name">
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Symbol</span>
+              <input type="text" class="form-control" id="symbolWatch" placeholder="Symbol" ng-model="watch.symbol">                  
+            </div>
+            <br><br>
+            <div style="float: right;">
+              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="modalClose()">Close</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal"  ng-click="saveStockWatch(watch)">Watch</button>                  
+            </div>
+          </form>
+        </div>
+        <div class="purchase" ng-show="recordPurchase">
+          <h4 class="text-center">INPUT STOCK PURCHASE</h4>
+          <form action="" class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon">Name&nbsp;&nbsp;&nbsp;</span>
+              <input type="text" class="form-control" placeholder="Company Name" ng-model="purchase.name">
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Symbol</span>
+              <input type="text" class="form-control" placeholder="Symbol" ng-model="purchase.symbol">
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Shares&nbsp;&nbsp;</span>
+              <input type="number" class="form-control" placeholder="Number of shares" ng-model="purchase.shares">
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <input type="number" class="form-control" placeholder="Price per share" ng-model="purchase.priceBought">
+            </div>
+            <br><br>
+            <div style="float: right;">
+              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="modalClose()">Close</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="saveStockPurchase(purchase)">Save Purchase</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>

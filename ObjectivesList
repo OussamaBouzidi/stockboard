@@ -2,9 +2,7 @@ THINGS TO DO
 
 Task List
 - fix lots of functionality bugs
-  - FIX NOT WATCHING ON ADDING STOCK PURCHASE
   - FIX LOGIN LOGIC
-  - CLEAR FORM FIELD AFTER SUBMITTING PURCHASE OR WATCH
   - ADD ALERTS
     - successfully post purchase and watch
     - successfully sell stock purchase
@@ -13,7 +11,8 @@ Task List
       - profile page
       - history page
     - successfully edit stock purchase
-  
+  - Watch modal breaks on delete on profile page and history page
+
   PROFILE PAGE
   - After purchase, if didn't sell all, then duplicate informtion
       1. Purchased stocks
@@ -61,6 +60,8 @@ Task List
 
 
 SOLUTION: modal send information to service then grab it and store in variable and render into form
+
+SOLUTION: set up run to identify if user is logged in.
 
 
 
@@ -127,5 +128,8 @@ Add delete to Sold Stocks -- COMPLETED
 
 Fix button coloring -- COMPLETED
 
+FIX NOT WATCHING ON ADDING STOCK PURCHASE -- COMPLETED
 
+Migrate purchase and watch modals and dashbaord controller -- COMPLETED
 
+CLEAR FORM FIELD AFTER SUBMITTING PURCHASE OR WATCH -- COMPLETED
