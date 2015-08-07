@@ -28858,6 +28858,24 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         console.error(error)
       })
     }
+    // Render stock info to info block
+    $scope.infoRender = function(stock) {
+      StockHistoryService.getStockHistory(stock.symbol)
+      .success(function(data) {
+        console.log(data);
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
+      StockPriceService.getSockQuote(stock.symbol)
+      .success(function(data) {
+        console.log(data)
+        
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
+    }
   });
 })();
 
