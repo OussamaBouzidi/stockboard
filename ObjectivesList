@@ -2,7 +2,18 @@ THINGS TO DO
 
 Task List
 - fix lots of functionality bugs
-- FIX LOGIN LOGIC
+  - FIX NOT WATCHING ON ADDING STOCK PURCHASE
+  - FIX LOGIN LOGIC
+  - CLEAR FORM FIELD AFTER SUBMITTING PURCHASE OR WATCH
+  - ADD ALERTS
+    - successfully post purchase and watch
+    - successfully sell stock purchase
+    - successfully delete stock purchase
+    - successfully delete stock watch
+      - profile page
+      - history page
+    - successfully edit stock purchase
+  
   PROFILE PAGE
   - After purchase, if didn't sell all, then duplicate informtion
       1. Purchased stocks
@@ -16,7 +27,7 @@ Task List
         - (Total profit)
         - (Percent profit)
   - Add general information after button click on profile card
-      1. Add button
+      1. Add button -- COMPLETED
       2. Create modal that renders on button click
       3. Modal infomation:
         - Total History Spent
@@ -27,26 +38,7 @@ Task List
           - Grab all sold and multiply shares sold and price sold
         - Percent total profit
           - totalSold - totalSpent / totalSpent * 100
-  - Render stock info after clicking info
-    - On click on info grab information and pass to function
-    - var $scope.infoRender = function(stock) {
-        StockHistoryService.getStockHistory(stock.symbol)
-        .success(function(data) {
-          console.log(data);
-
-        })
-        .catch(function(error) {
-          console.error(error);
-        })
-        StockPriceService.getSockQuote(stock.symbol)
-        .success(function(data) {
-          console.log(data)
-
-        })
-        .catch(function(error) {
-          console.error(error);
-        })
-      }
+  - Fix individual stock info ui, narrow tables and eliminate current from first table
 
   - Add edit functionality to purchased and sold
 
@@ -62,7 +54,8 @@ Task List
       - grab stocks with purchased status
 
   STOCK HISTORY PAGE
-  - Add filter features for Stocks History Page
+  - Fix modal graph positioning
+  - Fix input field look and text color
   - On click of historical graph, pull up current data of Stock
 
 
@@ -117,3 +110,5 @@ Redo purchased model so that includes sold price and shares sold -- COMPLETED
 Make sure there are no duplicates in watches route in backend -- COMPLETED
   -- unique does not seem to work
   -- try clearing database and retrying after
+
+Add search feature for Stocks History Page -- COMPLETED

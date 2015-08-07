@@ -63,9 +63,36 @@
         console.error(error);
       })
     }
-    $scope.filterStockWatches = function(filter) {
-      console.log(filter);
-      $scope.filters = {};
+    $scope.findOneStock = function(symbol) {
+      StockHistoryService.getStockHistory(symbol)
+      .success(function(data) {
+        console.log(data);
+        var dataPrices = data.Elements[0].DataSeries.close.values;
+        var dataCoordinates = [];
+        dataPrices.forEach(function(dataPoint, index) {
+          var dateArray = data.Dates[index].split('-');
+          var date = Date.UTC(Number(dateArray[0]), Number(dateArray[1])-1, Number(dateArray[2].slice(0,2)));
+          dataCoordinates.push([date, dataPoint]);
+        })
+        $('#individualGraph').highcharts('StockChart', {
+          rangeSelector : {
+            selected : 1
+          },
+          title : {
+            text : symbol
+          },
+          series : [{
+            name : symbol,
+            data : dataCoordinates,
+            tooltip: {
+              valueDecimals: 2
+            }
+          }]
+        });
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
     }
   });
 })();

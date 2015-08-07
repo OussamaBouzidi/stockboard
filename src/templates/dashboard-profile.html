@@ -11,10 +11,8 @@
       <hr width="80%">
       <div class="card-action text-center">
         <button class="btn btn-sm" data-toggle="modal" data-target="#watchModal">Stocks Watched</button>
-        <p></p>
-        <p class="dashboard-content">Total Expenditure:</p>
-        <p class="dashboard-content">{{totalExpenditure}}</p>
-        <a href="#" target="new_blank">Link</a>
+        <div style="height: 15px;"></div>
+        <button class="btn btn-sm">Profile Info</button>
       </div>
     </div>
   </div>
@@ -47,7 +45,7 @@
                       <tr>
                         <td class="accordion-content">{{stockPurchased.shares}}</td>
                         <td class="accordion-content">{{stockPurchased.priceBought.toFixed(2)}}</td>
-                        <td class="accordion-content">{{stockPurchased.priceBought.toFixed(2) * stockPurchased.shares}}</td>
+                        <td class="accordion-content">{{(stockPurchased.priceBought * stockPurchased.shares).toFixed(2)}}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -127,49 +125,57 @@
             </div>
             <p>{{stockInfoRender.Timestamp}}</p>
             <p class="text-center">Daily Info</p>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Current</th>
-                  <th>Open</th>
-                  <th>Low</th>
-                  <th>High</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>${{stockInfoRender.LastPrice}}</td>
-                  <td>${{stockInfoRender.Open}}</td>
-                  <td>${{stockInfoRender.Low}}</td>
-                  <td>${{stockInfoRender.High}}</td>
-                </tr>
-              </tbody>
-            </table>
-            <p class="text-center">General Info</p>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Dollar Change</th>
-                  <th>Percent Change</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th>Daily</th>
-                  <td>{{stockInfoRender.Change.toFixed(2)}}</td>
-                  <td>{{stockInfoRender.ChangePercent.toFixed(4)}}</td>
-                </tr>
-                <tr>
-                  <th>Yearly</th>
-                  <td>{{stockInfoRender.ChangeYTD}}</td>
-                  <td>{{stockInfoRender.ChangePercentYTD.toFixed(4)}}</td>
-                </tr>
-              </tbody>
-            </table>
             <div class="row">
-              <p class="col-md-6"><strong>Volume:</strong> {{stockInfoRender.Volume}}</p>
-              <p class="col-md-6 right"><strong>Market Cap:</strong> {{stockInfoRender.MarketCap}}</p>
+              <div class="col-md-10 col-md-offset-1">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Open</th>
+                      <th>Low</th>
+                      <th>High</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>${{stockInfoRender.Open}}</td>
+                      <td>${{stockInfoRender.Low}}</td>
+                      <td>${{stockInfoRender.High}}</td>
+                    </tr>
+                  </tbody>
+                </table>            
+              </div>            
+            </div>
+            <div class="row">
+              <p class="text-center">General Info</p>            
+            </div>
+            <div class="col-md-10 col-md-offset-1">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Dollar Change</th>
+                    <th>Percent Change</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>Daily</th>
+                    <td>${{stockInfoRender.Change.toFixed(2)}}</td>
+                    <td>{{stockInfoRender.ChangePercent.toFixed(4)}}%</td>
+                  </tr>
+                  <tr>
+                    <th>Yearly</th>
+                    <td>${{stockInfoRender.ChangeYTD}}</td>
+                    <td>{{stockInfoRender.ChangePercentYTD.toFixed(4)}}%</td>
+                  </tr>
+                </tbody>
+              </table>            
+            </div>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1">
+                <p class="col-md-6"><strong>Volume:</strong> {{stockInfoRender.Volume}}</p>
+                <p class="col-md-6 text-right"><strong>Market Cap:</strong> {{stockInfoRender.MarketCap}}</p>              
+              </div>
             </div>
           </div>  
           <div id="infoRenderGraph"></div>      
