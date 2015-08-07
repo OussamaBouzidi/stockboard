@@ -2,6 +2,7 @@ THINGS TO DO
 
 Task List
 - fix lots of functionality bugs
+- FIX LOGIN LOGIC
   PROFILE PAGE
   - After purchase, if didn't sell all, then duplicate informtion
       1. Purchased stocks
@@ -40,7 +41,7 @@ Task List
         StockPriceService.getSockQuote(stock.symbol)
         .success(function(data) {
           console.log(data)
-          
+
         })
         .catch(function(error) {
           console.error(error);

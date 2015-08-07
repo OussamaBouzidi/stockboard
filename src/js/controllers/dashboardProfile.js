@@ -1,6 +1,6 @@
 (function() {
   angular.module('stockboard.controllers.dashboardProfile', [])
-  .controller('DashboardProfileCtrl', function($scope, $state, UserService, StockPriceService) {
+  .controller('DashboardProfileCtrl', function($scope, $state, UserService, StockPriceService, StockHistoryService) {
     // filter function after retreiving data
     var stockFilter = function(data) {
       data.filter(function(stock) {
@@ -112,18 +112,38 @@
       })
     }
     // Render stock info to info block
-    $scope.infoRender = function(stock) {
+    $scope.showInfo = function(stock) {
       StockHistoryService.getStockHistory(stock.symbol)
       .success(function(data) {
-        console.log(data);
+        dataCoordinates = [];
+        dataPrices = data.Elements[0].DataSeries.close.values;
+        dataPrices.forEach(function(dataPoint, index) {
+          var dateArray = data.Dates[index].split('-');
+          var date = Date.UTC(Number(dateArray[0]), Number(dateArray[1])-1, Number(dateArray[2].slice(0,2)));
+          dataCoordinates.push([date, dataPoint]);
+        })
+        $('#infoRenderGraph').highcharts('StockChart', {
+          rangeSelector : {
+            selected : 1
+          },
+          title : {
+            text : stock.name
+          },
+          series : [{
+            name : stock.name,
+            data : dataCoordinates,
+            tooltip: {
+              valueDecimals: 2
+            }
+          }]
+        });
       })
       .catch(function(error) {
         console.error(error);
       })
-      StockPriceService.getSockQuote(stock.symbol)
+      StockPriceService.getStockQuote(stock.symbol)
       .success(function(data) {
-        console.log(data)
-        
+        $scope.stockInfoRender = data;
       })
       .catch(function(error) {
         console.error(error);
