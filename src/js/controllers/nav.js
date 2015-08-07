@@ -28,6 +28,7 @@
       var userData = UserService.currentUserData;
       // add user data to purchase object
       purchase.user = userData.displayName;
+      purchase.sharesSold = 0;
       purchase.status = 'Purchased';
       // create watch object with user data and purchase data
       var watch = {

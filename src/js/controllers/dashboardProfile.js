@@ -51,9 +51,9 @@
         }
       })
       // calculate total expenditure and render to DOM
-      $scope.totalExpenditure = $scope.stocksPurchased.reduce(function(total, price) {
-        return Number(total) + Number(price.shares * price.priceBought);
-      }, 0).toFixed(2);
+      // $scope.totalExpenditure = $scope.stocksPurchased.reduce(function(total, price) {
+      //   return Number(total) + Number(price.shares * price.priceBought);
+      // }, 0).toFixed(2);
     })
     .catch(function(error) {
       console.error(error);

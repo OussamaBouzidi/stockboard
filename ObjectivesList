@@ -1,29 +1,76 @@
 THINGS TO DO
 
-Make sure there are no duplicates in watches route in backend 
-  -- unique does not seem to work
-  -- try clearing database and retrying after
-
-Add filter features for Stocks History Page
-
-Integrate Analytics into Profile page
-
-On click of historical graph, pull up current data of Stock
-
-
-
-
-
-
 Task List
-- 
+- fix lots of functionality bugs
+  PROFILE PAGE
+  - After purchase, if didn't sell all, then duplicate informtion
+      1. Purchased stocks
+        - new Shares Remaining
+        - Price Bought
+        - Total Cost
+      2. Sold stocks
+        - Shares sold
+        - Price sold
+        - (Total revenue)
+        - (Total profit)
+        - (Percent profit)
+  - Add general information after button click on profile card
+      1. Add button
+      2. Create modal that renders on button click
+      3. Modal infomation:
+        - Total History Spent
+          - Grab all stocks and multiply shares bought and price bought
+        - Current amount in stocks
+          - Grab all purchased still 
+        - Total History Sold
+          - Grab all sold and multiply shares sold and price sold
+        - Percent total profit
+          - totalSold - totalSpent / totalSpent * 100
+  - Render stock info after clicking info
+    - On click on info grab information and pass to function
+    - var $scope.infoRender = function(stock) {
+        StockHistoryService.getStockHistory(stock.symbol)
+        .success(function(data) {
+          console.log(data);
+        })
+        .catch(function(error) {
+          console.error(error);
+        })
+      }
 
-modal send information to service then grab it and store in variable and render into form
+  - Add edit functionality to purchased and sold
+
+  PORTFOLIO PAGE
+  - Graphs
+    - Expenditure pie chart
+    - Profit pie chart
+      - grab stocks with sold status
+      - calculate all sold price * sold shares 
+    - Current potential stock returns (Percent)
+      - grab stocks with purchased status
+    - Current potential stock returns (Dollars)
+      - grab stocks with purchased status
+
+  STOCK HISTORY PAGE
+  - Add filter features for Stocks History Page
+  - On click of historical graph, pull up current data of Stock
+
+
+
+SOLUTION: modal send information to service then grab it and store in variable and render into form
+
+
+
 
 BIG TASK
 
 Integate sentiment analysis based on twitter feed into stocks with sentiment API
+(Potential integrate into profile rather than analytics)
 
+BONUS
+
+ANALYTICS??
+ADDITIONAL AUTHENTICATION
 
 
 
@@ -56,3 +103,7 @@ Rename tabs -- COMPLETED
 With profile page add watches -- COMPLETED
 
 Redo purchased model so that includes sold price and shares sold -- COMPLETED
+
+Make sure there are no duplicates in watches route in backend -- COMPLETED
+  -- unique does not seem to work
+  -- try clearing database and retrying after

@@ -28798,9 +28798,9 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         }
       })
       // calculate total expenditure and render to DOM
-      $scope.totalExpenditure = $scope.stocksPurchased.reduce(function(total, price) {
-        return Number(total) + Number(price.shares * price.priceBought);
-      }, 0).toFixed(2);
+      // $scope.totalExpenditure = $scope.stocksPurchased.reduce(function(total, price) {
+      //   return Number(total) + Number(price.shares * price.priceBought);
+      // }, 0).toFixed(2);
     })
     .catch(function(error) {
       console.error(error);
@@ -28977,6 +28977,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       var userData = UserService.currentUserData;
       // add user data to purchase object
       purchase.user = userData.displayName;
+      purchase.sharesSold = 0;
       purchase.status = 'Purchased';
       // create watch object with user data and purchase data
       var watch = {
@@ -29031,6 +29032,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     console.log('This is the register page');
   });
 })();
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
 (function() {
   'use strict';
   angular.module('stockboard.models', [
@@ -29100,12 +29109,4 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       return $http.patch('/purchases/' + purchaseId, soldStock)
     }
   });
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
 })();
