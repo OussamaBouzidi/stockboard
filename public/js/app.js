@@ -28556,29 +28556,35 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         return Number(total) + Number(price.shares * price.priceBought);
       }, 0).toFixed(2);
 
-      stocksData.forEach(function(stockData) {
+      var purchasedStocks = stocksData.filter(function(stock) {
+        if (stock.status === 'Purchased') {
+          return stock;
+        }
+      })
+      var soldStocks = stocksData.filter(function(stock) {
+        if (stock.status === "Sold") {
+          return stock;
+        }
+      })
+
+      purchasedStocks.forEach(function(stockData) {
         pieChartExpenditureData
         .push({
           name: stockData.name,
           y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
         })
-
-        console.log(stockData);
-        console.log(stockData.sharesSold * stockData.priceSold, 'revenue');
-        console.log(stockData.sharesSold * stockData.pricePurchased, 'expenditure');
-        console.log((stockData.sharesSold * stockData.priceSold) - (stockData.sharesSold * stockData.pricePurchased), 'profit');
-        
+      })
+      
+      soldStocks.forEach(function(stockData) {
         pieChartProfitData
         .push({
           name: stockData.name,
-          y: (stockData.sharesSold * stockData.priceSold) - (stockData.sharesSold * stockData.pricePurchased)
+          y: stockData.sharesSold * (stockData.priceSold - stockData.priceBought)
         })
       })
-      
-      console.log(pieChartProfitData);
 
       chartRenders.pieChartExpenditureRender();
-      // chartRenders.pieChartProfitRender();
+      chartRenders.pieChartProfitRender();
 
       stocksData.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
@@ -28711,7 +28717,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         })
       },
       pieChartProfitRender: function() {
-        $('#expenditure-pie').highcharts({
+        $('#profit-pie').highcharts({
           chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -29100,14 +29106,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 })();
 (function() {
   'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
   angular.module('stockboard.models', [
     'stockboard.models.user',
     'stockboard.models.stockHistory',
@@ -29175,4 +29173,12 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       return $http.patch('/purchases/' + purchaseId, soldStock)
     }
   });
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
 })();
