@@ -28586,7 +28586,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       chartRenders.pieChartExpenditureRender();
       chartRenders.pieChartProfitRender();
 
-      stocksData.forEach(function(stock) {
+      purchasedStocks.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
         .success(function(data) {
           barChartPercentData.push(
@@ -29106,6 +29106,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 })();
 (function() {
   'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
   angular.module('stockboard.models', [
     'stockboard.models.user',
     'stockboard.models.stockHistory',
@@ -29173,12 +29181,4 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       return $http.patch('/purchases/' + purchaseId, soldStock)
     }
   });
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
 })();

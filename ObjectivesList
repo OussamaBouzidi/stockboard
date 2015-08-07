@@ -13,6 +13,7 @@ Task List
       - profile page
       - history page
     - successfully edit stock purchase
+  - Fix button coloring -- COMPLETED
   
   PROFILE PAGE
   - After purchase, if didn't sell all, then duplicate informtion
@@ -39,19 +40,17 @@ Task List
         - Percent total profit
           - totalSold - totalSpent / totalSpent * 100
   - Fix individual stock info ui, narrow tables and eliminate current from first table
-
   - Add edit functionality to purchased and sold
 
   PORTFOLIO PAGE
   - Graphs
-    - Expenditure pie chart
-    - Profit pie chart
-      - grab stocks with sold status
-      - calculate all sold price * sold shares 
-    - Current potential stock returns (Percent)
-      - grab stocks with purchased status
-    - Current potential stock returns (Dollars)
-      - grab stocks with purchased status
+    - bar chart of total shares purchased
+      - grab purchased and total shares
+    - bar chart of total spent on each stock
+      - grab purchased and sharesPurchased * priceBought
+
+  filter on backend { user: user.displayName }
+
 
   STOCK HISTORY PAGE
   - Fix modal graph positioning
@@ -112,3 +111,19 @@ Make sure there are no duplicates in watches route in backend -- COMPLETED
   -- try clearing database and retrying after
 
 Add search feature for Stocks History Page -- COMPLETED
+
+GRAPHS -- COMPLETED
+  - Expenditure pie chart
+  - Profit pie chart
+    - grab stocks with sold status
+    - calculate all sold price * sold shares 
+  - Current potential stock returns (Percent)
+    - grab stocks with purchased status
+  - Current potential stock returns (Dollars)
+    - grab stocks with purchased status
+
+Add delete to Sold Stocks -- COMPLETED
+
+
+
+

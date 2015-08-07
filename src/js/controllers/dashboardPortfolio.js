@@ -49,7 +49,7 @@
       chartRenders.pieChartExpenditureRender();
       chartRenders.pieChartProfitRender();
 
-      stocksData.forEach(function(stock) {
+      purchasedStocks.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
         .success(function(data) {
           barChartPercentData.push(
