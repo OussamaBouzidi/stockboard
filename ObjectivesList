@@ -13,7 +13,6 @@ Task List
       - profile page
       - history page
     - successfully edit stock purchase
-  - Fix button coloring -- COMPLETED
   
   PROFILE PAGE
   - After purchase, if didn't sell all, then duplicate informtion
@@ -48,6 +47,8 @@ Task List
       - grab purchased and total shares
     - bar chart of total spent on each stock
       - grab purchased and sharesPurchased * priceBought
+    - bar chart of total profits on sold
+      - grab sold and sharesSold * (priceSold - priceBought)
 
   filter on backend { user: user.displayName }
 
@@ -124,6 +125,7 @@ GRAPHS -- COMPLETED
 
 Add delete to Sold Stocks -- COMPLETED
 
+Fix button coloring -- COMPLETED
 
 
 

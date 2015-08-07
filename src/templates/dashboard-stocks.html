@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-1">
       <div class="btn-group" style="display: inline-block">
-        <button class="btn" style="width: 95px;" data-toggle="modal" data-target="#listModal">List</button>
+        <button class="btn btn-edit" style="width: 95px;" data-toggle="modal" data-target="#listModal">List</button>
       </div>
     </div>
     <div class="input-group filter col-md-3">
@@ -45,7 +45,7 @@
               <tr ng-repeat="stock in watchedStocks">
                 <td>{{stock.name}}</td>
                 <td>{{stock.symbol}}</td>
-                <td><button class="btn" data-dismiss="modal" ng-click="deleteWatchedStock(stock._id)">Delete</button></td>
+                <td><button class="btn btn-delete" data-dismiss="modal" ng-click="deleteWatchedStock(stock._id)">Delete</button></td>
               </tr>
             </tbody>
           </tbody>
