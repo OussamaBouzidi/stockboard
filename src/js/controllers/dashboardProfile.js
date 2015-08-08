@@ -100,12 +100,28 @@
     // Sell stock, update info in backend and rerender
     $scope.submitSell = function(sellForm) {
       var newSoldStock = $scope.sellStock;
+      var oldSoldStock = $scope.sellStock;
       if (newSoldStock.shares - sellForm.shares < 0) {
         alert("You can't sell that many shares!")
         return;
       } else {
         newSoldStock.shares = newSoldStock.shares - sellForm.shares;
-        // add other with UserService.addStockPurchase()
+        if (newSoldStock.shares !== sellForm.shares) {
+          delete oldSoldStock["_id"];
+          delete oldSoldStock["__v"];
+          oldSoldStock.status = 'Purchased';
+          oldSoldStock.shares = newSoldStock.shares - sellForm.shares;
+          oldSoldStock.sharesSold = sellForm.shares;
+          oldSoldStock.priceSold = sellForm.price;
+          console.log(oldSoldStock);
+          UserService.addStockPurchase(oldSoldStock)
+          .success(function(data) {
+            console.log('success duplicate', data);
+          })
+          .catch(function(error) {
+            console.error(error);
+          })        
+        }
       }
       newSoldStock.status = "Sold";
       newSoldStock.sharesSold = sellForm.shares;

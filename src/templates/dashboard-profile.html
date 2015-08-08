@@ -95,7 +95,7 @@
                         <td class="accordion-content">{{stockSold.sharesSold}}</td>
                         <td class="accordion-content">{{stockSold.priceSold.toFixed(2)}}</td>
                         <td class="accordion-content">{{stockSold.priceSold.toFixed(2) * stockSold.sharesSold}}</td>
-                        <td>{{stockSold.priceSold.toFixed(2) * stockSold.sharesSold}}</td>
+                        <td>{{((stockSold.priceSold - stockSold.priceBought) * stockSold.sharesSold).toFixed(2)}}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -120,10 +120,12 @@
         <div class="col-md-12 graph-card" style="min-height: 200px;">
           <div class="dashboard-content" ng-show="stockInfoRender">
             <div class="row">
-              <h5 class="col-md-9 dashboard-content">{{stockInfoRender.Symbol}} &mdash; {{stockInfoRender.Name}}</h5>
-              <h5 class="col-md-3 right dashboard-content">${{stockInfoRender.LastPrice}}</h5>            
+              <h5 class="col-md-offset-1 col-md-8 dashboard-content">{{stockInfoRender.Symbol}} &mdash; {{stockInfoRender.Name}}</h5>
+              <h5 class="col-md-2 right dashboard-content">${{stockInfoRender.LastPrice}}</h5>            
             </div>
-            <p>{{stockInfoRender.Timestamp}}</p>
+            <div class="row">
+              <p class="col-md-offset-1 col-md-8">{{stockInfoRender.Timestamp}}</p>
+            </div>
             <p class="text-center">Daily Info</p>
             <div class="row">
               <div class="col-md-10 col-md-offset-1">

@@ -14,7 +14,9 @@ Task List
       - profile page
       - history page
     - successfully edit stock purchase
-  - Watch modal breaks on delete on dashboard.html and history page
+  - add and watch list modal breaks on delete on dashboard.html and history page
+  - sell modal broken
+  - delete on the profile watch is broken, doesnt update till page refresh
 
   PROFILE PAGE
   - After purchase, if didn't sell all, then duplicate informtion
@@ -40,7 +42,6 @@ Task List
           - Grab all sold and multiply shares sold and price sold
         - Percent total profit
           - totalSold - totalSpent / totalSpent * 100
-  - Fix individual stock info ui, narrow tables and eliminate current from first table
 
   PORTFOLIO PAGE
   - Graphs
@@ -50,12 +51,12 @@ Task List
       - grab purchased and sharesPurchased * priceBought
     - bar chart of total profits on sold
       - grab sold and sharesSold * (priceSold - priceBought)
+    - pie chart of negative profits
 
   filter on backend { user: user.displayName }
 
 
   STOCK HISTORY PAGE
-  - Fix modal graph positioning
   - On click of historical graph, pull up current data of Stock
 
 
@@ -69,7 +70,7 @@ SOLUTION: set up run to identify if user is logged in.
 
 BIG TASK
   - transfer over graphs to service
-  
+
 Integate sentiment analysis based on twitter feed into stocks with sentiment API
 (Potential integrate into profile rather than analytics)
 
@@ -139,3 +140,7 @@ CLEAR FORM FIELD AFTER SUBMITTING PURCHASE OR WATCH -- COMPLETED
 Fix input field look and text color -- COMPLETED
 
 Add edit functionality to purchased and sold -- COMPLETED
+
+Fix individual stock info ui, narrow tables and eliminate current from first table -- COMPLETED
+
+Fix modal graph positioning -- COMPLETED

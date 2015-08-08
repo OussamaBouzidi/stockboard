@@ -10,27 +10,27 @@
           controller: 'HomeCtrl'
         })
         .state('dashboard', {
-          url: '/dashboard/:hash',
+          url: '/dashboard',
           templateUrl: 'templates/dashboard.html',
           controller: 'DashboardCtrl'
         })
         .state('dashboard.profile', {
-          url: 'profile',
+          url: '/profile',
           templateUrl: 'templates/dashboard-profile.html',
           controller: 'DashboardProfileCtrl'
         })
         .state('dashboard.portfolio', {
-          url: 'portfolio',
+          url: '/portfolio',
           templateUrl: 'templates/dashboard-portfolio.html',
           controller: 'DashboardPortfolioCtrl'
         })
         .state('dashboard.stocks', {
-          url: 'stocks',
+          url: '/stocks',
           templateUrl: 'templates/dashboard-stocks.html',
           controller: 'DashboardStocksCtrl'
         })
         .state('dashboard.analytics', {
-          url: 'analytics',
+          url: '/analytics',
           templateUrl: 'templates/dashboard-analytics.html',
           controller: 'DashboardAnalyticsCtrl'
         })

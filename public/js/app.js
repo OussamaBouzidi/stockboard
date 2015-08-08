@@ -28464,27 +28464,27 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
           controller: 'HomeCtrl'
         })
         .state('dashboard', {
-          url: '/dashboard/:hash',
+          url: '/dashboard',
           templateUrl: 'templates/dashboard.html',
           controller: 'DashboardCtrl'
         })
         .state('dashboard.profile', {
-          url: 'profile',
+          url: '/profile',
           templateUrl: 'templates/dashboard-profile.html',
           controller: 'DashboardProfileCtrl'
         })
         .state('dashboard.portfolio', {
-          url: 'portfolio',
+          url: '/portfolio',
           templateUrl: 'templates/dashboard-portfolio.html',
           controller: 'DashboardPortfolioCtrl'
         })
         .state('dashboard.stocks', {
-          url: 'stocks',
+          url: '/stocks',
           templateUrl: 'templates/dashboard-stocks.html',
           controller: 'DashboardStocksCtrl'
         })
         .state('dashboard.analytics', {
-          url: 'analytics',
+          url: '/analytics',
           templateUrl: 'templates/dashboard-analytics.html',
           controller: 'DashboardAnalyticsCtrl'
         })
@@ -28503,14 +28503,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         requireBase: false
       });
     });
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
 })();
 
 (function() {
@@ -28921,12 +28913,28 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     // Sell stock, update info in backend and rerender
     $scope.submitSell = function(sellForm) {
       var newSoldStock = $scope.sellStock;
+      var oldSoldStock = $scope.sellStock;
       if (newSoldStock.shares - sellForm.shares < 0) {
         alert("You can't sell that many shares!")
         return;
       } else {
         newSoldStock.shares = newSoldStock.shares - sellForm.shares;
-        // add other with UserService.addStockPurchase()
+        if (newSoldStock.shares !== sellForm.shares) {
+          delete oldSoldStock["_id"];
+          delete oldSoldStock["__v"];
+          oldSoldStock.status = 'Purchased';
+          oldSoldStock.shares = newSoldStock.shares - sellForm.shares;
+          oldSoldStock.sharesSold = sellForm.shares;
+          oldSoldStock.priceSold = sellForm.price;
+          console.log(oldSoldStock);
+          UserService.addStockPurchase(oldSoldStock)
+          .success(function(data) {
+            console.log('success duplicate', data);
+          })
+          .catch(function(error) {
+            console.error(error);
+          })        
+        }
       }
       newSoldStock.status = "Sold";
       newSoldStock.sharesSold = sellForm.shares;
@@ -29200,4 +29208,12 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       return $http.patch('/purchases/' + purchaseId, soldStock)
     };
   });
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
 })();
