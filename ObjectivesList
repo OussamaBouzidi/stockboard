@@ -69,6 +69,7 @@ SOLUTION: set up run to identify if user is logged in.
 
 BIG TASK
   - transfer over graphs to service
+  
 Integate sentiment analysis based on twitter feed into stocks with sentiment API
 (Potential integrate into profile rather than analytics)
 
