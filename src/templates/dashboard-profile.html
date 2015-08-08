@@ -102,10 +102,10 @@
                   <div class="row text-center">
                     <div class="col-md-12">
                       <div class="col-md-6">
-                        <button class="btn btn-sm btn-edit">Edit</button>
+                        <button class="btn btn-sm btn-edit" data-toggle="modal" data-target="#editSoldModal" ng-click="renderEditInfo(stockSold)">Edit</button>
                       </div>
                       <div class="col-md-6">
-                        <button class="btn btn-sm btn-delete"  ng-click="deleteStockPurchase(stockSold._id)">Delete</button>
+                        <button class="btn btn-sm btn-delete" ng-click="deleteStockPurchase(stockSold._id)">Delete</button>
                       </div>                
                     </div>
                   </div>
@@ -230,15 +230,28 @@
       </div>
       <div class="modal-body">
         <h3 class="text-center">Edit Sold Form</h3>
+        <h5 class="text-center">{{edit.name}} | {{edit.symbol}}</h5>
         <form action="" class="form-group">
-          <input type="text" class="form-control" required placeholder="Name">
-          <input type="text" class="form-control" required placeholder="Symbol">
-          <input type="text" class="form-control" required placeholder="Price">        
+          <div class="input-group">
+            <span class="input-group-addon">Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" class="form-control" ng-model="stockSoldUpdate.name" required placeholder="{{edit.name}}">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Symbol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" class="form-control" ng-model="stockSoldUpdate.symbol" required placeholder="{{edit.symbol}}">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Price Sold&nbsp;&nbsp;&nbsp;</span>
+            <input type="number" class="form-control" ng-model="stockSoldUpdate.priceSold" required placeholder="{{edit.priceSold}}">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Shares Sold</span>
+            <input type="number" class="form-control" ng-model="stockSoldUpdate.sharesSold"required placeholder="{{edit.sharesSold}}">
+          </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button class="btn">Submit Edit</button>
-        <button class="btn">Delete Stock Sold</button>
+        <button class="btn" ng-click="editStock(stockSoldUpdate)">Submit Edit</button>
       </div>
     </div>
   </div>

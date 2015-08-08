@@ -41,7 +41,6 @@ Task List
         - Percent total profit
           - totalSold - totalSpent / totalSpent * 100
   - Fix individual stock info ui, narrow tables and eliminate current from first table
-  - Add edit functionality to purchased and sold
 
   PORTFOLIO PAGE
   - Graphs
@@ -138,3 +137,4 @@ CLEAR FORM FIELD AFTER SUBMITTING PURCHASE OR WATCH -- COMPLETED
 
 Fix input field look and text color -- COMPLETED
 
+Add edit functionality to purchased and sold -- COMPLETED

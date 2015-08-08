@@ -188,7 +188,7 @@
             type: 'pie'
           },
           title: {
-            text: 'Profit Breakdown'
+            text: 'Positive Profit Breakdown'
           },
           tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

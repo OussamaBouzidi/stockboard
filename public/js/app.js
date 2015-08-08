@@ -28508,6 +28508,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
 
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
+
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -28785,7 +28793,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
             type: 'pie'
           },
           title: {
-            text: 'Profit Breakdown'
+            text: 'Positive Profit Breakdown'
           },
           tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -28894,6 +28902,8 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       edittedStock.symbol = stock.symbol;
       edittedStock.priceBought = stock.priceBought;
       edittedStock.shares = stock.shares;
+      edittedStock.sharesSold = stock.sharesSold;
+      edittedStock.priceSold = stock.priceSold;
       UserService.editPurchase($scope.edit._id, edittedStock)
       .success(function(data) {
         console.log(data, 'successfully updated stock purchase!');
@@ -28902,6 +28912,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         console.error(error);
       })
       $('#editPurchasedModal').modal('hide');
+      $('#editSoldModal').modal('hide');
     }
     // Sell stock, send info to modal
     $scope.renderSellInfo = function(stock) {
@@ -29189,12 +29200,4 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       return $http.patch('/purchases/' + purchaseId, soldStock)
     };
   });
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
 })();

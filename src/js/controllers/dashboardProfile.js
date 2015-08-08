@@ -81,6 +81,8 @@
       edittedStock.symbol = stock.symbol;
       edittedStock.priceBought = stock.priceBought;
       edittedStock.shares = stock.shares;
+      edittedStock.sharesSold = stock.sharesSold;
+      edittedStock.priceSold = stock.priceSold;
       UserService.editPurchase($scope.edit._id, edittedStock)
       .success(function(data) {
         console.log(data, 'successfully updated stock purchase!');
@@ -89,6 +91,7 @@
         console.error(error);
       })
       $('#editPurchasedModal').modal('hide');
+      $('#editSoldModal').modal('hide');
     }
     // Sell stock, send info to modal
     $scope.renderSellInfo = function(stock) {
