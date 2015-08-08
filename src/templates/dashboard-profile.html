@@ -38,7 +38,7 @@
                       <tr>
                         <th class="col-md-4 text-center accordion-content">Shares</th>
                         <th class="col-md-4 text-center accordion-content">Price Bought</th>
-                        <th class="col-md-4 text-center accordion-content">Total</th>
+                        <th class="col-md-4 text-center accordion-content">Cost</th>
                       </tr>
                     </thead>
                     <tbody class="text-center">
@@ -85,16 +85,16 @@
                     <thead>
                       <tr>
                         <th class="col-md-4 text-center accordion-content">Shares</th>
-                        <th class="col-md-4 text-center accordion-content">Price Bought</th>
-                        <th class="col-md-4 text-center accordion-content">Total Revenue</th>
-                        <th class="col-md-4 text-center accordion-content">Total Profit</th>
+                        <th class="col-md-4 text-center accordion-content">Price Sold</th>
+                        <th class="col-md-4 text-center accordion-content">Revenue</th>
+                        <th class="col-md-4 text-center accordion-content">Profit</th>
                       </tr>
                     </thead>
                     <tbody class="text-center">
                       <tr>
                         <td class="accordion-content">{{stockSold.sharesSold}}</td>
                         <td class="accordion-content">{{stockSold.priceSold.toFixed(2)}}</td>
-                        <td class="accordion-content">{{stockSold.priceSold.toFixed(2) * stockSold.sharesSold}}</td>
+                        <td class="accordion-content">{{(stockSold.priceSold * stockSold.sharesSold).toFixed(2)}}</td>
                         <td>{{((stockSold.priceSold - stockSold.priceBought) * stockSold.sharesSold).toFixed(2)}}</td>
                       </tr>
                     </tbody>

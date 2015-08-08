@@ -28539,14 +28539,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         hash: userData._id + purchase.symbol
       }
       UserService.addStockPurchase(purchase)
-      .success(function(data) {})
+      .success(function(data) {
+        $state.reload();
+      })
       .catch(function(error) {
         console.error(error);
       })
       UserService.addStockWatch(watch)
-      .success(function(data) {
-        $state.reload();
-      })
+      .success(function(data) {})
       .catch(function(error) {
         console.error(error);
       })
@@ -28926,7 +28926,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
           oldSoldStock.shares = newSoldStock.shares - sellForm.shares;
           oldSoldStock.sharesSold = sellForm.shares;
           oldSoldStock.priceSold = sellForm.price;
-          console.log(oldSoldStock);
           UserService.addStockPurchase(oldSoldStock)
           .success(function(data) {
             console.log('success duplicate', data);
@@ -29141,6 +29140,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 })();
 (function() {
   'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  'use strict';
   angular.module('stockboard.models', [
     'stockboard.models.user',
     'stockboard.models.stockHistory',
@@ -29208,12 +29215,4 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       return $http.patch('/purchases/' + purchaseId, soldStock)
     };
   });
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
 })();

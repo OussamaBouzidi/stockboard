@@ -16,14 +16,14 @@
         hash: userData._id + purchase.symbol
       }
       UserService.addStockPurchase(purchase)
-      .success(function(data) {})
+      .success(function(data) {
+        $state.reload();
+      })
       .catch(function(error) {
         console.error(error);
       })
       UserService.addStockWatch(watch)
-      .success(function(data) {
-        $state.reload();
-      })
+      .success(function(data) {})
       .catch(function(error) {
         console.error(error);
       })

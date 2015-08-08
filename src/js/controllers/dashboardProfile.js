@@ -113,7 +113,6 @@
           oldSoldStock.shares = newSoldStock.shares - sellForm.shares;
           oldSoldStock.sharesSold = sellForm.shares;
           oldSoldStock.priceSold = sellForm.price;
-          console.log(oldSoldStock);
           UserService.addStockPurchase(oldSoldStock)
           .success(function(data) {
             console.log('success duplicate', data);

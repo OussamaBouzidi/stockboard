@@ -19,17 +19,6 @@ Task List
   - delete on the profile watch is broken, doesnt update till page refresh
 
   PROFILE PAGE
-  - After purchase, if didn't sell all, then duplicate informtion
-      1. Purchased stocks
-        - new Shares Remaining
-        - Price Bought
-        - Total Cost
-      2. Sold stocks
-        - Shares sold
-        - Price sold
-        - (Total revenue)
-        - (Total profit)
-        - (Percent profit)
   - Add general information after button click on profile card
       1. Add button -- COMPLETED
       2. Create modal that renders on button click
@@ -144,3 +133,15 @@ Add edit functionality to purchased and sold -- COMPLETED
 Fix individual stock info ui, narrow tables and eliminate current from first table -- COMPLETED
 
 Fix modal graph positioning -- COMPLETED
+
+After purchase, if didn't sell all, then duplicate informtion -- COMPLETED
+  1. Purchased stocks
+    - new Shares Remaining
+    - Price Bought
+    - Total Cost
+  2. Sold stocks
+    - Shares sold
+    - Price sold
+    - (Total revenue)
+    - (Total profit)
+    - (Percent profit)
