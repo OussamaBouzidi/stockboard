@@ -5,9 +5,13 @@
     UserService.getAllUserStockPurchases(userData._id)
     .success(function(data) {
       pieChartExpenditureData = [];
-      pieChartProfitData = [];
+      pieChartPosProfitData = [];
+      pieChartNegProfitData = [];
       barChartPercentData = [];
       barChartDollarsData = [];
+      barChartProfitData = [];
+      barChartExpenditureData = [];
+      barChartStockSharesData = [];
 
       stocksData = data.filter(function(stock) {
         if (stock.user === userData.displayName) {
@@ -19,14 +23,21 @@
         return Number(total) + Number(price.shares * price.priceBought);
       }, 0).toFixed(2);
 
-      var purchasedStocks = stocksData.filter(function(stock) {
+      var purchasedStocks = [],
+          soldStocks = [],
+          soldPositiveStocks = [],
+          soldNegativeStocks = [];
+
+      stocksData.forEach(function(stock) {
         if (stock.status === 'Purchased') {
-          return stock;
-        }
-      })
-      var soldStocks = stocksData.filter(function(stock) {
-        if (stock.status === "Sold") {
-          return stock;
+          purchasedStocks.push(stock);
+        } else {
+          soldStocks.push(stock);
+          if (stock.priceSold >= stock.priceBought) {
+            soldPositiveStocks.push(stock);
+          } else {
+            soldNegativeStocks.push(stock);
+          }
         }
       })
 
@@ -35,19 +46,50 @@
         .push({
           name: stockData.name,
           y: (stockData.shares * stockData.priceBought)/$scope.totalExpenditure
-        })
+        });
+        barChartExpenditureData.push([stockData.name, stockData.shares * stockData.priceBought]);
+        barChartStockSharesData.push([stockData.name, stockData.shares]);
+      })
+
+      soldStocks.forEach(function(stockData) {
+        barChartProfitData.push([stockData.name, Number((stockData.sharesSold * (stockData.priceSold - stockData.priceBought)).toFixed(2))]);
       })
       
-      soldStocks.forEach(function(stockData) {
-        pieChartProfitData
+      soldPositiveStocks.forEach(function(stockData) {
+        pieChartPosProfitData
         .push({
           name: stockData.name,
           y: stockData.sharesSold * (stockData.priceSold - stockData.priceBought)
         })
       })
 
-      chartRenders.pieChartExpenditureRender();
-      chartRenders.pieChartProfitRender();
+      soldNegativeStocks.forEach(function(stockData) {
+        pieChartNegProfitData
+        .push({
+          name: stockData.name,
+          y: (stockData.sharesSold * (stockData.priceSold - stockData.priceBought))*-1
+        })        
+      })
+
+      chartRenders.barChartSort(barChartProfitData, 'value', true);
+      chartRenders.barChartSort(barChartExpenditureData, 'value', true);
+      chartRenders.barChartSort(barChartStockSharesData, 'value', true);
+
+      chartRenders.pieChartRender('#expenditure-pie', 'Expenditure Breakdown', "Cost", pieChartExpenditureData);
+      chartRenders.pieChartRender('#profit-pie', 'Positive Profit Breakdown', "Cost", pieChartPosProfitData);
+      chartRenders.pieChartRender('#neg-profit-pie', 'Negative Profit Breakdown', "Cost", pieChartNegProfitData);
+      chartRenders.barChartRender('#profit-bar', 'Profit Returns',
+                                  barChartProfitData.map(function(stock) { return stock[0]; }),
+                                  'Dollars', UserService.currentUserData.displayName,
+                                  barChartProfitData.map(function(stock) { return stock[1]; }));
+      chartRenders.barChartRender('#total-cost-bar', 'Expenditure Costs',
+                                  barChartExpenditureData.map(function(stock) { return stock[0]; }),
+                                  'Dollars', UserService.currentUserData.displayName,
+                                  barChartExpenditureData.map(function(stock) { return stock[1]; }));
+      chartRenders.barChartRender('#total-shares-bar', 'Stock Shares Breakdown',
+                                  barChartStockSharesData.map(function(stock) { return stock[0]; }),
+                                  'Shares', UserService.currentUserData.displayName,
+                                  barChartStockSharesData.map(function(stock) { return stock[1]; }));
 
       purchasedStocks.forEach(function(stock) {
         StockPriceService.getStockQuote(stock.symbol)
@@ -58,10 +100,20 @@
           barChartDollarsData.push(
             [stock.symbol, Number(((data.LastPrice * stock.shares) - (stock.priceBought * stock.shares)).toFixed(2))]
           );
-          chartRenders.barChartSort(barChartPercentData, 'percent', true);
-          chartRenders.barChartSort(barChartDollarsData, 'percent', true);
-          chartRenders.barChartPercentRender();
-          chartRenders.barChartDollarsRender();
+          chartRenders.barChartSort(barChartPercentData, 'value', true);
+          chartRenders.barChartSort(barChartDollarsData, 'value', true);
+          chartRenders.barChartRender('#expenditure-bar-percent',
+                                      'Current Potential Stock Returns (Percent)',
+                                      barChartPercentData.map(function(stock) { return stock[0]; }),
+                                      'Percentage',
+                                      UserService.currentUserData.displayName,
+                                      barChartPercentData.map(function(stock) { return stock[1]; }))
+          chartRenders.barChartRender('#expenditure-bar-dollars',
+                                      'Current Potential Stock Returns (Dollars)',
+                                      barChartDollarsData.map(function(stock) { return stock[0]; }),
+                                      'Dollars',
+                                      UserService.currentUserData.displayName,
+                                      barChartDollarsData.map(function(stock) { return stock[1]; }))
         })
         .catch(function(error) {
           console.error(error);
@@ -74,7 +126,7 @@
 
     var chartRenders = {
       barChartSort: function(barChartData, type, ascending) {
-        if (type === 'percent') {
+        if (type === 'value') {
           if (ascending) {
             return barChartData.sort(function(a, b) {
               return a[1] - b[1];
@@ -96,60 +148,30 @@
           }
         }        
       },
-      barChartPercentRender: function() {
-        $('#expenditure-bar-percent').highcharts({
+      barChartRender: function(elementId, title, xAxisCategories, yAxisScale, seriesName, data) {
+        $(elementId).highcharts({
           chart: {
             type: 'column'
           },
           title: {
-            text: 'Current Potential Stock Returns (Percent)'
+            text: title
           },
           xAxis: {
-            categories: barChartPercentData.map(function(stock) {
-              return stock[0];
-            })
+            categories: xAxisCategories
           },
           yAxis: {
             title: {
-              text: 'Percentage'
+              text: yAxisScale
             }
           },
           series: [{
-            name: UserService.currentUserData.displayName,
-            data: barChartPercentData.map(function(stock) {
-              return stock[1];
-            })
+            name: seriesName,
+            data: data
           }]
-        });
+        });        
       },
-      barChartDollarsRender: function() {
-        $('#expenditure-bar-dollars').highcharts({
-          chart: {
-            type: 'column'
-          },
-          title: {
-            text: 'Current Potential Stock Returns (Dollars)'
-          },
-          xAxis: {
-            categories: barChartDollarsData.map(function(stock) {
-              return stock[0];
-            })
-          },
-          yAxis: {
-            title: {
-              text: 'Dollars'
-            }
-          },
-          series: [{
-            name: UserService.currentUserData.displayName,
-            data: barChartDollarsData.map(function(stock) {
-              return stock[1];
-            })
-          }]
-        });
-      },
-      pieChartExpenditureRender: function() {
-        $('#expenditure-pie').highcharts({
+      pieChartRender: function(elementId, title, seriesName, seriesData) {
+        $(elementId).highcharts({
           chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -157,7 +179,7 @@
             type: 'pie'
           },
           title: {
-            text: 'Expenditure Breakdown'
+            text: title
           },
           tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -173,40 +195,9 @@
             }
           },
           series: [{
-            name: "Companies",
+            name: seriesName,
             colorByPoint: true,
-            data: pieChartExpenditureData
-          }]      
-        })
-      },
-      pieChartProfitRender: function() {
-        $('#profit-pie').highcharts({
-          chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
-          },
-          title: {
-            text: 'Positive Profit Breakdown'
-          },
-          tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-          },
-          plotOptions: {
-            pie: {
-              allowPointSelect: true,
-              cursor: 'pointer',
-              dataLabels: {
-                enabled: false
-              },
-              showInLegend: true
-            }
-          },
-          series: [{
-            name: "Companies",
-            colorByPoint: true,
-            data: pieChartProfitData
+            data: seriesData
           }]      
         })
       }

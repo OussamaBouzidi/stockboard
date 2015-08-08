@@ -3,9 +3,7 @@ THINGS TO DO
 Task List
 - fix lots of functionality bugs
   - FIX LOGIN LOGIC
-  - DOLLAR CHANGE YEARLY MATH WRONG CURRENT - CHANGEYTD
   - Fix information displayed in sold
-  - Get rid of negative profit in graph "Profit Breakdown"
   - ADD ALERTS
     - successfully post purchase and watch
     - successfully sell stock purchase
@@ -38,9 +36,10 @@ Task List
       - grab purchased and total shares
     - bar chart of total spent on each stock
       - grab purchased and sharesPurchased * priceBought
-    - bar chart of total profits on sold
+    - bar chart of total profits on sold - COMPLETED
       - grab sold and sharesSold * (priceSold - priceBought)
-    - pie chart of negative profits
+
+    - pie chart of negative profits - COMPLETED
 
   - Collapse graphs
 
@@ -149,3 +148,8 @@ After purchase, if didn't sell all, then duplicate informtion -- COMPLETED
     - (Total revenue)
     - (Total profit)
     - (Percent profit)
+
+  - DOLLAR CHANGE YEARLY MATH WRONG CURRENT - CHANGEYTD
+
+  - Get rid of negative profit in graph "Profit Breakdown"
+
