@@ -4,7 +4,7 @@ Task List
 - fix lots of functionality bugs
   - FIX LOGIN LOGIC
   - DOLLAR CHANGE YEARLY MATH WRONG CURRENT - CHANGEYTD
-
+  - Fix information displayed in sold
   - Get rid of negative profit in graph "Profit Breakdown"
   - ADD ALERTS
     - successfully post purchase and watch
