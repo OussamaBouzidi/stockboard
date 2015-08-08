@@ -31,16 +31,6 @@ Task List
           - totalSold - totalSpent / totalSpent * 100
 
   PORTFOLIO PAGE
-  - Graphs
-    - bar chart of total shares purchased
-      - grab purchased and total shares
-    - bar chart of total spent on each stock
-      - grab purchased and sharesPurchased * priceBought
-    - bar chart of total profits on sold - COMPLETED
-      - grab sold and sharesSold * (priceSold - priceBought)
-
-    - pie chart of negative profits - COMPLETED
-
   - Collapse graphs
 
   filter on backend { user: user.displayName }
@@ -149,7 +139,17 @@ After purchase, if didn't sell all, then duplicate informtion -- COMPLETED
     - (Total profit)
     - (Percent profit)
 
-  - DOLLAR CHANGE YEARLY MATH WRONG CURRENT - CHANGEYTD
+DOLLAR CHANGE YEARLY MATH WRONG CURRENT - CHANGEYTD - COMPLETED
 
-  - Get rid of negative profit in graph "Profit Breakdown"
+Get rid of negative profit in graph "Profit Breakdown" - COMPLETED
+
+- Graphs - COMPLETED
+- bar chart of total shares purchased
+  - grab purchased and total shares
+- bar chart of total spent on each stock
+  - grab purchased and sharesPurchased * priceBought
+- bar chart of total profits on sold - COMPLETED
+  - grab sold and sharesSold * (priceSold - priceBought)
+
+- pie chart of negative profits - COMPLETED
 
