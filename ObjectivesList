@@ -14,7 +14,7 @@ Task List
       - profile page
       - history page
     - successfully edit stock purchase
-  - add and watch list modal breaks on delete on dashboard.html and history page
+  - add purchase and watch on dashboard.html and watch list modal breaks on delete history page
   - sell modal broken
   - delete on the profile watch is broken, doesnt update till page refresh
 
@@ -42,17 +42,21 @@ Task List
       - grab sold and sharesSold * (priceSold - priceBought)
     - pie chart of negative profits
 
-  filter on backend { user: user.displayName }
+  - Collapse graphs
 
+  filter on backend { user: user.displayName }
 
   STOCK HISTORY PAGE
   - On click of historical graph, pull up current data of Stock
 
 
 
+
+
 SOLUTION: modal send information to service then grab it and store in variable and render into form
 
 SOLUTION: set up run to identify if user is logged in.
+
 
 
 
