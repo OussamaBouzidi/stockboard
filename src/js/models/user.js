@@ -24,7 +24,7 @@
       return $http.get('/watches');
     };
     this.editPurchase = function(purchaseId, edittedStock) {
-      return $http.patch('/purchases' + purchaseId, edittedStock);
+      return $http.patch('/purchases/' + purchaseId, edittedStock);
     };
     this.deleteStockPurchase = function(purchaseId) {
       return $http.delete('/purchases/' + purchaseId);

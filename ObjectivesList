@@ -3,6 +3,9 @@ THINGS TO DO
 Task List
 - fix lots of functionality bugs
   - FIX LOGIN LOGIC
+  - DOLLAR CHANGE YEARLY MATH WRONG CURRENT - CHANGEYTD
+
+  - Get rid of negative profit in graph "Profit Breakdown"
   - ADD ALERTS
     - successfully post purchase and watch
     - successfully sell stock purchase
@@ -54,7 +57,6 @@ Task List
 
   STOCK HISTORY PAGE
   - Fix modal graph positioning
-  - Fix input field look and text color
   - On click of historical graph, pull up current data of Stock
 
 
@@ -67,7 +69,7 @@ SOLUTION: set up run to identify if user is logged in.
 
 
 BIG TASK
-
+  - transfer over graphs to service
 Integate sentiment analysis based on twitter feed into stocks with sentiment API
 (Potential integrate into profile rather than analytics)
 
@@ -133,3 +135,6 @@ FIX NOT WATCHING ON ADDING STOCK PURCHASE -- COMPLETED
 Migrate purchase and watch modals and dashbaord controller -- COMPLETED
 
 CLEAR FORM FIELD AFTER SUBMITTING PURCHASE OR WATCH -- COMPLETED
+
+Fix input field look and text color -- COMPLETED
+

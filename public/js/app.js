@@ -28887,8 +28887,21 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       $scope.edit = stock;
     }
     // Edit stock purchase -- on click
-    $scope.editStock = function(stockId) {
-      
+    $scope.editStock = function(stock) {
+      console.log(stock);
+      var edittedStock = $scope.edit;
+      edittedStock.name = stock.name;
+      edittedStock.symbol = stock.symbol;
+      edittedStock.priceBought = stock.priceBought;
+      edittedStock.shares = stock.shares;
+      UserService.editPurchase($scope.edit._id, edittedStock)
+      .success(function(data) {
+        console.log(data, 'successfully updated stock purchase!');
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
+      $('#editPurchasedModal').modal('hide');
     }
     // Sell stock, send info to modal
     $scope.renderSellInfo = function(stock) {
@@ -28902,6 +28915,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         return;
       } else {
         newSoldStock.shares = newSoldStock.shares - sellForm.shares;
+        // add other with UserService.addStockPurchase()
       }
       newSoldStock.status = "Sold";
       newSoldStock.sharesSold = sellForm.shares;
@@ -28909,6 +28923,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       UserService.sellStockPurchase(newSoldStock._id, newSoldStock)
       .success(function(data) {
         console.log(data, 'successfully sold stock!');
+        $state.reload();
       })
       .catch(function(error) {
         console.error(error)
@@ -29162,7 +29177,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       return $http.get('/watches');
     };
     this.editPurchase = function(purchaseId, edittedStock) {
-      return $http.patch('/purchases' + purchaseId, edittedStock);
+      return $http.patch('/purchases/' + purchaseId, edittedStock);
     };
     this.deleteStockPurchase = function(purchaseId) {
       return $http.delete('/purchases/' + purchaseId);
