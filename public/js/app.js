@@ -28522,6 +28522,108 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
 
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
+(function() {
+  angular.module('stockboard.models.fbAuth', [])
+  .factory('FirebaseAuthService', function() {
+    var User = {};
+    User.afAuth;
+    User.ref;
+    User.register = function(user){
+      return User.afAuth.$createUser(user);
+    };
+    User.login = function(user){
+      return this.afAuth.$authWithPassword(user);
+    };
+    User.logout = function(){
+      return this.afAuth.$unauth();
+    };
+    return User;
+    });
+})();
+
+(function() {
+  'use strict';
+  angular.module('stockboard.models', [
+    'stockboard.models.user',
+    'stockboard.models.fbAuth',
+    'stockboard.models.stockHistory',
+    'stockboard.models.stockPrice'
+  ]);
+})();
+
+(function() {
+  angular.module('stockboard.models.stockHistory', [])
+  .factory('StockHistoryService', function($http, BASE_URL) {
+    return {
+      getStockHistory: function(stockSymbol) {
+        return $http.jsonp('http://dev.markitondemand.com/Api/v2/InteractiveChart/jsonp?parameters=%7B%22Normalized%22%3Afalse%2C%22NumberOfDays%22%3A1825%2C%22DataPeriod%22%3A%22Day%22%2C%22Elements%22%3A%5B%7B%22Symbol%22%3A%22' + stockSymbol + '%22%2C%22Type%22%3A%22price%22%2C%22Params%22%3A%5B%22c%22%5D%7D%5D%7D&callback=JSON_CALLBACK');
+      }
+    }
+  });
+})();
+
+(function() {
+  angular.module('stockboard.models.stockPrice', [])
+  .factory('StockPriceService', function($http) {
+    return {
+      getStockQuote: function (stockSymbol) {
+        return $http.jsonp('http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=' + stockSymbol + '&callback=JSON_CALLBACK');
+      }
+    }
+  });
+})();
+
+(function() {
+  angular.module('stockboard.models.user', [])
+  .service('UserService', function($http) {
+    this.currentUserData;
+    this.loggedIn = false;
+    this.addUser = function(user) {
+      return $http.post('/users', user);
+    }
+    this.getCurrentUser = function() {
+      return $http.get('/currentuser');
+    };
+    this.logoutCurrentUser = function() {
+      this.currentUserData = {};
+      this.loggedIn = false;
+      return $http.get('/logout');
+    };    
+    this.addStockPurchase = function(purchase) {
+      return $http.post('/purchases', purchase);
+    };
+    this.addStockWatch = function(watch) {
+      return $http.post('/watches', watch);
+    };
+    this.getAllUserStockPurchases = function() {
+      return $http.get('/purchases');
+    };
+    this.getAllUserStockWatches = function() {
+      return $http.get('/watches');
+    };
+    this.editPurchase = function(purchaseId, edittedStock) {
+      return $http.patch('/purchases/' + purchaseId, edittedStock);
+    };
+    this.deleteStockPurchase = function(purchaseId) {
+      return $http.delete('/purchases/' + purchaseId);
+    };
+    this.deleteStockWatch = function(watchId) {
+      return $http.delete('/watches/' + watchId);
+    };
+    this.sellStockPurchase = function(purchaseId, soldStock) {
+      return $http.patch('/purchases/' + purchaseId, soldStock)
+    };
+  });
+})();
+
+(function() {
+  'use strict';
+
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -29104,8 +29206,17 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   angular.module('stockboard.controllers.login', [])
-  .controller('LoginCtrl', function() {
+  .controller('LoginCtrl', function($scope, $state, FirebaseAuthService) {
     console.log('This is the login page');
+    $scope.signIn = function(user){
+      FirebaseAuthService.login(user)
+      .then(function(resp){
+        $state.go('dashboard.profile');
+      })
+      .catch(function() {
+        alert("Log in failed!");
+      })
+    };
   });
 })();
 
@@ -29124,6 +29235,13 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
       UserService.loggedIn = false;
     })
     $scope.logout = function() {
+      FirebaseAuthService.logout()
+      .success(function(resp) {
+
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
       UserService.logoutCurrentUser()
       .success(function(data) {
         console.log('successfully logged out');
@@ -29158,106 +29276,5 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         console.error(error);
       })
     }
-  });
-})();
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  angular.module('stockboard.models.fbAuth', [])
-  .factory('FirebaseAuthService', function() {
-    var User = {};
-    User.afAuth;
-    User.ref;
-    User.register = function(user){
-      return User.afAuth.$createUser(user);
-    };
-    User.login = function(user){
-      return this.afAuth.$authWithPassword(user);
-    };
-    User.logout = function(){
-      return this.afAuth.$unauth();
-    };
-    return User;
-    });
-})();
-
-(function() {
-  'use strict';
-  angular.module('stockboard.models', [
-    'stockboard.models.user',
-    'stockboard.models.fbAuth',
-    'stockboard.models.stockHistory',
-    'stockboard.models.stockPrice'
-  ]);
-})();
-
-(function() {
-  angular.module('stockboard.models.stockHistory', [])
-  .factory('StockHistoryService', function($http, BASE_URL) {
-    return {
-      getStockHistory: function(stockSymbol) {
-        return $http.jsonp('http://dev.markitondemand.com/Api/v2/InteractiveChart/jsonp?parameters=%7B%22Normalized%22%3Afalse%2C%22NumberOfDays%22%3A1825%2C%22DataPeriod%22%3A%22Day%22%2C%22Elements%22%3A%5B%7B%22Symbol%22%3A%22' + stockSymbol + '%22%2C%22Type%22%3A%22price%22%2C%22Params%22%3A%5B%22c%22%5D%7D%5D%7D&callback=JSON_CALLBACK');
-      }
-    }
-  });
-})();
-
-(function() {
-  angular.module('stockboard.models.stockPrice', [])
-  .factory('StockPriceService', function($http) {
-    return {
-      getStockQuote: function (stockSymbol) {
-        return $http.jsonp('http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=' + stockSymbol + '&callback=JSON_CALLBACK');
-      }
-    }
-  });
-})();
-
-(function() {
-  angular.module('stockboard.models.user', [])
-  .service('UserService', function($http) {
-    this.currentUserData;
-    this.loggedIn = false;
-    this.addUser = function(user) {
-      return $http.post('/users', user);
-    }
-    this.getCurrentUser = function() {
-      return $http.get('/currentuser');
-    };
-    this.logoutCurrentUser = function() {
-      this.currentUserData = {};
-      this.loggedIn = false;
-      return $http.get('/logout');
-    };    
-    this.addStockPurchase = function(purchase) {
-      return $http.post('/purchases', purchase);
-    };
-    this.addStockWatch = function(watch) {
-      return $http.post('/watches', watch);
-    };
-    this.getAllUserStockPurchases = function() {
-      return $http.get('/purchases');
-    };
-    this.getAllUserStockWatches = function() {
-      return $http.get('/watches');
-    };
-    this.editPurchase = function(purchaseId, edittedStock) {
-      return $http.patch('/purchases/' + purchaseId, edittedStock);
-    };
-    this.deleteStockPurchase = function(purchaseId) {
-      return $http.delete('/purchases/' + purchaseId);
-    };
-    this.deleteStockWatch = function(watchId) {
-      return $http.delete('/watches/' + watchId);
-    };
-    this.sellStockPurchase = function(purchaseId, soldStock) {
-      return $http.patch('/purchases/' + purchaseId, soldStock)
-    };
   });
 })();

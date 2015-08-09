@@ -13,6 +13,13 @@
       UserService.loggedIn = false;
     })
     $scope.logout = function() {
+      FirebaseAuthService.logout()
+      .success(function(resp) {
+
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
       UserService.logoutCurrentUser()
       .success(function(data) {
         console.log('successfully logged out');
