@@ -2,7 +2,7 @@
   angular.module('stockboard.models.user', [])
   .service('UserService', function($http) {
     this.currentUserData;
-    this.loggedIn = false;
+    this.loggedIn;
     this.addUser = function(user) {
       return $http.post('/users', user);
     }

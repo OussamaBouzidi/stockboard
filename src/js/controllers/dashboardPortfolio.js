@@ -1,6 +1,6 @@
 (function() {
   angular.module('stockboard.controllers.dashboardPortfolio', [])
-  .controller('DashboardPortfolioCtrl', function($scope, UserService, StockPriceService) {
+  .controller('DashboardPortfolioCtrl', function($scope, UserService, StockPriceService, GraphService) {
     var userData = UserService.currentUserData;
     UserService.getAllUserStockPurchases(userData._id)
     .success(function(data) {
@@ -71,22 +71,22 @@
         })        
       })
 
-      chartRenders.barChartSort(barChartProfitData, 'value', true);
-      chartRenders.barChartSort(barChartExpenditureData, 'value', true);
-      chartRenders.barChartSort(barChartStockSharesData, 'value', true);
+      GraphService.barChartSort(barChartProfitData, 'value', true);
+      GraphService.barChartSort(barChartExpenditureData, 'value', true);
+      GraphService.barChartSort(barChartStockSharesData, 'value', true);
 
-      chartRenders.pieChartRender('#expenditure-pie', 'Expenditure Breakdown', "Cost", pieChartExpenditureData);
-      chartRenders.pieChartRender('#profit-pie', 'Positive Profit Breakdown', "Cost", pieChartPosProfitData);
-      chartRenders.pieChartRender('#neg-profit-pie', 'Negative Profit Breakdown', "Cost", pieChartNegProfitData);
-      chartRenders.barChartRender('#profit-bar', 'Profit Returns',
+      GraphService.pieChartRender('#expenditure-pie', 'Expenditure Breakdown', "Cost", pieChartExpenditureData);
+      GraphService.pieChartRender('#profit-pie', 'Positive Profit Breakdown', "Cost", pieChartPosProfitData);
+      GraphService.pieChartRender('#neg-profit-pie', 'Negative Profit Breakdown', "Cost", pieChartNegProfitData);
+      GraphService.barChartRender('#profit-bar', 'Profit Returns',
                                   barChartProfitData.map(function(stock) { return stock[0]; }),
                                   'Dollars', UserService.currentUserData.displayName,
                                   barChartProfitData.map(function(stock) { return stock[1]; }));
-      chartRenders.barChartRender('#total-cost-bar', 'Expenditure Costs',
+      GraphService.barChartRender('#total-cost-bar', 'Expenditure Costs',
                                   barChartExpenditureData.map(function(stock) { return stock[0]; }),
                                   'Dollars', UserService.currentUserData.displayName,
                                   barChartExpenditureData.map(function(stock) { return stock[1]; }));
-      chartRenders.barChartRender('#total-shares-bar', 'Stock Shares Purchased',
+      GraphService.barChartRender('#total-shares-bar', 'Stock Shares Purchased',
                                   barChartStockSharesData.map(function(stock) { return stock[0]; }),
                                   'Shares', UserService.currentUserData.displayName,
                                   barChartStockSharesData.map(function(stock) { return stock[1]; }));
@@ -100,15 +100,15 @@
           barChartDollarsData.push(
             [stock.symbol, Number(((data.LastPrice * stock.shares) - (stock.priceBought * stock.shares)).toFixed(2))]
           );
-          chartRenders.barChartSort(barChartPercentData, 'value', true);
-          chartRenders.barChartSort(barChartDollarsData, 'value', true);
-          chartRenders.barChartRender('#expenditure-bar-percent',
+          GraphService.barChartSort(barChartPercentData, 'value', true);
+          GraphService.barChartSort(barChartDollarsData, 'value', true);
+          GraphService.barChartRender('#expenditure-bar-percent',
                                       'Current Potential Stock Returns (Percent)',
                                       barChartPercentData.map(function(stock) { return stock[0]; }),
                                       'Percentage',
                                       UserService.currentUserData.displayName,
                                       barChartPercentData.map(function(stock) { return stock[1]; }))
-          chartRenders.barChartRender('#expenditure-bar-dollars',
+          GraphService.barChartRender('#expenditure-bar-dollars',
                                       'Current Potential Stock Returns (Dollars)',
                                       barChartDollarsData.map(function(stock) { return stock[0]; }),
                                       'Dollars',
@@ -123,84 +123,5 @@
     .catch(function(error) {
       console.error(error);
     })
-
-    var chartRenders = {
-      barChartSort: function(barChartData, type, ascending) {
-        if (type === 'value') {
-          if (ascending) {
-            return barChartData.sort(function(a, b) {
-              return a[1] - b[1];
-            });
-          } else {
-            return barChartData.sort(function(a, b) {
-              return b[1] - a[1];
-            });
-          }
-        } else {
-          if (ascending) {
-            return barChartData.sort(function(a, b) {
-              return a[0] - b[0];
-            });
-          } else {
-            return barChartData.sort(function(a, b) {
-              return b[0] - a[0];
-            });
-          }
-        }        
-      },
-      barChartRender: function(elementId, title, xAxisCategories, yAxisScale, seriesName, data) {
-        $(elementId).highcharts({
-          chart: {
-            type: 'column'
-          },
-          title: {
-            text: title
-          },
-          xAxis: {
-            categories: xAxisCategories
-          },
-          yAxis: {
-            title: {
-              text: yAxisScale
-            }
-          },
-          series: [{
-            name: seriesName,
-            data: data
-          }]
-        });        
-      },
-      pieChartRender: function(elementId, title, seriesName, seriesData) {
-        $(elementId).highcharts({
-          chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
-          },
-          title: {
-            text: title
-          },
-          tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-          },
-          plotOptions: {
-            pie: {
-              allowPointSelect: true,
-              cursor: 'pointer',
-              dataLabels: {
-                enabled: false
-              },
-              showInLegend: true
-            }
-          },
-          series: [{
-            name: seriesName,
-            colorByPoint: true,
-            data: seriesData
-          }]      
-        })
-      }
-    }
   });
 })();

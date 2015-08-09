@@ -17,7 +17,7 @@ Task List
   - delete on the profile watch is broken, doesnt update till page refresh
 
   PROFILE PAGE
-  - Add general information after button click on profile card
+  - Add general informatio after button click on profile card
       1. Add button -- COMPLETED
       2. Create modal that renders on button click
       3. Modal infomation:

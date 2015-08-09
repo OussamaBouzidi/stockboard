@@ -1,7 +1,8 @@
 (function() {
   angular.module('stockboard.controllers.nav', [])
-  .controller('NavCtrl', function($scope, $state, UserService, StockHistoryService) {
-    $scope.loggedIn = UserService.loggedIn;
+  .controller('NavCtrl', function($scope, $state, UserService, StockHistoryService, FirebaseAuthService) {
+    console.log(UserService.loggedIn);
+    $scope.loggedIn = UserService.loggedIn || true;
     UserService.getCurrentUser()
     .success(function(data) {
       UserService.currentUserData = data;
@@ -13,13 +14,13 @@
       UserService.loggedIn = false;
     })
     $scope.logout = function() {
-      FirebaseAuthService.logout()
-      .succss(function(resp) {
+      // FirebaseAuthService.logout()
+      // .succss(function(resp) {
 
-      })
-      .catch(function(error) {
-        console.error(error);
-      })
+      // })
+      // .catch(function(error) {
+      //   console.error(error);
+      // })
       UserService.logoutCurrentUser()
       .success(function(data) {
         console.log('successfully logged out');
