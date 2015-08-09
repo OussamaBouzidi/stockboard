@@ -28522,14 +28522,6 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
 
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
-
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -29051,11 +29043,15 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
   angular.module('stockboard.controllers.nav', [])
   .controller('NavCtrl', function($scope, $state, UserService, StockHistoryService, FirebaseAuthService) {
     console.log(UserService.loggedIn);
-    $scope.loggedIn = UserService.loggedIn || true;
     UserService.getCurrentUser()
     .success(function(data) {
+      console.log(data);
       UserService.currentUserData = data;
-      UserService.loggedIn = true;
+      if (data) {
+        UserService.loggedIn = true;
+      } else {
+        $scope.loggedIn = false;
+      }
       $scope.loggedIn = UserService.loggedIn;
     })
     .catch(function(error) {
@@ -29106,6 +29102,14 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
     }
   });
 })();
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
 (function() {
   angular.module('stockboard.models.fbAuth', [])
   .factory('FirebaseAuthService', function() {

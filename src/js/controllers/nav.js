@@ -2,11 +2,15 @@
   angular.module('stockboard.controllers.nav', [])
   .controller('NavCtrl', function($scope, $state, UserService, StockHistoryService, FirebaseAuthService) {
     console.log(UserService.loggedIn);
-    $scope.loggedIn = UserService.loggedIn || true;
     UserService.getCurrentUser()
     .success(function(data) {
+      console.log(data);
       UserService.currentUserData = data;
-      UserService.loggedIn = true;
+      if (data) {
+        UserService.loggedIn = true;
+      } else {
+        $scope.loggedIn = false;
+      }
       $scope.loggedIn = UserService.loggedIn;
     })
     .catch(function(error) {
