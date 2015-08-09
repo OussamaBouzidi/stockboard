@@ -92,16 +92,16 @@ gulp.task('build', function(cb) {
 });
 
 // Default task: builds your app, and recompiles assets when they change
-gulp.task('default', ['server'], function() {
-  // Watch Sass
-  gulp.watch([src_path + '/scss/**/*', './scss/**/*'], ['sass']);
+// gulp.task('default', ['server'], function() {
+//   // Watch Sass
+//   gulp.watch([src_path + '/scss/**/*', './scss/**/*'], ['sass']);
 
-  // Watch JavaScript
-  gulp.watch([src_path + '/js/**/*', './js/**/*'], ['javascripts']);
+//   // Watch JavaScript
+//   gulp.watch([src_path + '/js/**/*', './js/**/*'], ['javascripts']);
 
-  // Watch static files
-  gulp.watch([src_path + '/**/*.*', '!' + src_path + '/templates/**/*.*', '!' + src_path + '/{scss,js}/**/*.*'], ['copy']);
+//   // Watch static files
+//   gulp.watch([src_path + '/**/*.*', '!' + src_path + '/templates/**/*.*', '!' + src_path + '/{scss,js}/**/*.*'], ['copy']);
 
-  // Watch app templates
-  gulp.watch([src_path + '/templates/**/*.html'], ['copy:templates']);
-});
+//   // Watch app templates
+//   gulp.watch([src_path + '/templates/**/*.html'], ['copy:templates']);
+// });
