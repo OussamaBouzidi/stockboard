@@ -45,9 +45,7 @@
     "serve-favicon": "~2.2.1",
     "yargs": "^3.15.0"
   },
-  "browserify": {
-    "transform": [
-      "babelify"
-    ]
+  "engines": {
+    "node": "latest"
   }
 }
