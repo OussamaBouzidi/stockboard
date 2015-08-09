@@ -1,6 +1,6 @@
 (function() {
   angular.module('stockboard.controllers.dashboardAnalytics', [])
-  .controller('DashboardAnalyticsCtrl', function() {
+  .controller('DashboardAnalyticsCtrl', function($http) {
 
   });
 })();

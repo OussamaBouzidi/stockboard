@@ -10,6 +10,7 @@ var session = require('express-session');
 
 var routes = require('./routes/index');
 var auth = require('./routes/auth');
+var sentiment = require('./routes/sentimentAnalysis');
 
 var app = express();
 

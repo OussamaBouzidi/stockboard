@@ -28590,7 +28590,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   angular.module('stockboard.controllers.dashboardAnalytics', [])
-  .controller('DashboardAnalyticsCtrl', function() {
+  .controller('DashboardAnalyticsCtrl', function($http) {
 
   });
 })();
