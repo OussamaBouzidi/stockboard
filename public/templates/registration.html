@@ -3,18 +3,18 @@
     <h3 class="text-center">Signup</h3>
     <div class="col-md-4 col-md-offset-4 col-xs-8 col-xs-offset-2">
       <form action="" class="form-group" ng-submit="create(user)">
-        <input type="text" class="form-control" placeholder="Name" requried ng-model="user.name"><br>
-        <input type="email" class="form-control" placeholder="Email" required ng-model="user.email"><br>
-        <input type="password" class="form-control" placeholder="Password" required ng-model="user.password"><br>
-        <button class="btn btn-lg btn-block">Login</button><br><br>
+        <input type="text" class="form-control" placeholder="Name" requried ng-model="user.name" disabled="true"><br>
+        <input type="email" class="form-control" placeholder="Email" required ng-model="user.email" disabled="true"><br>
+        <input type="password" class="form-control" placeholder="Password" required ng-model="user.password" disabled="true"><br>
+        <button class="btn btn-lg btn-block" disabled="true">Login</button><br><br>
         <div class="text-center">
           <h5>Already have an account?</h5>
           <p>Login <a ui-sref="login">here.</a></p>
           <p>Or signin with one of these.</p>
           <div class="btn-group" role='group'>
-            <button class="btn btn-lg facebook"><i class="fa fa-facebook"></i></button>
-            <button class="btn btn-lg twitter"><i class="fa fa-twitter"></i></button>
-            <button class="btn btn-lg google"><i class="fa fa-google"></i></button>
+            <a ng-href="/auth/facebook"><div class="btn btn-lg facebook" disabled="true"><i class="fa fa-facebook"></i></div></a>
+            <a ng-href="/auth/twitter"><div class="btn btn-lg twitter" disabled="true"><i class="fa fa-twitter"></i></div></a>
+            <a ng-href="/auth/google"><div class="btn btn-lg google"><i class="fa fa-google"></i></div></a>
           </div>
         </div>
       </form>
