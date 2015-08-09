@@ -14,7 +14,7 @@
     })
     $scope.logout = function() {
       FirebaseAuthService.logout()
-      .success(function(resp) {
+      .succss(function(resp) {
 
       })
       .catch(function(error) {

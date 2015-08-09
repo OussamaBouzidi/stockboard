@@ -1,18 +1,18 @@
 (function() {
   angular.module('stockboard.models.fbAuth', [])
   .factory('FirebaseAuthService', function() {
-    var User = {};
-    User.afAuth;
-    User.ref;
-    User.register = function(user){
-      return User.afAuth.$createUser(user);
+    var Firebase = {};
+    Firebase.afAuth;
+    Firebase.ref;
+    Firebase.register = function(user){
+      return this.afAuth.$createUser(user);
     };
-    User.login = function(user){
+    Firebase.login = function(user){
       return this.afAuth.$authWithPassword(user);
     };
-    User.logout = function(){
+    Firebase.logout = function(){
       return this.afAuth.$unauth();
     };
-    return User;
-    });
+    return Firebase;
+  });
 })();
