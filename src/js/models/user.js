@@ -1,8 +1,11 @@
 (function() {
   angular.module('stockboard.models.user', [])
-  .service('UserService', function($http, BASE_URL) {
+  .service('UserService', function($http) {
     this.currentUserData;
     this.loggedIn = false;
+    this.addUser = function(user) {
+      return $http.post('/users', user);
+    }
     this.getCurrentUser = function() {
       return $http.get('/currentuser');
     };

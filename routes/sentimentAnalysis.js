@@ -3,7 +3,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     Twit = require('twit'),
     speak = require('speakeasy-nlp');
-    trackArray = ['@codinghouse'];
+    trackArray = ['@google'];
 
 // var unirest = require('unirest');
 
@@ -36,12 +36,12 @@ stream.on('tweet', function(tweet){
  console.log(tweet.text);
 });
 
-router.post('/:toTrack', function(req, res, next){
-  console.log(req.params.toTrack);
-  var toTrack = req.params.toTrack;
-  trackArray.push(req.params.toTrack);
-  res.end();
-});
+// router.post('/:toTrack', function(req, res, next){
+//   console.log(req.params.toTrack);
+//   var toTrack = req.params.toTrack;
+//   trackArray.push(req.params.toTrack);
+//   res.end();
+// });
 
 router.get('/', function(req, res){
   console.log("I exist!")

@@ -28430,6 +28430,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
   angular.module('stockboard', [
     'ui.bootstrap',
     'ui.router',
+    'firebase',
     'stockboard.config',
     'stockboard.controllers',
     'stockboard.models',
@@ -28449,7 +28450,10 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 (function() {
   'use strict';
   angular.module('stockboard.config.constants', [])
-    .constant("BASE_URL", "http:localhost:3000")
+    .constant("BASE_URL", {
+      base: "http:localhost:3000",
+      firebase: "https://stockboard.firebaseio.com"
+    })
 })();
 
 (function() {
@@ -28503,6 +28507,16 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
         requireBase: false
       });
     });
+})();
+
+(function() {
+  'use strict';
+  angular.module('stockboard.config.run', [])
+  .run(function($rootScope, BASE_URL, $firebaseAuth, FirebaseAuthService) {
+    console.log(BASE_URL.firebase);
+    FirebaseAuthService.ref = new Firebase(BASE_URL.firebase);
+    FirebaseAuthService.afAuth = $firebaseAuth(FirebaseAuthService.ref);
+  })
 })();
 
 (function() {
@@ -28683,7 +28697,7 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
                                   barChartExpenditureData.map(function(stock) { return stock[0]; }),
                                   'Dollars', UserService.currentUserData.displayName,
                                   barChartExpenditureData.map(function(stock) { return stock[1]; }));
-      chartRenders.barChartRender('#total-shares-bar', 'Stock Shares Breakdown',
+      chartRenders.barChartRender('#total-shares-bar', 'Stock Shares Purchased',
                                   barChartStockSharesData.map(function(stock) { return stock[0]; }),
                                   'Shares', UserService.currentUserData.displayName,
                                   barChartStockSharesData.map(function(stock) { return stock[1]; }));
@@ -29125,8 +29139,25 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   angular.module('stockboard.controllers.register', [])
-  .controller('RegisterCtrl', function() {
-    console.log('This is the register page');
+  .controller('RegisterCtrl', function($scope, $state, FirebaseAuthService, UserService) {
+    $scope.create = function(user) {
+      console.log(user);
+      FirebaseAuthService.register(user)
+      .success(function(data) {
+        UserService.addUser(user)
+        .success(function(data) {
+          console.log('added user to backend');
+        })
+        .catch(function(error) {
+          console.error(error);
+        })
+        // save the user currently logged in to frontend
+        // $state.go('dashboard.profile');
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
+    }
   });
 })();
 (function() {
@@ -29138,9 +29169,29 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 })();
 
 (function() {
+  angular.module('stockboard.models.fbAuth', [])
+  .factory('FirebaseAuthService', function() {
+    var User = {};
+    User.afAuth;
+    User.ref;
+    User.register = function(user){
+      return User.afAuth.$createUser(user);
+    };
+    User.login = function(user){
+      return this.afAuth.$authWithPassword(user);
+    };
+    User.logout = function(){
+      return this.afAuth.$unauth();
+    };
+    return User;
+    });
+})();
+
+(function() {
   'use strict';
   angular.module('stockboard.models', [
     'stockboard.models.user',
+    'stockboard.models.fbAuth',
     'stockboard.models.stockHistory',
     'stockboard.models.stockPrice'
   ]);
@@ -29170,9 +29221,12 @@ e.setKeyboardScrolling(!1);f.addClass("fp-destroyed");clearTimeout(ya);clearTime
 
 (function() {
   angular.module('stockboard.models.user', [])
-  .service('UserService', function($http, BASE_URL) {
+  .service('UserService', function($http) {
     this.currentUserData;
     this.loggedIn = false;
+    this.addUser = function(user) {
+      return $http.post('/users', user);
+    }
     this.getCurrentUser = function() {
       return $http.get('/currentuser');
     };

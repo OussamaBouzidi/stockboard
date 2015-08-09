@@ -6,7 +6,6 @@ var User = require('../models/user');
 // /* GET home page. */
 
 router.get('/users', function(req, res, next) {
-  console.log('/users');
   User.find().exec(function(err, users) {
     if (err) {
       console.error(err);
@@ -17,13 +16,23 @@ router.get('/users', function(req, res, next) {
 })
 
 router.get('/users/:id', function(req, res, next) {
-  console.log('/users/:id');
   User.findById(req.params.id).exec(function(err, user) {
     if (err) {
       console.error(err);
       res.status(500).json({ error: "Could not retrieve user!"});
     }
     res.json(user);
+  })
+})
+
+router.post('/users', function(req, res, next) {
+  var newUser = User(req.body);
+  newUser.save(function(err, savedUser) {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ error: "Failed to save new user!" });
+    }
+    res.json(savedUser);
   })
 })
 

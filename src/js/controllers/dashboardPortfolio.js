@@ -86,7 +86,7 @@
                                   barChartExpenditureData.map(function(stock) { return stock[0]; }),
                                   'Dollars', UserService.currentUserData.displayName,
                                   barChartExpenditureData.map(function(stock) { return stock[1]; }));
-      chartRenders.barChartRender('#total-shares-bar', 'Stock Shares Breakdown',
+      chartRenders.barChartRender('#total-shares-bar', 'Stock Shares Purchased',
                                   barChartStockSharesData.map(function(stock) { return stock[0]; }),
                                   'Shares', UserService.currentUserData.displayName,
                                   barChartStockSharesData.map(function(stock) { return stock[1]; }));
