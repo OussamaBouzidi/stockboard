@@ -51,26 +51,49 @@
     // Event-listener functions
     // Delete stock purchase -- on click
     $scope.deleteStockPurchase = function(stockId) {
-      UserService.deleteStockPurchase(stockId)
-      .success(function(data) {
-        console.log('successfully deleted stock');
-        $state.reload();
-      })
-      .catch(function(error) {
-        console.log(error);
-      })
+      swal({   
+        title: "Are you sure?",   
+        text: "You will not be able to recover this purchase!",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "Yes, delete it!",   
+        closeOnConfirm: false 
+      }, function(){
+        UserService.deleteStockPurchase(stockId)
+        .success(function(data) {
+          swal('', 'Sucessfully deleted stock purchase!', 'success');
+          $state.reload();
+        })
+        .catch(function(error) {
+          swal('', 'Failed to delete stock purchase!', 'error');
+          console.log(error);
+        })
+      });
     }
     // Delete stock watch -- on click
     $scope.deleteWatchedStock = function(stockId) {
-      UserService.deleteStockWatch(stockId)
-      .success(function(data) {
-        console.log('successfully deleted stock watch!');
-        renderWatches();
-      })
-      .catch(function(error) {
-        console.error(error);
-      })
-      $('#watchModal').modal('hide');
+      swal({   
+        title: "Are you sure?",   
+        text: "You will not be able to recover this purchase!",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "Yes, delete it!",   
+        closeOnConfirm: false 
+      }, function(){
+        UserService.deleteStockWatch(stockId)
+        .success(function(data) {
+          swal('', 'Sucessfully deleted watched stock!', 'success');
+          renderWatches();
+        })
+        .catch(function(error) {
+          console.error(error);
+          swal('', 'Failed to delete watched stock!', 'error');
+        })
+        $('#watchModal').modal('hide');
+      });
+
     }
     $scope.renderEditInfo = function(stock) {
       console.log(stock);

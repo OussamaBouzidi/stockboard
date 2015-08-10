@@ -1254,87 +1254,6 @@ exports.colorLuminance = colorLuminance;
 (function() {
   'use strict';
 
-  angular.module('stockboard.config', [
-    'stockboard.config.routes',
-    'stockboard.config.constants'
-  ]);
-})();
-
-(function() {
-  'use strict';
-  angular.module('stockboard.config.constants', [])
-    .constant("BASE_URL", {
-      base: "http:localhost:3000",
-      firebase: "https://stockboard.firebaseio.com"
-    })
-})();
-
-(function() {
-  'use strict';
-  angular.module('stockboard.config.routes', [])
-    .config(function($urlRouterProvider, $locationProvider, $stateProvider) {
-      $urlRouterProvider.otherwise('/');
-      $stateProvider
-        .state('home', {
-          url: '/',
-          templateUrl: 'templates/home.html',
-          controller: 'HomeCtrl'
-        })
-        .state('dashboard', {
-          url: '/dashboard',
-          templateUrl: 'templates/dashboard.html',
-          controller: 'DashboardCtrl'
-        })
-        .state('dashboard.profile', {
-          url: '/profile',
-          templateUrl: 'templates/dashboard-profile.html',
-          controller: 'DashboardProfileCtrl'
-        })
-        .state('dashboard.portfolio', {
-          url: '/portfolio',
-          templateUrl: 'templates/dashboard-portfolio.html',
-          controller: 'DashboardPortfolioCtrl'
-        })
-        .state('dashboard.stocks', {
-          url: '/stocks',
-          templateUrl: 'templates/dashboard-stocks.html',
-          controller: 'DashboardStocksCtrl'
-        })
-        .state('dashboard.analytics', {
-          url: '/analytics',
-          templateUrl: 'templates/dashboard-analytics.html',
-          controller: 'DashboardAnalyticsCtrl'
-        })
-        .state('login', {
-          url: '/login',
-          templateUrl: 'templates/login.html',
-          controller: 'LoginCtrl'
-        })
-        .state('register', {
-          url: '/register',
-          templateUrl: 'templates/registration.html',
-          controller: 'RegisterCtrl'
-        });
-      $locationProvider.html5Mode({
-        enabled: false,
-        requireBase: false
-      });
-    });
-})();
-
-(function() {
-  'use strict';
-  angular.module('stockboard.config.run', [])
-  .run(function($rootScope, BASE_URL, $firebaseAuth, FirebaseAuthService) {
-    console.log(BASE_URL.firebase);
-    FirebaseAuthService.ref = new Firebase(BASE_URL.firebase);
-    FirebaseAuthService.afAuth = $firebaseAuth(FirebaseAuthService.ref);
-  })
-})();
-
-(function() {
-  'use strict';
-
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -1543,26 +1462,49 @@ exports.colorLuminance = colorLuminance;
     // Event-listener functions
     // Delete stock purchase -- on click
     $scope.deleteStockPurchase = function(stockId) {
-      UserService.deleteStockPurchase(stockId)
-      .success(function(data) {
-        console.log('successfully deleted stock');
-        $state.reload();
-      })
-      .catch(function(error) {
-        console.log(error);
-      })
+      swal({   
+        title: "Are you sure?",   
+        text: "You will not be able to recover this purchase!",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "Yes, delete it!",   
+        closeOnConfirm: false 
+      }, function(){
+        UserService.deleteStockPurchase(stockId)
+        .success(function(data) {
+          swal('', 'Sucessfully deleted stock purchase!', 'success');
+          $state.reload();
+        })
+        .catch(function(error) {
+          swal('', 'Failed to delete stock purchase!', 'error');
+          console.log(error);
+        })
+      });
     }
     // Delete stock watch -- on click
     $scope.deleteWatchedStock = function(stockId) {
-      UserService.deleteStockWatch(stockId)
-      .success(function(data) {
-        console.log('successfully deleted stock watch!');
-        renderWatches();
-      })
-      .catch(function(error) {
-        console.error(error);
-      })
-      $('#watchModal').modal('hide');
+      swal({   
+        title: "Are you sure?",   
+        text: "You will not be able to recover this purchase!",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "Yes, delete it!",   
+        closeOnConfirm: false 
+      }, function(){
+        UserService.deleteStockWatch(stockId)
+        .success(function(data) {
+          swal('', 'Sucessfully deleted watched stock!', 'success');
+          renderWatches();
+        })
+        .catch(function(error) {
+          console.error(error);
+          swal('', 'Failed to delete watched stock!', 'error');
+        })
+        $('#watchModal').modal('hide');
+      });
+
     }
     $scope.renderEditInfo = function(stock) {
       console.log(stock);
@@ -1959,6 +1901,87 @@ exports.colorLuminance = colorLuminance;
     }
   });
 })();
+(function() {
+  'use strict';
+
+  angular.module('stockboard.config', [
+    'stockboard.config.routes',
+    'stockboard.config.constants'
+  ]);
+})();
+
+(function() {
+  'use strict';
+  angular.module('stockboard.config.constants', [])
+    .constant("BASE_URL", {
+      base: "http:localhost:3000",
+      firebase: "https://stockboard.firebaseio.com"
+    })
+})();
+
+(function() {
+  'use strict';
+  angular.module('stockboard.config.routes', [])
+    .config(function($urlRouterProvider, $locationProvider, $stateProvider) {
+      $urlRouterProvider.otherwise('/');
+      $stateProvider
+        .state('home', {
+          url: '/',
+          templateUrl: 'templates/home.html',
+          controller: 'HomeCtrl'
+        })
+        .state('dashboard', {
+          url: '/dashboard',
+          templateUrl: 'templates/dashboard.html',
+          controller: 'DashboardCtrl'
+        })
+        .state('dashboard.profile', {
+          url: '/profile',
+          templateUrl: 'templates/dashboard-profile.html',
+          controller: 'DashboardProfileCtrl'
+        })
+        .state('dashboard.portfolio', {
+          url: '/portfolio',
+          templateUrl: 'templates/dashboard-portfolio.html',
+          controller: 'DashboardPortfolioCtrl'
+        })
+        .state('dashboard.stocks', {
+          url: '/stocks',
+          templateUrl: 'templates/dashboard-stocks.html',
+          controller: 'DashboardStocksCtrl'
+        })
+        .state('dashboard.analytics', {
+          url: '/analytics',
+          templateUrl: 'templates/dashboard-analytics.html',
+          controller: 'DashboardAnalyticsCtrl'
+        })
+        .state('login', {
+          url: '/login',
+          templateUrl: 'templates/login.html',
+          controller: 'LoginCtrl'
+        })
+        .state('register', {
+          url: '/register',
+          templateUrl: 'templates/registration.html',
+          controller: 'RegisterCtrl'
+        });
+      $locationProvider.html5Mode({
+        enabled: false,
+        requireBase: false
+      });
+    });
+})();
+
+(function() {
+  'use strict';
+  angular.module('stockboard.config.run', [])
+  .run(function($rootScope, BASE_URL, $firebaseAuth, FirebaseAuthService) {
+    console.log(BASE_URL.firebase);
+    FirebaseAuthService.ref = new Firebase(BASE_URL.firebase);
+    FirebaseAuthService.afAuth = $firebaseAuth(FirebaseAuthService.ref);
+  })
+})();
+
 (function() {
   'use strict';
 

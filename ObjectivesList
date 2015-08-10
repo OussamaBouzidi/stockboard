@@ -4,13 +4,15 @@ Task List
 - fix lots of functionality bugs
   - Fix information displayed in sold
   - ADD ALERTS
-    - successfully post purchase and watch
-    - successfully sell stock purchase
+    - successfully post purchase and watch - COMPLETED
+    - successfully log out - COMPLETED
+    - successfully sell stock purchase - 
     - successfully delete stock purchase
     - successfully delete stock watch
       - profile page
       - history page
     - successfully edit stock purchase
+
 
   PROFILE PAGE
   - Add general informatio after button click on profile card
