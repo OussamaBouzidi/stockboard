@@ -2,6 +2,19 @@
   angular.module('stockboard.controllers.dashboardPortfolio', [])
   .controller('DashboardPortfolioCtrl', function($scope, UserService, StockPriceService, GraphService) {
     var userData = UserService.currentUserData;
+    $scope.isCollapsed = true;
+    $scope.stockPurchaseGraphs = [
+      { name: 'Expenditure Breakdown', id: 'expenditure-pie' },
+      { name: 'Expenditure Costs', id: 'total-cost-bar' },
+      { name: 'Stock Shares Purchased', id: 'total-shares-bar' },
+      { name: 'Current Potential Stock Returns (Percent)', id: 'expenditure-bar-percent' },
+      { name: 'Current Potential Stock Returns (Dollars)', id: 'expenditure-bar-dollars' }
+    ];
+    $scope.stockSoldGraphs = [
+      { name: 'Profit Breakdown', id: 'profit-pie' },
+      { name: 'Losses Breakdown', id: 'neg-profit-pie'},
+      { name: 'Profit Returns', id: 'profit-bar'}
+    ]
     UserService.getAllUserStockPurchases(userData._id)
     .success(function(data) {
       pieChartExpenditureData = [];
@@ -76,8 +89,8 @@
       GraphService.barChartSort(barChartStockSharesData, 'value', true);
 
       GraphService.pieChartRender('#expenditure-pie', 'Expenditure Breakdown', "Cost", pieChartExpenditureData);
-      GraphService.pieChartRender('#profit-pie', 'Positive Profit Breakdown', "Cost", pieChartPosProfitData);
-      GraphService.pieChartRender('#neg-profit-pie', 'Negative Profit Breakdown', "Cost", pieChartNegProfitData);
+      GraphService.pieChartRender('#profit-pie', 'Profit Breakdown', "Cost", pieChartPosProfitData);
+      GraphService.pieChartRender('#neg-profit-pie', 'Losses Breakdown', "Cost", pieChartNegProfitData);
       GraphService.barChartRender('#profit-bar', 'Profit Returns',
                                   barChartProfitData.map(function(stock) { return stock[0]; }),
                                   'Dollars', UserService.currentUserData.displayName,

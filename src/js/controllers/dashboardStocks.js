@@ -98,7 +98,6 @@
         UserService.deleteStockWatch(stockId)
         .success(function(data) {
           swal('', 'Sucessfully deleted watched stock!', 'success');
-          watchGraphsRender();
         })
         .catch(function(error) {
           console.error(error);
@@ -110,7 +109,6 @@
     $scope.findOneStock = function(symbol) {
       StockHistoryService.getStockHistory(symbol)
       .success(function(data) {
-        console.log(data);
         var dataPrices = data.Elements[0].DataSeries.close.values;
         var dataCoordinates = [];
         dataPrices.forEach(function(dataPoint, index) {

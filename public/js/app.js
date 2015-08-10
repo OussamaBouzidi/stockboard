@@ -1335,14 +1335,6 @@ exports.colorLuminance = colorLuminance;
 (function() {
   'use strict';
 
-  angular.module('stockboard.directives', [
-    
-  ]);
-})();
-
-(function() {
-  'use strict';
-
   angular.module('stockboard.controllers', [
     'stockboard.controllers.home',
     'stockboard.controllers.nav',
@@ -1374,6 +1366,19 @@ exports.colorLuminance = colorLuminance;
   angular.module('stockboard.controllers.dashboardPortfolio', [])
   .controller('DashboardPortfolioCtrl', function($scope, UserService, StockPriceService, GraphService) {
     var userData = UserService.currentUserData;
+    $scope.isCollapsed = true;
+    $scope.stockPurchaseGraphs = [
+      { name: 'Expenditure Breakdown', id: 'expenditure-pie' },
+      { name: 'Expenditure Costs', id: 'total-cost-bar' },
+      { name: 'Stock Shares Purchased', id: 'total-shares-bar' },
+      { name: 'Current Potential Stock Returns (Percent)', id: 'expenditure-bar-percent' },
+      { name: 'Current Potential Stock Returns (Dollars)', id: 'expenditure-bar-dollars' }
+    ];
+    $scope.stockSoldGraphs = [
+      { name: 'Profit Breakdown', id: 'profit-pie' },
+      { name: 'Losses Breakdown', id: 'neg-profit-pie'},
+      { name: 'Profit Returns', id: 'profit-bar'}
+    ]
     UserService.getAllUserStockPurchases(userData._id)
     .success(function(data) {
       pieChartExpenditureData = [];
@@ -1448,8 +1453,8 @@ exports.colorLuminance = colorLuminance;
       GraphService.barChartSort(barChartStockSharesData, 'value', true);
 
       GraphService.pieChartRender('#expenditure-pie', 'Expenditure Breakdown', "Cost", pieChartExpenditureData);
-      GraphService.pieChartRender('#profit-pie', 'Positive Profit Breakdown', "Cost", pieChartPosProfitData);
-      GraphService.pieChartRender('#neg-profit-pie', 'Negative Profit Breakdown', "Cost", pieChartNegProfitData);
+      GraphService.pieChartRender('#profit-pie', 'Profit Breakdown', "Cost", pieChartPosProfitData);
+      GraphService.pieChartRender('#neg-profit-pie', 'Losses Breakdown', "Cost", pieChartNegProfitData);
       GraphService.barChartRender('#profit-bar', 'Profit Returns',
                                   barChartProfitData.map(function(stock) { return stock[0]; }),
                                   'Dollars', UserService.currentUserData.displayName,
@@ -1811,7 +1816,6 @@ exports.colorLuminance = colorLuminance;
         UserService.deleteStockWatch(stockId)
         .success(function(data) {
           swal('', 'Sucessfully deleted watched stock!', 'success');
-          watchGraphsRender();
         })
         .catch(function(error) {
           console.error(error);
@@ -1823,7 +1827,6 @@ exports.colorLuminance = colorLuminance;
     $scope.findOneStock = function(symbol) {
       StockHistoryService.getStockHistory(symbol)
       .success(function(data) {
-        console.log(data);
         var dataPrices = data.Elements[0].DataSeries.close.values;
         var dataCoordinates = [];
         dataPrices.forEach(function(dataPoint, index) {
@@ -1998,6 +2001,14 @@ exports.colorLuminance = colorLuminance;
     }
   });
 })();
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
 (function() {
   angular.module('stockboard.models.fbAuth', [])
   .factory('FirebaseAuthService', function() {

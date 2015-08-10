@@ -2,17 +2,7 @@ THINGS TO DO
 
 Task List
 - fix lots of functionality bugs
-  - Fix information displayed in sold
-  - ADD ALERTS
-    - successfully post purchase and watch - COMPLETED
-    - successfully log out - COMPLETED
-    - successfully sell stock purchase - 
-    - successfully delete stock purchase
-    - successfully delete stock watch
-      - profile page
-      - history page
-    - successfully edit stock purchase
-
+  - Fix sold logic
 
   PROFILE PAGE
   - Add general informatio after button click on profile card
@@ -157,3 +147,13 @@ Get rid of negative profit in graph "Profit Breakdown" - COMPLETED
   - add purchase and watch on dashboard.html and watch list modal breaks on delete history page
   - sell modal broken
   - delete on the profile watch is broken, doesnt update till page refresh
+
+  - ADD ALERTS
+    - successfully post purchase and watch - COMPLETED
+    - successfully log out - COMPLETED
+    - successfully sell stock purchase - COMPLETED
+    - successfully delete stock purchase - COMPLETED
+    - successfully delete stock watch - COMPLETED
+      - profile page - COMPLETED
+      - history page - COMPLETED
+    - successfully edit stock purchase - COMPLETED

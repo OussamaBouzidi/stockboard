@@ -1,35 +1,45 @@
 <div class="container-fluid">
+  <button class="btn" ng-click="isCollapsed = !isCollapsed">Display All</button>
+  <div style="height: 15px;"></div>
   <div class="row">
     <div class="col-md-6">
-      <div id="expenditure-pie" class="col-md-12 graph-card portfolio-graph"></div>
+      <div class=" col-md-12 graph-card">
+        <h4 class="dashboard-content" style="margin-left: 15px;">Expenditures</h4>
+        <div class="panel panel-default" ng-repeat="graph in stockPurchaseGraphs">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-title" ng-click="isCollapsed = !isCollapsed">
+                <p class="accordion-title" style="display: inline; color: white;">{{graph.name}}</p>
+              </a>    
+            </h4>
+          </div>
+          <div collapse="isCollapsed">
+            <div class="panel-body">
+              <div id="{{graph.id}}"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-md-6">
-      <div id="profit-pie" class="col-md-12 graph-card portfolio-graph"></div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div id="total-cost-bar" class="col-md-12 graph-card portfolio-graph"></div>
-    </div>
-    <div class="col-md-6">
-      <div id="neg-profit-pie" class="col-md-12 graph-card portfolio-graph"></div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div id="total-shares-bar" class="col-md-12 graph-card portfolio-graph"></div>
-    </div>
-    <div class="col-md-6">
-      <div id="profit-bar" class="col-md-12 graph-card portfolio-graph"></div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div id="expenditure-bar-percent" class="col-md-12 graph-card portfolio-graph"></div>
-    </div>
-    <div class="col-md-6">
-      <div id="expenditure-bar-dollars" class="col-md-12 graph-card portfolio-graph"></div>
-    </div>
+      <div class=" col-md-12 graph-card">
+        <h4 class="dashboard-content" style="margin-left: 15px;">Profits</h4>
+        <div class="panel panel-default" ng-repeat="graph in stockSoldGraphs">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-title" ng-click="isCollapsed = !isCollapsed">
+                <p class="accordion-title" style="display: inline; color: white;">{{graph.name}}</p>
+              </a>    
+            </h4>
+          </div>
+          <div collapse="isCollapsed">
+            <div class="panel-body">
+              <div id="{{graph.id}}"></div>
+            </div>
+          </div>
+        </div>
+      </div>    
+    </div>   
   </div>
 </div>
 
