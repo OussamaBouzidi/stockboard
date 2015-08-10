@@ -1,6 +1,5 @@
 (function() {
   'use strict';
-
   angular.module('stockboard', [
     'ui.bootstrap',
     'ui.router',

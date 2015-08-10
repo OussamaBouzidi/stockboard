@@ -5,17 +5,20 @@
     $scope.isCollapsed = true;
     // grab the user data and render to DOM 
     $scope.userData = UserService.currentUserData;
-    UserService.getAllUserStockWatches($scope.userData._id)
-    .success(function(data) {
-      $scope.watchedStocks = data.filter(function(stock) {
-        if (stock.user === $scope.userData.displayName) {
-          return stock;
-        }
-      });
-    })
-    .catch(function(error) {
-      console.error(error);
-    })
+    function renderWatches() {
+      UserService.getAllUserStockWatches($scope.userData._id)
+      .success(function(data) {
+        $scope.watchedStocks = data.filter(function(stock) {
+          if (stock.user === $scope.userData.displayName) {
+            return stock;
+          }
+        });
+      })
+      .catch(function(error) {
+        console.error(error);
+      })      
+    }
+    renderWatches();
     // grab user stock information
     UserService.getAllUserStockPurchases($scope.userData._id)
     .success(function(data) {
@@ -25,7 +28,6 @@
           return stock;
         }
       });
-      console.log($scope.stocks);
       $scope.stocksPurchased = $scope.stocks.filter(function(stock) {
         if (stock.status === 'Purchased') {
           return stock;
@@ -63,11 +65,12 @@
       UserService.deleteStockWatch(stockId)
       .success(function(data) {
         console.log('successfully deleted stock watch!');
-        $('#watchModal').modal('hide');
+        renderWatches();
       })
       .catch(function(error) {
         console.error(error);
       })
+      $('#watchModal').modal('hide');
     }
     $scope.renderEditInfo = function(stock) {
       console.log(stock);
@@ -104,6 +107,17 @@
       if (newSoldStock.shares - sellForm.shares < 0) {
         alert("You can't sell that many shares!")
         return;
+      } else if (newSoldStock.shares - sellForm.shares === 0) {
+        newSoldStock.status = "Sold";
+        newSoldStock.sharesSold = sellForm.shares;
+        newSoldStock.priceSold = sellForm.price;
+        UserService.sellStockPurchase(newSoldStock._id, newSoldStock)
+        .success(function(data) {
+          console.log(data, 'successfully sold stock!');
+        })
+        .catch(function(error) {
+          console.error(error)
+        })
       } else {
         newSoldStock.shares = newSoldStock.shares - sellForm.shares;
         if (newSoldStock.shares !== sellForm.shares) {
@@ -119,7 +133,7 @@
           })
           .catch(function(error) {
             console.error(error);
-          })        
+          })
         }
       }
       newSoldStock.status = "Sold";
@@ -133,6 +147,7 @@
       .catch(function(error) {
         console.error(error)
       })
+      $('#sellModal').modal('hide');
     }
     // Render stock info to info block
     $scope.showInfo = function(stock) {

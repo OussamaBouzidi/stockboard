@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="input-group filter col-md-3">
-      <input type="text" class="search-control" style="padding-left: 15px; border-radius: 5px 0 0 5px;" placeholder="Find one by symbol" ng-model="symbol">
+      <input type="text" class="search-control visualtxtSymbolLookup" style="padding-left: 15px; border-radius: 5px 0 0 5px;" placeholder="Find one by symbol" ng-model="symbol">
       <span class="input-group-btn">
         <button class="btn" type="button" ng-click="findOneStock(symbol)" data-toggle="modal" data-target="#infoModal">Search</button>
       </span>
@@ -14,7 +14,6 @@
   </div>
   <div id="graphs-container"></div>
 </div>
-
 <div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -57,7 +56,7 @@
         </button>
       </div>
       <div class="modal-body text-center">
-        <div id="individualGraph" style="width: 70%;"></div>
+        <div id="individualGraph" style="width: 60%;"></div>
       </div>
       <div class="modal-footer">
         <button class="btn" data-dismiss="modal">Close</button>

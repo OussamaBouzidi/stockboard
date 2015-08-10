@@ -10,9 +10,8 @@
       </div>
       <hr width="80%">
       <div class="card-action text-center">
-        <button class="btn btn-sm btn-edit">Profile Info</button>
-        <div style="height: 15px;"></div>
         <button class="btn btn-sm" data-toggle="modal" data-target="#watchModal">Stocks Watched</button>
+        <div style="height: 10px;"></div>
       </div>
     </div>
   </div>
@@ -298,7 +297,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button class="btn" ng-click="submitSell(sellForm)">Submit</button>
+        <button class="btn" data-dismiss="modal" ng-click="submitSell(sellForm)">Submit</button>
       </div>
     </div>
   </div>
