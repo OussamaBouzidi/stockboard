@@ -22,19 +22,19 @@ var express = require('express'),
 //   });
 
 
-var T = new Twit({
-  consumer_key:         process.env.TWITTER_CONSUMER_KEY,
-  consumer_secret:      process.env.TWITTER_CONSUMER_SECRET,
-  access_token:         process.env.TWITTER_ACCESS_TOKEN,
-  access_token_secret:  process.env.TWITTER_ACCESS_TOKEN_SECRET
-});
+// var T = new Twit({
+//   consumer_key:         process.env.TWITTER_CONSUMER_KEY,
+//   consumer_secret:      process.env.TWITTER_CONSUMER_SECRET,
+//   access_token:         process.env.TWITTER_ACCESS_TOKEN,
+//   access_token_secret:  process.env.TWITTER_ACCESS_TOKEN_SECRET
+// });
 
-var stream = T.stream('statuses/filter', {
-  track: trackArray
-});
-stream.on('tweet', function(tweet){
- console.log(tweet.text);
-});
+// var stream = T.stream('statuses/filter', {
+//   track: trackArray
+// });
+// stream.on('tweet', function(tweet){
+//  console.log(tweet.text);
+// });
 
 // router.post('/:toTrack', function(req, res, next){
 //   console.log(req.params.toTrack);
