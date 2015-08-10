@@ -1860,12 +1860,12 @@ exports.colorLuminance = colorLuminance;
     $scope.logout = function() {
       UserService.logoutCurrentUser()
       .success(function(data) {
-        console.log('successfully logged out');
         $scope.loggedIn = UserService.loggedIn;
+        swal('', 'Successfully logged out!', 'success');
         $state.go('home');
       })
       .catch(function(error) {
-        console.log('failed logging out');
+        swal('', 'Failed to log out!', 'error');
       })
     }
     $scope.saveStockPurchase = function(purchase) {
@@ -1884,10 +1884,11 @@ exports.colorLuminance = colorLuminance;
       }
       UserService.addStockPurchase(purchase)
       .success(function(data) {
+        swal('', 'You have sucessfully purchased ' + purchase.name + ' stock!', 'success');
         $state.reload();
       })
       .catch(function(error) {
-        console.error(error);
+        swal('', 'Purchase failed!', 'error');
       })
       UserService.addStockWatch(watch)
       .success(function(data) {})
@@ -1905,9 +1906,11 @@ exports.colorLuminance = colorLuminance;
       watch.hash = userData._id + watch.symbol
       UserService.addStockWatch(watch)
       .success(function(data) {
+        swal('', 'You are now watching ' + watch.name + ' !', 'success');
         $state.reload();
       })
       .catch(function(error) {
+        swal('', 'Failed to watch stock!', 'error');
         console.error(error);
       })
       $scope.recordPurchase = null;
@@ -1956,6 +1959,14 @@ exports.colorLuminance = colorLuminance;
     }
   });
 })();
+(function() {
+  'use strict';
+
+  angular.module('stockboard.directives', [
+    
+  ]);
+})();
+
 (function() {
   angular.module('stockboard.models.fbAuth', [])
   .factory('FirebaseAuthService', function() {
@@ -2133,12 +2144,4 @@ exports.colorLuminance = colorLuminance;
       return $http.patch('/purchases/' + purchaseId, soldStock)
     };
   });
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('stockboard.directives', [
-    
-  ]);
 })();
