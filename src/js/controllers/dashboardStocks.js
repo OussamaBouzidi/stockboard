@@ -86,15 +86,26 @@
     watchGraphsRender();
 
     $scope.deleteWatchedStock = function(stockId) {
-      UserService.deleteStockWatch(stockId)
-      .success(function(data) {
-        console.log('successfully deleted stock watch!');
-        watchGraphsRender();
-      })
-      .catch(function(error) {
-        console.error(error);
-      })
-      $('#listModal').modal('hide');
+      swal({   
+        title: "Are you sure?",   
+        text: "You will not be able to recover deleting this watch!",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "Yes, delete it!",   
+        closeOnConfirm: false 
+      }, function(){
+        UserService.deleteStockWatch(stockId)
+        .success(function(data) {
+          swal('', 'Sucessfully deleted watched stock!', 'success');
+          watchGraphsRender();
+        })
+        .catch(function(error) {
+          console.error(error);
+          swal('', 'Failed to delete watched stock!', 'error');
+        })
+        $('#listModal').modal('hide');
+      });
     }
     $scope.findOneStock = function(symbol) {
       StockHistoryService.getStockHistory(symbol)

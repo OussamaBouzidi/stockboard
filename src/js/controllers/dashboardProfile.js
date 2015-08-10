@@ -75,7 +75,7 @@
     $scope.deleteWatchedStock = function(stockId) {
       swal({   
         title: "Are you sure?",   
-        text: "You will not be able to recover this purchase!",   
+        text: "You will not be able to recover deleting this watch!",   
         type: "warning",   
         showCancelButton: true,   
         confirmButtonColor: "#DD6B55",   
@@ -93,15 +93,12 @@
         })
         $('#watchModal').modal('hide');
       });
-
     }
     $scope.renderEditInfo = function(stock) {
-      console.log(stock);
       $scope.edit = stock;
     }
     // Edit stock purchase -- on click
     $scope.editStock = function(stock) {
-      console.log(stock);
       var edittedStock = $scope.edit;
       edittedStock.name = stock.name;
       edittedStock.symbol = stock.symbol;
@@ -111,10 +108,11 @@
       edittedStock.priceSold = stock.priceSold;
       UserService.editPurchase($scope.edit._id, edittedStock)
       .success(function(data) {
-        console.log(data, 'successfully updated stock purchase!');
+        swal('', 'Sucessfully updated stock purchase!', 'success');
       })
       .catch(function(error) {
         console.error(error);
+        swal('', 'Failed to update stock purchase!', 'error');
       })
       $('#editPurchasedModal').modal('hide');
       $('#editSoldModal').modal('hide');
@@ -127,49 +125,48 @@
     $scope.submitSell = function(sellForm) {
       var newSoldStock = $scope.sellStock;
       var oldSoldStock = $scope.sellStock;
-      if (newSoldStock.shares - sellForm.shares < 0) {
-        alert("You can't sell that many shares!")
-        return;
-      } else if (newSoldStock.shares - sellForm.shares === 0) {
+      function sellStock() {
         newSoldStock.status = "Sold";
         newSoldStock.sharesSold = sellForm.shares;
         newSoldStock.priceSold = sellForm.price;
         UserService.sellStockPurchase(newSoldStock._id, newSoldStock)
         .success(function(data) {
           console.log(data, 'successfully sold stock!');
+          swal('', 'Successfully sold shares of the selected stock!', 'success');
+          $state.reload();
         })
         .catch(function(error) {
           console.error(error)
+          swal('', 'Failed to sell shares of the selected stock!', 'error');
         })
+      }
+      function duplicateStock() {
+        delete oldSoldStock["_id"];
+        delete oldSoldStock["__v"];
+        oldSoldStock.status = 'Purchased';
+        oldSoldStock.shares = newSoldStock.shares - sellForm.shares;
+        oldSoldStock.sharesSold = sellForm.shares;
+        oldSoldStock.priceSold = sellForm.price;
+        UserService.addStockPurchase(oldSoldStock)
+        .success(function(data) {
+        })
+        .catch(function(error) {
+          console.error(error);
+        })
+      }
+      if (newSoldStock.shares - sellForm.shares < 0) {
+        swal('', "You can't sell that many shares!", 'error');
+        return;
+      } else if (newSoldStock.shares - sellForm.shares === 0) {
+        sellStock();
+        return;
       } else {
         newSoldStock.shares = newSoldStock.shares - sellForm.shares;
         if (newSoldStock.shares !== sellForm.shares) {
-          delete oldSoldStock["_id"];
-          delete oldSoldStock["__v"];
-          oldSoldStock.status = 'Purchased';
-          oldSoldStock.shares = newSoldStock.shares - sellForm.shares;
-          oldSoldStock.sharesSold = sellForm.shares;
-          oldSoldStock.priceSold = sellForm.price;
-          UserService.addStockPurchase(oldSoldStock)
-          .success(function(data) {
-            console.log('success duplicate', data);
-          })
-          .catch(function(error) {
-            console.error(error);
-          })
+          duplicateStock();
         }
       }
-      newSoldStock.status = "Sold";
-      newSoldStock.sharesSold = sellForm.shares;
-      newSoldStock.priceSold = sellForm.price;
-      UserService.sellStockPurchase(newSoldStock._id, newSoldStock)
-      .success(function(data) {
-        console.log(data, 'successfully sold stock!');
-        $state.reload();
-      })
-      .catch(function(error) {
-        console.error(error)
-      })
+      sellStock();
       $('#sellModal').modal('hide');
     }
     // Render stock info to info block
