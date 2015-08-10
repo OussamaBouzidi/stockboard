@@ -1,0 +1,179 @@
+body {
+  padding-top: 60px;
+  font-family: 'Raleway';
+  background-color: #3D4352; }
+
+.btn {
+  background-color: #8DC63F;
+  color: white; }
+
+.navbar-default {
+  background-color: #484D5A;
+  color: white; }
+
+.navbar-content, .dashboard-content {
+  color: white !important; }
+
+.signin {
+  background-color: #F9F9F9;
+  padding-top: 70px;
+  padding-bottom: 150px; }
+
+.landing-text {
+  font-size: 1.25em; }
+
+.header {
+  background-color: #3D4352;
+  height: 500px; }
+
+#landing-title {
+  margin-top: 140px; }
+
+#landing-title, #landing-description {
+  color: white;
+  text-transform: uppercase;
+  margin-bottom: 25px; }
+
+.info-1, .info-2, .info-3, .info-4 {
+  padding: 60px 60px 60px 60px; }
+
+.info-1, .info-3 {
+  background-color: #F9F9F9; }
+
+.info-2, .info-4 {
+  background-color: white; }
+
+.facebook, .twitter, .google {
+  color: white; }
+
+.facebook:hover, .twitter:hover, .google:hover {
+  color: white; }
+
+.facebook:active, .twitter:active, .google:active {
+  color: white; }
+
+.facebook {
+  background-color: #445E9A; }
+
+.twitter {
+  background-color: #26A2DC; }
+
+.google {
+  background-color: #E14D2F; }
+
+#graphs-container {
+  margin-left: -15px; }
+
+.stock-line-graph {
+  height: 300px;
+  margin-top: 20px; }
+
+.dashboard {
+  padding-top: 40px;
+  padding-bottom: 100px;
+  background-color: #3D434F; }
+
+.profile-table {
+  background-color: #484D5A;
+  color: white; }
+
+#add-button {
+  float: right;
+  height: 40px;
+  width: 40px;
+  border-radius: 9999px;
+  padding-top: 8px;
+  padding-right: 30px; }
+
+.chicken {
+  background-color: #3D4352;
+  color: #8DC63F;
+  color: #3D434F; }
+
+/*Card CSS*/
+.card {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  background-color: #484D5A;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background-clip: padding-box; }
+
+.card span.card-title {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 300;
+  text-transform: uppercase; }
+
+.card .card-image img {
+  border-radius: 9999px;
+  z-index: 1;
+  padding-top: 15px; }
+
+.card .card-content {
+  border-radius: 0 0 2px 2px;
+  background-clip: padding-box;
+  box-sizing: border-box; }
+
+.card .card-action {
+  padding-bottom: 15px; }
+
+.modal-dialog {
+  background-color: #F9F9F9; }
+
+.btn-stock-graph-filter {
+  width: 120px; }
+
+.graph-card {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  background-color: #484D5A;
+  padding: 15px;
+  border-radius: 7px; }
+
+.panel {
+  margin: 5px;
+  color: white;
+  background-color: #6A6F79; }
+
+.panel-heading {
+  background-color: #5A5F6A !important; }
+
+.accordion-title {
+  font-size: 1.05em; }
+
+.accordion-content {
+  font-size: 1.2em; }
+
+.btn-edit, .btn-sell, .btn-delete {
+  width: 100px; }
+
+.btn-edit {
+  background-color: #5776F2; }
+
+.btn-delete {
+  background-color: #F76060; }
+
+.filter {
+  margin-left: 150px; }
+
+.portfolio-graph {
+  margin-bottom: 25px; }
+
+.editLabel {
+  width: 50px; }
+
+.search-control {
+  display: block;
+  width: 100%;
+  height: 36px;
+  padding-left: 10px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #F9F9F9;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; }
+
+a {
+  cursor: pointer; }

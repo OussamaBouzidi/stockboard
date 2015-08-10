@@ -1,0 +1,338 @@
+<div class="row">
+  <div class="col-md-2">
+    <div class="card">
+      <div class="card-image text-center">
+        <img class="col-md-8 col-md-offset-2" src="{{userData.pictureUrl}}" alt="">
+        <span class="card-title">{{userData.displayName}}</span>
+      </div>
+      <div class="card-content text-center">
+        <p class="dashboard-content">{{userData.email}}</p>
+      </div>
+      <hr width="80%">
+      <div class="card-action text-center">
+        <button class="btn btn-sm btn-edit">Profile Info</button>
+        <div style="height: 15px;"></div>
+        <button class="btn btn-sm" data-toggle="modal" data-target="#watchModal">Stocks Watched</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-10">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <h4 class="dashboard-content">Purchased Stocks</h4>
+          <div class=" col-md-12 graph-card">
+            <div class="panel panel-default" ng-repeat="stockPurchased in stocksPurchased">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a class="accordion-title" ng-click="isCollapsed = !isCollapsed">
+                    <p class="accordion-title" style="display: inline; color: white;">{{stockPurchased.symbol}} &nbsp;&mdash;&nbsp; {{stockPurchased.name}}</p>
+                  </a>    
+                  <button class="btn btn-xs btn-edit" style="display: inline; float: right; margin-top: 0;" ng-click="showInfo(stockPurchased)">Info</button>
+                </h4>
+              </div>
+              <div collapse="isCollapsed">
+                <div class="panel-body">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="col-md-4 text-center accordion-content">Shares</th>
+                        <th class="col-md-4 text-center accordion-content">Price Bought</th>
+                        <th class="col-md-4 text-center accordion-content">Cost</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr>
+                        <td class="accordion-content">{{stockPurchased.shares}}</td>
+                        <td class="accordion-content">{{stockPurchased.priceBought.toFixed(2)}}</td>
+                        <td class="accordion-content">{{(stockPurchased.priceBought * stockPurchased.shares).toFixed(2)}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="row text-center">
+                    <div class="col-md-12">
+                      <div class="col-md-4">
+                        <button class="btn btn-sm btn-edit" data-toggle="modal" data-target="#editPurchasedModal" ng-click="renderEditInfo(stockPurchased)">Edit</button>
+                      </div>
+                      <div class="col-md-4">
+                        <button class="btn btn-sm btn-sell" data-toggle="modal" data-target="#sellModal" ng-click="renderSellInfo(stockPurchased)">Sell</button>
+                      </div>
+                      <div class="col-md-4">
+                        <button class="btn btn-sm btn-delete" ng-click="deleteStockPurchase(stockPurchased._id)">Delete</button>
+                      </div>                
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <h4 class="dashboard-content">Sold Stocks</h4>
+          <div class=" col-md-12 graph-card">
+            <div class="panel panel-default" ng-repeat="stockSold in stocksSold">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a class="accordion-title" ng-click="isCollapsed = !isCollapsed">
+                    <p class="accordion-title" style="display: inline; color: white;">{{stockSold.symbol}} &nbsp;&mdash;&nbsp; {{stockSold.name}}</p>
+                  </a>
+                  <button class="btn btn-xs btn-edit" style="display: inline; float: right; margin-top: 0;" ng-click="showInfo(stockSold)">Info</button>
+                </h4>
+              </div>
+              <div collapse="isCollapsed">
+                <div class="panel-body">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="col-md-4 text-center accordion-content">Shares</th>
+                        <th class="col-md-4 text-center accordion-content">Price Sold</th>
+                        <th class="col-md-4 text-center accordion-content">Revenue</th>
+                        <th class="col-md-4 text-center accordion-content">Profit</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr>
+                        <td class="accordion-content">{{stockSold.sharesSold}}</td>
+                        <td class="accordion-content">{{stockSold.priceSold.toFixed(2)}}</td>
+                        <td class="accordion-content">{{(stockSold.priceSold * stockSold.sharesSold).toFixed(2)}}</td>
+                        <td>{{((stockSold.priceSold - stockSold.priceBought) * stockSold.sharesSold).toFixed(2)}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="row text-center">
+                    <div class="col-md-12">
+                      <div class="col-md-6">
+                        <button class="btn btn-sm btn-edit" data-toggle="modal" data-target="#editSoldModal" ng-click="renderEditInfo(stockSold)">Edit</button>
+                      </div>
+                      <div class="col-md-6">
+                        <button class="btn btn-sm btn-delete" ng-click="deleteStockPurchase(stockSold._id)">Delete</button>
+                      </div>                
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>          
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h4 class="dashboard-content text-center">Individual Stock Info</h4>
+        <div class="col-md-12 graph-card" style="min-height: 200px;">
+          <div class="dashboard-content" ng-show="stockInfoRender">
+            <div class="row">
+              <h5 class="col-md-offset-1 col-md-8 dashboard-content">{{stockInfoRender.Symbol}} &mdash; {{stockInfoRender.Name}}</h5>
+              <h5 class="col-md-2 right dashboard-content">${{stockInfoRender.LastPrice}}</h5>            
+            </div>
+            <div class="row">
+              <p class="col-md-offset-1 col-md-8">{{stockInfoRender.Timestamp}}</p>
+            </div>
+            <p class="text-center">Daily Info</p>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Open</th>
+                      <th>Low</th>
+                      <th>High</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>${{stockInfoRender.Open}}</td>
+                      <td>${{stockInfoRender.Low}}</td>
+                      <td>${{stockInfoRender.High}}</td>
+                    </tr>
+                  </tbody>
+                </table>            
+              </div>            
+            </div>
+            <div class="row">
+              <p class="text-center">General Info</p>            
+            </div>
+            <div class="col-md-10 col-md-offset-1">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Dollar Change</th>
+                    <th>Percent Change</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>Daily</th>
+                    <td>${{stockInfoRender.Change.toFixed(2)}}</td>
+                    <td>{{stockInfoRender.ChangePercent.toFixed(4)}}%</td>
+                  </tr>
+                  <tr>
+                    <th>Yearly</th>
+                    <td>${{(stockInfoRender.LastPrice - stockInfoRender.ChangeYTD).toFixed(2)}}</td>
+                    <td>{{stockInfoRender.ChangePercentYTD.toFixed(4)}}%</td>
+                  </tr>
+                </tbody>
+              </table>            
+            </div>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1">
+                <p class="col-md-6"><strong>Volume:</strong> {{stockInfoRender.Volume}}</p>
+                <p class="col-md-6 text-right"><strong>Market Cap:</strong> {{stockInfoRender.MarketCap}}</p>              
+              </div>
+            </div>
+          </div>  
+          <div id="infoRenderGraph"></div>      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="editPurchasedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" ng-click="modalClose()">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3 class="text-center">Edit Purchased Form</h3>
+        <h5 class="text-center">{{edit.name}} | {{edit.symbol}}</h5>
+        <form action="" class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon">Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" class="form-control" ng-model="stockPurchasedUpdate.name" required placeholder="{{edit.name}}">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Symbol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" class="form-control" ng-model="stockPurchasedUpdate.symbol" required placeholder="{{edit.symbol}}">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Price Bought&nbsp;&nbsp;&nbsp;</span>
+            <input type="number" class="form-control" ng-model="stockPurchasedUpdate.priceBought" required placeholder="{{edit.priceBought}}">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Shares Bought</span>
+            <input type="number" class="form-control" ng-model="stockPurchasedUpdate.shares"required placeholder="{{edit.shares}}">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" ng-click="editStock(stockPurchasedUpdate)">Submit Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="editSoldModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" ng-click="modalClose()">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3 class="text-center">Edit Sold Form</h3>
+        <h5 class="text-center">{{edit.name}} | {{edit.symbol}}</h5>
+        <form action="" class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon">Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" class="form-control" ng-model="stockSoldUpdate.name" required placeholder="{{edit.name}}">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Symbol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" class="form-control" ng-model="stockSoldUpdate.symbol" required placeholder="{{edit.symbol}}">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Price Sold&nbsp;&nbsp;&nbsp;</span>
+            <input type="number" class="form-control" ng-model="stockSoldUpdate.priceSold" required placeholder="{{edit.priceSold}}">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Shares Sold</span>
+            <input type="number" class="form-control" ng-model="stockSoldUpdate.sharesSold"required placeholder="{{edit.sharesSold}}">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" ng-click="editStock(stockSoldUpdate)">Submit Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="sellModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" ng-click="modalClose()">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3 class="text-center">Sell Form</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Symbol</th>
+              <th>Shares Available</th>
+              <th>Price Bought</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{sellStock.name}}</td>
+              <td>{{sellStock.symbol}}</td>
+              <td>{{sellStock.shares}}</td>
+              <td>{{sellStock.priceBought}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <form action="" class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon">Shares Sold</span>
+            <input type="number" class="form-control" ng-model="sellForm.shares" required placeholder="Shares sold">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Price Sold&nbsp;&nbsp;&nbsp;</span>
+            <input type="number" class="form-control" ng-model="sellForm.price" required placeholder="Price sold">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" ng-click="submitSell(sellForm)">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="watchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" ng-click="modalClose()">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <h3>{{userData.displayName}}'s Watched Stocks</h3>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="text-center">Name</th>
+              <th class="text-center">Symbol</th>
+              <th class="text-center">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tbody>
+              <tr ng-repeat="stock in watchedStocks">
+                <td>{{stock.name}}</td>
+                <td>{{stock.symbol}}</td>
+                <td><button class="btn btn-delete" ng-click="deleteWatchedStock(stock._id)">Delete</button></td>
+              </tr>
+            </tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>

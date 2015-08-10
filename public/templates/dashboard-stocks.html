@@ -1,0 +1,67 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-1">
+      <div class="btn-group" style="display: inline-block">
+        <button class="btn btn-edit" style="width: 95px;" data-toggle="modal" data-target="#listModal">List</button>
+      </div>
+    </div>
+    <div class="input-group filter col-md-3">
+      <input type="text" class="search-control" style="padding-left: 15px; border-radius: 5px 0 0 5px;" placeholder="Find one by symbol" ng-model="symbol">
+      <span class="input-group-btn">
+        <button class="btn" type="button" ng-click="findOneStock(symbol)" data-toggle="modal" data-target="#infoModal">Search</button>
+      </span>
+    </div>
+  </div>
+  <div id="graphs-container"></div>
+</div>
+
+<div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <h3>{{userName}}'s Watched Stocks</h3>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="text-center">Name</th>
+              <th class="text-center">Symbol</th>
+              <th class="text-center">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tbody>
+              <tr ng-repeat="stock in watchedStocks">
+                <td>{{stock.name}}</td>
+                <td>{{stock.symbol}}</td>
+                <td><button class="btn btn-delete" ng-click="deleteWatchedStock(stock._id)">Delete</button></td>
+              </tr>
+            </tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" ng-click="modalClose()">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <div id="individualGraph" style="width: 70%;"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
