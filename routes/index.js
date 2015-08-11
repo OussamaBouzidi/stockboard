@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 
 var router = express.Router();
 var User = require('../models/user');
-// /* GET home page. */
+ /* GET home page. */
 
 router.get('/users', function(req, res, next) {
   User.find().exec(function(err, users) {
