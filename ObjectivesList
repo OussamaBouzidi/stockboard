@@ -1,8 +1,15 @@
 THINGS TO DO
 
+check portfolio graphs
+add stock
+delete watch
+
 Task List
 - fix lots of functionality bugs
   - Fix sold logic
+
+  sell modal broken blurred after
+  watch list on history page doesnt update automatically
 
   PROFILE PAGE
   - Add general informatio after button click on profile card
