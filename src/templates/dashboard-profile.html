@@ -118,68 +118,76 @@
         <h4 class="dashboard-content text-center">Individual Stock Info</h4>
         <div class="col-md-12 graph-card" style="min-height: 200px;">
           <div class="dashboard-content" ng-show="stockInfoRender">
-            <div class="row">
-              <h5 class="col-md-offset-1 col-md-8 dashboard-content">{{stockInfoRender.Symbol}} &mdash; {{stockInfoRender.Name}}</h5>
-              <h5 class="col-md-2 right dashboard-content">${{stockInfoRender.LastPrice}}</h5>            
+            <div class="panel panel-default">
+              <div class="row">
+                <h5 class="col-md-offset-1 col-md-8 dashboard-content">{{stockInfoRender.Symbol}} &mdash; {{stockInfoRender.Name}}</h5>
+                <h5 class="col-md-2 right dashboard-content">${{stockInfoRender.LastPrice}}</h5>            
+              </div>
+              <div class="row">
+                <p class="col-md-offset-1 col-md-8">{{stockInfoRender.Timestamp}}</p>
+              </div>            
             </div>
-            <div class="row">
-              <p class="col-md-offset-1 col-md-8">{{stockInfoRender.Timestamp}}</p>
+            <div class="panel panel-default">
+              <div class="row">
+                <h5 class="text-center dashboard-content">Daily Info</h5>              
+              </div>
+              <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                  <table class="table table-bordered text-center">
+                    <thead>
+                      <tr>
+                        <th class="text-center">Open</th>
+                        <th class="text-center">Low</th>
+                        <th class="text-center">High</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>${{stockInfoRender.Open}}</td>
+                        <td>${{stockInfoRender.Low}}</td>
+                        <td>${{stockInfoRender.High}}</td>
+                      </tr>
+                    </tbody>
+                  </table>            
+                </div>            
+              </div>            
             </div>
-            <p class="text-center">Daily Info</p>
-            <div class="row">
+            <div class="panel panel-default">
+              <div class="row">
+                <h5 class="text-center dashboard-content">General Info</h5>            
+              </div>
               <div class="col-md-10 col-md-offset-1">
-                <table class="table">
+                <table class="table table-bordered text-center">
                   <thead>
                     <tr>
-                      <th>Open</th>
-                      <th>Low</th>
-                      <th>High</th>
+                      <th></th>
+                      <th class="text-center">Dollar Change</th>
+                      <th class="text-center">Percent Change</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>${{stockInfoRender.Open}}</td>
-                      <td>${{stockInfoRender.Low}}</td>
-                      <td>${{stockInfoRender.High}}</td>
+                      <th class="text-center">Daily</th>
+                      <td>${{stockInfoRender.Change.toFixed(2)}}</td>
+                      <td>{{stockInfoRender.ChangePercent.toFixed(4)}}%</td>
+                    </tr>
+                    <tr>
+                      <th class="text-center">Yearly</th>
+                      <td>${{(stockInfoRender.LastPrice - stockInfoRender.ChangeYTD).toFixed(2)}}</td>
+                      <td>{{stockInfoRender.ChangePercentYTD.toFixed(4)}}%</td>
                     </tr>
                   </tbody>
                 </table>            
-              </div>            
-            </div>
-            <div class="row">
-              <p class="text-center">General Info</p>            
-            </div>
-            <div class="col-md-10 col-md-offset-1">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Dollar Change</th>
-                    <th>Percent Change</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th>Daily</th>
-                    <td>${{stockInfoRender.Change.toFixed(2)}}</td>
-                    <td>{{stockInfoRender.ChangePercent.toFixed(4)}}%</td>
-                  </tr>
-                  <tr>
-                    <th>Yearly</th>
-                    <td>${{(stockInfoRender.LastPrice - stockInfoRender.ChangeYTD).toFixed(2)}}</td>
-                    <td>{{stockInfoRender.ChangePercentYTD.toFixed(4)}}%</td>
-                  </tr>
-                </tbody>
-              </table>            
-            </div>
-            <div class="row">
-              <div class="col-md-10 col-md-offset-1">
-                <p class="col-md-6"><strong>Volume:</strong> {{stockInfoRender.Volume}}</p>
-                <p class="col-md-6 text-right"><strong>Market Cap:</strong> {{stockInfoRender.MarketCap}}</p>              
               </div>
-            </div>
-          </div>  
-          <div id="infoRenderGraph"></div>      
+<!--               <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                  <p class="col-md-6"><strong>Volume:</strong> {{stockInfoRender.Volume}}</p>
+                  <p class="col-md-6 text-right"><strong>Market Cap:</strong> {{stockInfoRender.MarketCap}}</p>              
+                </div>
+              </div>
+            </div>  -->
+            <div id="infoRenderGraph"></div>
+          </div>   
         </div>
       </div>
     </div>
