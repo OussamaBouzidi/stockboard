@@ -1,14 +1,12 @@
 THINGS TO DO
 
 check portfolio graphs
-add stock
 delete watch
 
 Task List
 - fix lots of functionality bugs
   - Fix sold logic
 
-  sell modal broken blurred after
   watch list on history page doesnt update automatically
 
   PROFILE PAGE
@@ -25,9 +23,6 @@ Task List
         - Percent total profit
           - totalSold - totalSpent / totalSpent * 100
 
-  PORTFOLIO PAGE
-  - Collapse graphs
-
   filter on backend { user: user.displayName }
 
   STOCK HISTORY PAGE
@@ -38,16 +33,8 @@ Task List
 
 
 
-SOLUTION: modal send information to service then grab it and store in variable and render into form
-
-SOLUTION: set up run to identify if user is logged in.
-
-
-
-
 
 BIG TASK
-  - transfer over graphs to service
 
 Integate sentiment analysis based on twitter feed into stocks with sentiment API
 (Potential integrate into profile rather than analytics)
@@ -61,6 +48,15 @@ ADDITIONAL AUTHENTICATION
 
 
 
+
+
+
+
+
+
+SOLUTION: modal send information to service then grab it and store in variable and render into form
+
+SOLUTION: set up run to identify if user is logged in.
 
 COMPLETED
 
@@ -164,3 +160,8 @@ Get rid of negative profit in graph "Profit Breakdown" - COMPLETED
       - profile page - COMPLETED
       - history page - COMPLETED
     - successfully edit stock purchase - COMPLETED
+
+  PORTFOLIO PAGE
+  - Collapse graphs
+
+    - transfer over graphs to service
