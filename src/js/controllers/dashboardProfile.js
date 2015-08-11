@@ -18,36 +18,38 @@
         console.error(error);
       })      
     }
-    renderWatches();
     // grab user stock information
-    UserService.getAllUserStockPurchases($scope.userData._id)
-    .success(function(data) {
-      // filter through stocks pulled for individuals stocks and render to DOM
-      $scope.stocks = data.filter(function(stock) {
-        if (stock.user === $scope.userData.displayName) {
-          return stock;
-        }
-      });
-      $scope.stocksPurchased = $scope.stocks.filter(function(stock) {
-        if (stock.status === 'Purchased') {
-          return stock;
-        }
+    function renderPurchases() {
+      UserService.getAllUserStockPurchases($scope.userData._id)
+      .success(function(data) {
+        // filter through stocks pulled for individuals stocks and render to DOM
+        $scope.stocks = data.filter(function(stock) {
+          if (stock.user === $scope.userData.displayName) {
+            return stock;
+          }
+        });
+        $scope.stocksPurchased = $scope.stocks.filter(function(stock) {
+          if (stock.status === 'Purchased') {
+            return stock;
+          }
+        })
+        console.log($scope.stocksPurchased);
+        $scope.stocksSold = $scope.stocks.filter(function(stock) {
+          if (stock.status === 'Sold') {
+            return stock;
+          }
+        })
+        // calculate total expenditure and render to DOM
+        // $scope.totalExpenditure = $scope.stocksPurchased.reduce(function(total, price) {
+        //   return Number(total) + Number(price.shares * price.priceBought);
+        // }, 0).toFixed(2);
       })
-      console.log($scope.stocksPurchased);
-      $scope.stocksSold = $scope.stocks.filter(function(stock) {
-        if (stock.status === 'Sold') {
-          return stock;
-        }
-      })
-      // calculate total expenditure and render to DOM
-      // $scope.totalExpenditure = $scope.stocksPurchased.reduce(function(total, price) {
-      //   return Number(total) + Number(price.shares * price.priceBought);
-      // }, 0).toFixed(2);
-    })
-    .catch(function(error) {
-      console.error(error);
-    })
-
+      .catch(function(error) {
+        console.error(error);
+      })    
+    }
+    renderWatches();
+    renderPurchases();
     // Event-listener functions
     // Delete stock purchase -- on click
     $scope.deleteStockPurchase = function(stockId) {
@@ -131,9 +133,8 @@
         newSoldStock.priceSold = sellForm.price;
         UserService.sellStockPurchase(newSoldStock._id, newSoldStock)
         .success(function(data) {
-          console.log(data, 'successfully sold stock!');
           swal('', 'Successfully sold shares of the selected stock!', 'success');
-          $state.reload();
+          renderPurchases();
         })
         .catch(function(error) {
           console.error(error)
