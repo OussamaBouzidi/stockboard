@@ -12,6 +12,8 @@ var routes = require('./routes/index');
 var auth = require('./routes/auth');
 var sentiment = require('./routes/sentimentAnalysis');
 
+// var mocha = require('./mocha_tests/tests.js');
+
 var app = express();
 
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/stockboard');

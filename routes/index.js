@@ -49,12 +49,14 @@ router.get('/watches', function(req, res, next) {
       console.log(err);
       res.status(500).json({ error: "Could not retrieve user stocks to watch." });
     }
+    console.log(userStocksToWatch);
     res.json(userStocksToWatch);
   })
 })
 
 router.post('/watches', function(req, res, next) {
   var newWatch = new StockToWatch(req.body);
+  console.log(newWatch);
   newWatch.save(function(err, savedStockToWatch) {
     if (err) {
       console.log(err);

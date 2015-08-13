@@ -26,8 +26,11 @@
     "passport-google-oauth": "^0.2.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.3",
+    "restify": "^3.0.3",
     "serve-favicon": "~2.2.1",
+    "should": "^7.0.3",
     "speakeasy-nlp": "^0.2.2",
+    "supertest": "^1.0.1",
     "twit": "^2.1.0",
     "unirest": "^0.4.2"
   },
