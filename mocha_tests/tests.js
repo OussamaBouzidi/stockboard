@@ -4,14 +4,29 @@ var should = require('chai').should();
 var expect = require('chai').expect;
 var supertest = require('supertest');
 var api = supertest('http:localhost:3000');
-
+ 
 var Server = require('../app.js');
 
 describe('Watches', function() {
+  before(function(done) {
+    Server.init(function(err, srvr) {
+      if(err) {
+        throw err;
+      }
+      server = srvr;
+      done();
+    })
+  });
+  after(function(done) {
+    server.stop(function() {
+      Mongoose.disconnect(done);
+    })
+  });
   it('should return a 200 response', function(done) {
     api.get('/watches')
+    .set('Accept')
     .expect(200, done)
-  })
+  });
 })
 
 
